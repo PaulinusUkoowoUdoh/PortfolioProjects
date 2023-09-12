@@ -1,0 +1,46 @@
+
+
+select * from [edureka].[dbo].['Starbucks Location Worldwide$']
+
+
+-- DISTINCT COUNT ACROSS ALL BRANDS
+select distinct Brand as Brands, count(Brand) as "Count" 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+group by Brand
+order by Count desc
+
+
+select * from [edureka].[dbo].['Starbucks Location Worldwide$']
+
+-- DISTINCT COUNT OF OWNERSHIP ACROSS ALL BRANDS
+select distinct [Ownership Type] as "Ownership Type", count([Ownership Type]) as "Count" 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+group by [Ownership Type]
+order by Count desc
+
+-- DISTINCT COUNT OF OWNERSHIP FOR STARBUCK ONLY
+select distinct [Ownership Type] as "Ownership Type", count([Ownership Type]) as "Count" 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand in (select Brand from [edureka].[dbo].['Starbucks Location Worldwide$'] where Brand = 'Starbucks')
+group by [Ownership Type]
+order by Count desc
+
+
+
+select * from [edureka].[dbo].['Starbucks Location Worldwide$']
+
+-- GEO MAP OF STARBUCK BRAND WORLDWIDE
+select count(Brand) as "Count", City,[State/Province], Country, Longitude, Latitude 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand = 'Starbucks'
+group by City,[State/Province], Country, Longitude, Latitude  
+order by Count desc
+
+
+-- GEO MAP OWNERSHIP TYPES OF STARBUCK BRAND WORLDWIDE
+select [Ownership Type], count([Ownership Type]) as "Count", City,[State/Province], Country, Longitude, Latitude 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand = 'Starbucks'
+group by [Ownership Type], City,[State/Province], Country, Longitude, Latitude  
+order by Count desc
+

@@ -1,0 +1,75 @@
+select * from [edureka].[dbo].['video Games Sales$']
+
+--ANNUAL REVENUE TREND
+select Year_of_Release, sum(Global_Sales) as "Global Sales" from [edureka].[dbo].['video Games Sales$']
+where Year_of_Release is not null and  Global_Sales is not null
+group by Year_of_Release
+order by Year_of_Release
+
+--GLOBAL SALES PER GENRE
+select Genre, round(sum(Global_Sales),0) as "Global Sales" from [edureka].[dbo].['video Games Sales$']
+where Genre is not null and  Global_Sales is not null
+Group by Genre
+order by [Global Sales] desc
+
+
+-- SALES REVENUE
+select round(sum(NA_Sales),0) as "North America Sales", round(sum(EU_Sales),0) as "Europe Sales", round(sum(JP_Sales),0) as "Japan Sales", 
+round(sum(Other_Sales),0) as "Other Sales", round(sum(Global_Sales),0) as "Global Sales"
+from [edureka].[dbo].['video Games Sales$']
+
+
+--ANNUAL SALES TREND ACROSS REGIONS
+select 
+Year_of_Release,
+round(sum(NA_Sales),0) as "North America Sales", round(sum(EU_Sales),0) as "Europe Sales", round(sum(JP_Sales),0) as "Japan Sales", 
+round(sum(Other_Sales),0) as "Other Sales" from [edureka].[dbo].['video Games Sales$']
+where Year_of_Release is not null and Year_of_Release not in ('2017', '2020')
+group by Year_of_Release
+order by Year_of_Release
+
+
+--MAX USER COUNT ACROSS GAMES AND PLATFORMS
+select TOP 10 Name, Platform, max(User_Count) as "Max User Count" from [edureka].[dbo].['video Games Sales$']
+where User_Count is not null and Name is not null
+group by Name, Platform, User_Count
+order by max(User_Count) desc
+
+--MAX CRITIC COUNT ACROSS DEVELOPERS AND PLATFORMS
+select TOP 10 Developer, Platform, max(Critic_Count) as "Max Critic Count" from [edureka].[dbo].['video Games Sales$']
+where Developer is not null and  Publisher is not null and Critic_Count is not null
+group by Developer, Platform, Critic_Count
+order by max(Critic_Count) desc
+
+--MIN CRITIC COUNT ACROSS DEVELOPERS
+select TOP 10 Developer, min(Critic_Count) as "Min Critic Count" from [edureka].[dbo].['video Games Sales$']
+where Developer is not null and  Publisher is not null and Critic_Count is not null
+group by Developer, Critic_Count
+order by min(Critic_Count) 
+
+
+--MAXIMUM USER SCORES ACROSS GAMES
+select Top 20 Name, max(User_Score) as "Mean User Score" from [edureka].[dbo].['video Games Sales$']
+where Name is not null and User_Score is not null
+group by Name
+order by max(User_Score) desc
+
+
+
+--MINIMUM CRITIC SCORE ACROSS DEVELOPERS
+select TOP 10 Developer, min(Critic_Score) as "Min Critic Score" from [edureka].[dbo].['video Games Sales$']
+where Developer is not null and  Publisher is not null and Critic_Score is not null
+group by Developer, Critic_Score
+order by min(Critic_Score) 
+
+--MAXIMUM CRITIC SCORE ACROSS DEVELOPERS
+select TOP 10 Developer, max(Critic_Score) as "Max Critic Score" from [edureka].[dbo].['video Games Sales$']
+where Developer is not null and  Publisher is not null and Critic_Score is not null
+group by Developer, Critic_Score
+order by max(Critic_Score) desc
+
+--DISTINCT RATINGS
+select Rating, count(Rating) as Ratings from [edureka].[dbo].['video Games Sales$']
+where Rating is not null
+group by Rating
+order by count(Rating) desc

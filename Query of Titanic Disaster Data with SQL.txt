@@ -1,0 +1,87 @@
+use Titanic
+
+select * from Titanic.dbo.train$
+
+
+--PASSENGER EMBARKATION COUNT 
+select Embarked, 
+case
+		when Embarked = 'S' then 'Southampton'
+		when Embarked = 'C' then 'Cherbourg'
+		when Embarked = 'Q' then 'Queenstown'
+end as "Port of Departure",
+count(Embarked) as "Passengers"
+from Titanic.dbo.train$ 
+where Embarked is not NULL
+group by Embarked
+order by [Passengers] desc
+
+--AVERAGE AND TOTAL FARES PER TICKET CLASS
+select Pclass, round(sum(Fare),2) as "Total Fare", round(avg(Fare),2) as "Mean Fare" 
+from Titanic.dbo.train$ 
+group by Pclass
+order by Pclass
+
+
+--PASSENGERS SOCIOECONOMIC STATUS 
+select Pclass as "Ticket Class", 
+case 
+		when Pclass = '1' then  'upper'
+		when Pclass = '2' then  'middle'
+		when Pclass = '3' then  'lower'
+end as Status,
+count(Pclass) as "Count" from Titanic.dbo.train$
+group by Pclass
+order by Count desc
+
+--TOTAL NUMBER OF PASSENGERS
+select count(*) as "Total Passengers" from Titanic.dbo.train$
+
+--PASSENGERS WHO SURVIVED
+select count(Survived) as "Total Survived"
+from Titanic.dbo.train$
+where Survived = '1'
+
+--PASSENGERS WHO DIED
+select count(Survived) as "Total Died"
+from Titanic.dbo.train$
+where Survived = '0'
+
+--PASSENGERS WHO SURVIVED AMONG GENDER
+select Sex, count(Survived) as "Total Survived"
+from Titanic.dbo.train$
+where Survived = '1'
+group by Sex
+order by Sex desc
+
+--PASSENGERS WHO DIED AMONG GENDER
+select Sex, count(Survived) as "Total Died"
+from Titanic.dbo.train$
+where Survived = '0'
+group by Sex
+order by Sex desc
+
+--AGE DISTRIBUTION BY MALE GENDER
+select Age, Sex, count(Sex) as "Gender Count" from Titanic.dbo.train$
+where Age is not null and Sex = 'male'
+group by Age, Sex
+order by Age, Sex desc
+
+--AGE DISTRIBUTION BY FEMALE GENDER
+select Age, Sex, count(Sex) as "Gender Count" from Titanic.dbo.train$
+where Age is not null and Sex = 'female'
+group by Age, Sex
+order by Age, Sex desc
+
+--PASSENGERS WHO WERE MALE SIBLINGS AND SPOUSES
+select SibSp, Sex, count(Sex) as "Gender Count" from Titanic.dbo.train$
+where Sex = 'male'
+group by SibSp, Sex
+order by 1
+
+--PASSENGERS WHO WERE FEMALE SIBLINGS AND SPOUSES
+select SibSp, Sex, count(Sex) as "Gender Count" from Titanic.dbo.train$
+where Sex = 'female'
+group by SibSp, Sex
+order by 1
+

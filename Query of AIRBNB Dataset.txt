@@ -1,0 +1,153 @@
+create database AirBNB
+
+use AirBNB
+
+--READ DATA FROM CALENDAR
+select * from AirBNB.dbo.calendar$ 
+where price is not null
+
+--READ DATA FROM LISTINGS
+select * from AirBNB.dbo.listings$
+
+--READ REVIEWS FROM CUSTOMERS
+select * from AirBNB.dbo.reviews$
+
+--AVERAGE GUESTS AND EXTRA PERSONS ACROSS PROPERTY
+select property_type, room_type, 
+sum(guests_included) as "Guests", round(avg(guests_included),0) as "Mean Guests",
+sum(extra_people) as "Extra People", round(avg(extra_people),0) as "Extra Means"
+from AirBNB.dbo.listings$
+group by property_type, room_type
+order by [Guests] desc, [Extra People] desc
+
+
+--INSTANT BOOKINGS ACROSS PROPERTY
+select instant_bookable, 
+count(instant_bookable) as [Bookable Count]
+from AirBNB.dbo.listings$
+group by instant_bookable
+order by [Bookable Count] desc
+
+--CANCELLATION POLICY ACROSS PROPERTY
+select cancellation_policy, count(cancellation_policy) as "Cancellations"
+from AirBNB.dbo.listings$
+group by cancellation_policy
+order by [Cancellations] desc
+
+
+
+
+--DAYS AVAILABILITY ACROSS PROPERTY
+select round(avg(availability_30),0) as "Available 1 Month", 
+round(avg(availability_60),0) as "Available 2 Months", 
+round(avg(availability_90),0) as "Available 3 Months", 
+round(avg(availability_365),0) as "Available 1 Year"
+from AirBNB.dbo.listings$
+where has_availability = 't'
+
+
+--AVERAGE NIGHTS ACROSS PROPERTIES
+select property_type, room_type, round(avg(minimum_nights),0) as "Minimum Nights", round(avg(maximum_nights),0) as "Maximum Nights"
+from AirBNB.dbo.listings$
+where property_type <> ''
+group by property_type, room_type
+order by [Minimum Nights] desc, [Maximum Nights] desc
+
+
+--DISTINCT ROOM TYPES
+select room_type as "Room Type", count(room_type) as "Room Count"
+from AirBNB.dbo.listings$
+group by room_type
+order by [Room Count] desc
+
+--COUNT OF BEDS, BEDROOM, BATHROOM ACROSS PROPERTY AND ROOM TYPES
+select property_type, room_type, bed_type, count(bedrooms) as "Bedroom Count", count(beds) as "Bed Count", count(bathrooms) as "Bathrooms"
+from AirBNB.dbo.listings$
+where property_type <> ''
+group by property_type, room_type, bed_type
+order by 4 desc, 5 desc
+
+--DISTINCT BED TYPES
+select bed_type as "Bed Type", count(bed_type) as "Bed Count"
+from AirBNB.dbo.listings$
+group by bed_type
+order by [Bed Count] desc
+
+--COUNT OF PROPERTY TYPE
+select property_type as "Type of Property", count(property_type) as "Property Count"
+from AirBNB.dbo.listings$
+where property_type is not null and property_type <> ''
+group by property_type
+order by [Property Count] desc
+
+-- HOST'S RESPONSE TIME COUNT
+select host_response_time as "Host Response Time", count(host_response_time) as "Response Count"
+from AirBNB.dbo.listings$
+where host_response_time is not null and host_response_time <> 'N/A' and host_response_time <> ''
+group by host_response_time
+order by [Response Count] desc
+
+--HOST'S AVERAGE RESPONSE RATE
+select host_response_time, avg(cast(replace(host_response_rate, '%', '') as int)) as "Mean Response Time" 
+from AirBNB.dbo.listings$
+where host_response_time is not null and host_response_rate is not null and host_response_rate <> 'N/A' and host_response_rate <> ''
+group by host_response_time
+order by [Mean Response Time] desc
+
+--HOST'S AVERAGE ACCEPTANCE RATE
+select host_response_time, avg(cast(replace(host_acceptance_rate, '%', '') as int)) as "Mean Acceptance Rate" 
+from AirBNB.dbo.listings$
+where host_response_time <> 'N/A' and host_acceptance_rate is not null and host_acceptance_rate <> 'N/A' and host_acceptance_rate <> ''
+group by host_response_time
+order by [Mean Acceptance Rate] desc
+
+
+--REVIEWS COUNT PER LISTING ID
+select listing_id, count(listing_id) as "Review Count"
+from AirBNB.dbo.reviews$
+group by listing_id
+order by [Review Count] desc
+
+--AVERAGE PRICES ACROSS AVAILABLE LISTINGS
+select listing_id, count(listing_id) as "Listing Count", avg(cast(price as int)) as "Average Price" 
+from AirBNB.dbo.calendar$
+where price is not null and available = 't'
+group  by listing_id
+order by [Listing Count] desc, [Average Price] desc
+
+
+--AVERAGE PRICE PER BEDROOM
+select bedrooms as Bedrooms, round(avg(price),0) as "Average Price" from AirBNB.dbo.listings$
+where bedrooms is not null and price is not null and bedrooms <> '0'
+group by bedrooms
+order by [Average Price] 
+
+
+--DISTINCT COUNT OF BEDROOMS
+select bedrooms as Bedrooms, count(bedrooms) as "Distinct Count" from AirBNB.dbo.listings$ 
+where bedrooms is not null and bedrooms <> '0'
+group by bedrooms
+order by [Distinct Count] desc
+
+select * from AirBNB.dbo.listings$
+
+--AVERAGE PRICE PER ZIP CODE
+select zipcode as "Zip Code", round(avg(price),2) as "Average Price" from AirBNB.dbo.listings$
+Where zipcode is not null
+group by zipcode
+order by [Average Price] desc
+
+
+--REVENUE TREND
+alter table AirBNB.dbo.listings$
+add Total_Price  int
+
+update AirBNB.dbo.listings$
+set Total_Price = isnull(price, 0) + isnull(security_deposit, 0) + isnull(cleaning_fee, 0) 
+
+select cast(r.date as date) as "Date", l.Total_Price as "Revenue"  from AirBNB.dbo.listings$ as l
+join AirBNB.dbo.reviews$ as r
+on r.listing_id = l.id
+order by Date
+
+

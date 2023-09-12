@@ -1,0 +1,101 @@
+select * from DataCleaningPortfolio..[Sheet1$]
+
+-- DISTINCT COUNT OF BEDROOMS
+select count(distinct Bedrooms) from DataCleaningPortfolio..[Sheet1$]
+where Bedrooms is not null
+
+-- COUNT OF BEDROOMS WITH FULL BATHS
+select distinct Bedrooms, count (FullBath) from DataCleaningPortfolio..[Sheet1$]
+where Bedrooms is not null and Bedrooms <> '0'
+group by Bedrooms
+order by Bedrooms desc
+
+-- COUNT OF BEDROOMS WITH HALF BATHS
+select distinct Bedrooms, count (HalfBath) from DataCleaningPortfolio..[Sheet1$]
+where Bedrooms is not null and Bedrooms <> '0'
+group by Bedrooms
+order by Bedrooms desc
+
+-- HEADLINE 
+select sum(LandValue) as "Total Land Value", 
+sum(BuildingValue) as "Total Building Value",
+round(sum(Acreage),2) as "Total Acreage", 
+sum(TotalValue) as "Total Value" 
+from DataCleaningPortfolio..[Sheet1$]
+
+-- PIE CHART DATA
+select sum(LandValue) as "Total Land Value", 
+sum(BuildingValue) as "Total Building Value", 
+sum(TotalValue) as "Total Value"
+from DataCleaningPortfolio..[Sheet1$]
+where LandValue is not null and  BuildingValue is not null
+
+
+-- TOTAL NUMBER OF BEDROOMS BUILT OVER THE YEARS
+
+select a.YearBuilt, sum(a.Bedrooms)
+from DataCleaningPortfolio..[Sheet1$] a
+join DataCleaningPortfolio..[Sheet1$] b
+on a.[UniqueID] = b.[UniqueID ] and a.ParcelID = b.ParcelID
+where a.Bedrooms is not null and  a.YearBuilt = b.YearBuilt
+group by a.YearBuilt
+order by a.YearBuilt 
+
+
+
+-- LAND USE COUNT BY PURPOSE
+Select LandUse as Purpose, count(LandUse) as "Land Use Count"
+from DataCleaningPortfolio..[Sheet1$]
+group by LandUse
+order by count(LandUse) desc
+
+select distinct SoldAsVacant, count(SoldAsVacant) from DataCleaningPortfolio..[Sheet1$]
+group by SoldAsVacant
+order by SoldAsVacant
+
+update DataCleaningPortfolio..[Sheet1$]
+set SoldAsVacant =
+case 
+       when SoldAsVacant = 'Y' then 'Yes'
+	   when SoldAsVacant = 'N' then 'No'
+	   else SoldAsVacant 
+end
+
+-- NUMBER OF BEDROOMS SOLD AS VACANT
+select Bedrooms, SoldAsVacant, count(SoldAsVacant) from DataCleaningPortfolio..[Sheet1$]
+where Bedrooms is not null and Bedrooms <> '0' and SoldAsVacant = 'No'
+group by Bedrooms, SoldAsVacant
+order by count(SoldAsVacant) desc 
+
+select Bedrooms, SoldAsVacant, count(SoldAsVacant) from DataCleaningPortfolio..[Sheet1$]
+where Bedrooms is not null and Bedrooms <> '0' and SoldAsVacant = 'Yes'
+group by Bedrooms, SoldAsVacant
+order by count(SoldAsVacant) desc 
+
+
+--AVERAGE SALE PRICE OF BEDROOMS
+
+select Bedrooms, round(avg(SalePrice),0) from DataCleaningPortfolio..[Sheet1$]
+where Bedrooms is not null and Bedrooms <> '0'
+group by Bedrooms
+order by avg(SalePrice) desc
+
+
+
+--AVERAGE SALE PRICES OVER THE YEARS (SALES TREND)
+select a.YearBuilt, round(avg(a.SalePrice),0) from DataCleaningPortfolio..[Sheet1$] a
+join DataCleaningPortfolio..[Sheet1$] b
+on a.ParcelID = b.ParcelID
+where a.YearBuilt is not null and a.YearBuilt = b.YearBuilt
+group by a.YearBuilt
+order by a.YearBuilt
+
+
+
+
+
+
+
+
+
+

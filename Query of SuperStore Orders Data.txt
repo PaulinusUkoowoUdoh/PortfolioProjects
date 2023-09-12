@@ -1,0 +1,110 @@
+
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--CLEAN NULL VALUES IN ORDER DATES AND CHANGE SHIP DATE FORMAT
+select [Order Date],
+convert(date, isnull([Order Date],[Ship Date])) as OrderDateFixed, 
+[Ship Date],
+convert(date,[Ship Date]) as ShipDateFixed
+from [edureka].[dbo].[Sheet3$]
+
+select * from [edureka].[dbo].[Sheet3$]
+
+-- NUMBER OF SHIPPING MODE
+select [Ship Mode], count([Ship Mode]) as "Count"from [edureka].[dbo].[Sheet3$]
+where [Ship Mode] is not null
+group by [Ship Mode]
+order by count([Ship Mode]) desc
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--SEGMENT WITH THE HIGHEST SALES
+select Segment, max(Sales) as "Max Sales" from [edureka].[dbo].[Sheet3$]
+group by Segment
+order by max(Sales) desc
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--CATEGORY WITH THE HIGHEST SALES
+select Category, max(Sales) as "Max Sales" from [edureka].[dbo].[Sheet3$]
+group by Category
+order by max(Sales) desc
+
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--SUB-CATEGORY WITH THE HIGHEST SALES
+select [Sub-Category], max(Sales) as "Max Sales" from [edureka].[dbo].[Sheet3$]
+group by [Sub-Category]
+order by max(Sales) desc
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--TOP CUSTOMERS WITH THE HIGHEST ORDERS
+select [Customer Name], [Customer ID], count(distinct [Order ID]) as "Max Orders"
+from [edureka].[dbo].[Sheet3$]
+group by [Customer Name], [Customer ID]
+order by [Max Orders] desc
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--TOP PRODUCTS BOUGHT BY CUSTOMERS
+select [Product Name], [Product ID], Category, [Sub-Category], count([Category]) as "Item Count"
+from [edureka].[dbo].[Sheet3$]
+group by [Product Name], [Product ID], Category, [Sub-Category]
+order by [Item Count] desc
+
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--TOP PERFORMING REGIONS BY SALES
+select Region, round(sum(Sales),0) as "Max Sales"
+from [edureka].[dbo].[Sheet3$]
+group by Region
+order by [Max Sales] desc
+
+--TOP PERFORMING REGIONS BY PROFIT
+select Region, round(max(Profit),0) as "Max Profit"
+from [edureka].[dbo].[Sheet3$]
+group by Region
+order by [Max Profit] desc
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--TOP PERFORMING STATES BY SALES
+select Country, City, State, round(max(Sales),0) as "Max Sales"
+from [edureka].[dbo].[Sheet3$]
+group by Country, City, State
+order by [Max Sales] desc
+
+--TOP PERFORMING STATES BY PROFIT
+select Country, City, State, round(max(Profit),0) as "Max Profit"
+from [edureka].[dbo].[Sheet3$]
+group by Country, City, State
+order by [Max Profit] desc
+
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--HEADLINE OF TOTAL SALES, QUANTITY SOLD, PROFIT
+select round(sum(sales),0) as "Total Sales", round(sum(quantity),0) as "Total Items Sold", round(sum(Profit),0) as "Total Profits" 
+from [edureka].[dbo].[Sheet3$]
+
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--MAXIMUM SALES REVENUE ACROSS COUNTRY, REGION, STATE  (GEO MAP)
+select Country, State, round(sum(Sales),0) as "Max Sales" 
+from [edureka].[dbo].[Sheet3$]
+group by Country, State
+order by Country, State 
+
+
+select * from [edureka].[dbo].[Sheet3$]
+
+--ORDER DATE, SHIPPING DATE (GANTT CHART)
+select cast([Order Date] as date) as "Order Date", 
+cast([Ship Date] as date) as "Shipping Date",
+day([Ship Date]  - [Order Date]) as "Waiting Time in Days"
+from [edureka].[dbo].[Sheet3$]
