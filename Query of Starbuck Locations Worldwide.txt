@@ -30,17 +30,44 @@ order by Count desc
 select * from [edureka].[dbo].['Starbucks Location Worldwide$']
 
 -- GEO MAP OF STARBUCK BRAND WORLDWIDE
-select count(Brand) as "Count", City,[State/Province], Country, Longitude, Latitude 
+select count(Brand) as "Brand Count", City,[State/Province], Country, Longitude, Latitude 
 from [edureka].[dbo].['Starbucks Location Worldwide$']
 where Brand = 'Starbucks'
 group by City,[State/Province], Country, Longitude, Latitude  
-order by Count desc
+order by [Brand Count] desc
 
 
 -- GEO MAP OWNERSHIP TYPES OF STARBUCK BRAND WORLDWIDE
-select [Ownership Type], count([Ownership Type]) as "Count", City,[State/Province], Country, Longitude, Latitude 
+select [Ownership Type], count([Ownership Type]) as "Ownership Count", City,[State/Province], Country, Longitude, Latitude 
 from [edureka].[dbo].['Starbucks Location Worldwide$']
-where Brand = 'Starbucks'
+where Brand = 'Starbucks' 
 group by [Ownership Type], City,[State/Province], Country, Longitude, Latitude  
-order by Count desc
+order by [Ownership Count] desc
 
+--COMPANY OWNED LOCATIONS
+select [Ownership Type], count([Ownership Type]) as "Ownership Count", City,[State/Province], Country, Longitude, Latitude 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand = 'Starbucks' and [Ownership Type] = 'Company Owned'
+group by [Ownership Type], City,[State/Province], Country, Longitude, Latitude  
+order by [Ownership Count] desc
+
+--LICENSED  LOCATIONS
+select [Ownership Type], count([Ownership Type]) as "Ownership Count", City,[State/Province], Country, Longitude, Latitude 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand = 'Starbucks' and [Ownership Type] = 'Licensed'
+group by [Ownership Type], City,[State/Province], Country, Longitude, Latitude  
+order by [Ownership Count] desc
+
+--JOINT VENTURE  LOCATIONS
+select [Ownership Type], count([Ownership Type]) as "Ownership Count", City,[State/Province], Country, Longitude, Latitude 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand = 'Starbucks' and [Ownership Type] = 'Joint Venture'
+group by [Ownership Type], City,[State/Province], Country, Longitude, Latitude  
+order by [Ownership Count] desc
+
+--FRANCHISE  LOCATIONS
+select [Ownership Type], count([Ownership Type]) as "Ownership Count", City,[State/Province], Country, Longitude, Latitude 
+from [edureka].[dbo].['Starbucks Location Worldwide$']
+where Brand = 'Starbucks' and [Ownership Type] = 'Franchise'
+group by [Ownership Type], City,[State/Province], Country, Longitude, Latitude  
+order by [Ownership Count] desc
