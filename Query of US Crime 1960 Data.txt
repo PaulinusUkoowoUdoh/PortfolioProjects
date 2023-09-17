@@ -1,0 +1,151 @@
+use edureka
+
+select * from [edureka].[dbo].[Sheet1$]
+
+--CRIMES COMMITTED
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Crimes Committed]),2) as "Average",
+SUM([Crimes Committed]) as "Total"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--AVERAGE TIME ON IMPRISONMENT
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Average Time in months by offenders in State Prisons before firs]),2) as "Average Time on Imprisonment"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--LIKELIHOOD OF IMPRISONMENT
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Probability of Imprisonment])*100,2) as "% Probability of Imprisonment"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--INCOME INEQUALITY
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Income Inequality]),2) as "Median Family Income",
+ROUND(SUM([Income Inequality]),2) as "Total Family Income"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--WEALTH AND FAMILY INCOME
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Wealth/family income]),2) as "Median Family Income"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--URBAN UNEMPLOYMENT IN MALES 35-39 YEARS
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Urban Unemployment rate in males aged 35-39 years]),2) as "Unemployment Rate"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--URBAN UNEMPLOYMENT  IN MALES 14-24 YEARS
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Urban Unemployment rate in males aged 14-24 years])*100,2) as "Unemployment Rate"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--POPULATION OF NON-WHITE OFFENDERS 
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([% of non-whites in Population]),2) as "Non-White Population"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+
+--POPULATION OF OFFENDERS PER 100,000
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+sum([Population in 1960 (per 100,000)]) as "Offenders per 100,000 Population"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+
+-- AVERAGE MALES PER 100 FEMALES
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+ROUND(AVG([Number of Males per 100 females]),0) as "Males per 100 Females" 
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+-- LABOUR FORCE PARTICIPATION FOR MALES AGE 14-24
+select [Southern State],
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+round(avg([Labour Force Participation rate of civilian urban males aged 14-])*100,2) as "% Mean Participation" 
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+-- PER CAPITA EXPENDITURE ON POLICE PROTECTION
+select [Southern State], 
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+round(SUM([Per Capita Expenditure on Police Protection in 1959]),2) as "Per Capita 1959",
+round(SUM([Per Capita Expenditure on Police Protection in 1960]),2) as "Per Capita 1960 "
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+
+--AVERAGE YEAR IN SCHOOLING FOR MALES AGE 25 AND ABOVE
+select [Southern State], 
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+round(avg([Mean Years of Schooling of population between 25 years and above]),0) as "Average Schooling Years"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+order by [Average Schooling Years] desc
+
+
+---AVERAGE PERCENTAGE OF MALES BETWEEN 14-24 YEARS 
+select [Southern State], 
+case
+		when [Southern State] = '0' then 'No'
+		when [Southern State] = '1' then 'Yes'
+end as Category,
+round(avg([Males btw 14-24 years]),0) as "% Average from Total Population"
+from [edureka].[dbo].[Sheet1$]
+group by [Southern State]
+order by [% Average from Total Population] desc

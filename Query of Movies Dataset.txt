@@ -1,0 +1,77 @@
+
+select * from dbo.movies_cleaned$
+
+--DIRECTORS WITH HIGHEST FILM TITLES 
+select director, count(name) as "Film Count" 
+from dbo.movies_cleaned$
+group by director
+order by [Film Count] desc
+
+--DISTINCT DIRECTOR COUNT
+select count (distinct director) as "Director count"
+from dbo.movies_cleaned$
+
+--DISTINCT WRITER COUNT
+select count (distinct writer) as "Writer Count"
+from dbo.movies_cleaned$
+where writer is not null
+
+--ACTORS WITH HIGHEST FILM COUNT
+select star, count(star) as "Film Count"
+from dbo.movies_cleaned$
+group by star
+order by [Film Count] desc
+
+--DISTINCT MOVIE GENRE COUNT
+select genre, count(genre) as "Count"
+from dbo.movies_cleaned$
+group by genre
+order by [Count] desc
+
+
+--DISTINCT MOVIE RATINGS
+select rating, count(rating) as "Count"
+from dbo.movies_cleaned$
+where rating is not null
+group by rating
+order by [Count] desc
+
+--DISTINCT MOVIE COMPANY
+select company, count(company) as "Count"
+from dbo.movies_cleaned$
+group by company
+order by [Count] desc
+
+
+--TOP FILMS BY BUDGET
+select name, budget from dbo.movies_cleaned$
+order by budget desc
+
+--TOP FILMS BY GROSS
+select name, gross from dbo.movies_cleaned$
+order by gross desc
+
+--TOP FILMS BY RUNTIME
+select name, runtime from dbo.movies_cleaned$
+order by runtime desc
+
+--COUNTRIES WITH HIGHEST FILMS
+select country, count(country) as "productions"
+from dbo.movies_cleaned$
+where country is not null
+group by country
+order by [productions] desc
+
+--TOP FILMS BY VOTES
+select name, votes from dbo.movies_cleaned$
+order by votes desc
+
+--TOP FILMS BY SCORE
+select name, score from dbo.movies_cleaned$
+order by score desc
+
+--FILMS COUNT BY YEAR RELEASED
+select year, count(name) as "film count"
+from dbo.movies_cleaned$
+group by year
+order by year

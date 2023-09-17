@@ -1,0 +1,237 @@
+
+
+
+--AVERAGE AGE ACROSS ETHNICITY
+select [Victim Ethnicity], round(avg([Victim Age]),0) as "Average Age"
+from [edureka].[dbo].['US Crime Data$'] 
+--where [Victim Ethnicity] <> 'Unknown'
+group by [Victim Ethnicity]
+order by [Average Age] 
+
+--VICTIM AGE DISTRIBUTION ACROSS AGE-GROUPS BY ETHNICITY
+select [Victim Age], [Victim Ethnicity], count([Victim Ethnicity]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Age] <> '0' and [Victim Ethnicity] <> 'Unknown'
+group by [Victim Age], [Victim Ethnicity]
+order by [Victim Age]
+
+--VICTIM AGE DISTRIBUTION ACROSS MALES BY ETHNICITY
+select [Victim Age],[Victim Sex], [Victim Ethnicity], count([Victim Ethnicity]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Male' and [Victim Age] <> '0' and [Victim Ethnicity] <> 'Unknown'
+group by [Victim Age], [Victim Sex],[Victim Ethnicity]
+order by [Victim Age]
+
+--VICTIM AGE DISTRIBUTION ACROSS FEMALES BY ETHNICITY
+select [Victim Age], [Victim Sex], [Victim Ethnicity], count([Victim Ethnicity]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Female' and [Victim Age] <> '0' and [Victim Ethnicity] <> 'Unknown'
+group by [Victim Age], [Victim Sex],[Victim Ethnicity]
+order by [Victim Age]
+
+--VICTIM COUNT BY ETHNICITY
+select [Victim Ethnicity], count([Victim Ethnicity]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+group by [Victim Ethnicity]
+
+--MALE COUNT BY VICTIMS ETHNICITY
+select [Victim Sex], count([Victim Sex]) as "Count", [Victim Ethnicity]
+from [edureka].[dbo].['US Crime Data$']
+where [Victim Sex] in ('Male') 
+group by [Victim Sex], [Victim Ethnicity]
+order by [Count] desc
+
+--FEMALE COUNT BY VICTIMS ETHNICITY
+select [Victim Sex], count([Victim Sex]) as "Count", [Victim Ethnicity]
+from [edureka].[dbo].['US Crime Data$']
+where [Victim Sex] in ('Female') 
+group by [Victim Sex], [Victim Ethnicity]
+order by [Count] desc
+
+--AVERAGE AGE ACROSS RACE
+select [Victim Race], round(avg([Victim Age]),0) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Race] <> 'Unknown'
+group by [Victim Race]
+order by [Count] 
+
+--VICTIM AGE DISTRIBUTION ACROSS AGE-GROUPS BY RACE
+select [Victim Age], [Victim Race], count([Victim Race]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Age] <> '0'
+group by [Victim Age], [Victim Race]
+order by [Victim Age]
+
+--VICTIM AGE DISTRIBUTION ACROSS MALES BY RACE
+select [Victim Age], [Victim Sex], [Victim Race], count([Victim Race]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Male' and [Victim Age] <> '0'
+group by [Victim Age], [Victim Sex], [Victim Race]
+order by [Victim Age]
+
+--VICTIM AGE DISTRIBUTION ACROSS FEMALES BY RACE
+select [Victim Age], [Victim Sex], [Victim Race], count([Victim Race]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Female' and [Victim Age] <> '0'
+group by [Victim Age], [Victim Sex], [Victim Race]
+order by [Victim Age]
+
+
+--FEMALE GENDER COUNT OF BY VICTIMS ACROSS RACE
+Select [Victim Race], [Victim Sex], count([Victim Sex]) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Female'
+group by [Victim Race], [Victim Sex]
+order by [Count] desc
+
+--MALE GENDER COUNT OF BY VICTIMS ACROSS RACE
+Select [Victim Race], [Victim Sex], count([Victim Sex]) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Male'
+group by [Victim Race], [Victim Sex]
+order by [Count] desc
+
+--VICTIMS COUNT ACROSS RACE
+Select [Victim Race], count([Victim Race]) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+group by [Victim Race]
+order by [Count] desc
+
+
+--GENDER COUNT BY PERPETRATOR
+select [Perpetrator Sex], count([Perpetrator Sex]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+--where [Victim Sex] in ('Male','Female')
+group by [Perpetrator Sex]
+order by [Count] desc
+
+
+--PERPETRATOR AGE DISTRIBUTION ACROSS AGE-GROUPS GREATER THAN 12
+select [Perpetrator Age] as "Perpetrator Age", count([Perpetrator Age]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Perpetrator Age] > 12
+group by [Perpetrator Age]
+order by [Perpetrator Age]
+
+--PERPETRATOR AGE DISTRIBUTION ACROSS MALES GREATER THAN 12
+select [Perpetrator Sex] as "Perpetrator Gender", [Perpetrator Age] as "Perpetrator Age", count([Perpetrator Age]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Perpetrator Sex] in ('Male') and [Perpetrator Age] > 12
+group by [Perpetrator Sex], [Perpetrator Age]
+order by [Perpetrator Sex], [Perpetrator Age]
+
+--PERPETRATOR AGE DISTRIBUTION ACROSS FEMALES GREATER THAN 12
+select [Perpetrator Sex] as "Perpetrator Gender", [Perpetrator Age] as "Perpetrator Age", count([Perpetrator Age]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Perpetrator Sex] in ('Female') and [Perpetrator Age] > 12
+group by [Perpetrator Sex], [Perpetrator Age]
+order by [Perpetrator Sex], [Perpetrator Age]
+
+--PERPETRATOR COUNT BY ETHNICITY
+Select [Perpetrator Ethnicity], count([Perpetrator Ethnicity]) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+group by [Perpetrator Ethnicity]
+order by [Count] desc
+
+--RELATIONSHIP BETWEEN VICTIM AND PERPETRATOR
+Select Relationship, count(Relationship) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+group by Relationship
+order by [Count] desc
+
+--SOURCES OF CRIME REPORT/RECORD
+select [Record Source], count([Record Source]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+group by[Record Source] 
+Order by [Count] desc
+
+--TYPES OF WEAPON
+select Weapon, count(Weapon) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+group by Weapon
+Order by [Count] desc
+
+
+--VICTIM AGE DISTRIBUTION ACROSS AGE-GROUPS 
+select [Victim Age] as Age, count([Victim Age]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+group by [Victim Age]
+order by [Victim Age]
+
+--AVERAGE AGE ACROSS GENDER
+select [Victim Sex], round(avg([Victim Age]),0) as "Average Age"
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] in ('Male', 'Female')
+group by [Victim Sex] 
+
+--VICTIM AGE DISTRIBUTION ACROSS MALES
+select [Victim Sex] as Gender, [Victim Age] as Age, count([Victim Age]) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Male'
+group by [Victim Sex], [Victim Age]
+order by [Count]
+
+--VICTIM AGE DISTRIBUTION ACROSS FEMALES
+select [Victim Sex] as Gender, [Victim Age] as Age, count([Victim Age]) as [Count]
+from [edureka].[dbo].['US Crime Data$'] 
+where [Victim Sex] = 'Female' 
+group by [Victim Sex], [Victim Age]
+order by [Count]
+
+--GENDER COUNT BY VICTIMS
+select [Victim Sex], count([Victim Sex]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+where [Victim Sex] in ('Male','Female')
+group by [Victim Sex]
+order by [Count] desc
+
+--COUNT OF RESOLVED CRIME
+select [Crime Solved], count([Crime Solved]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+group by [Crime Solved]
+order by [Count] desc
+
+--COUNT OF CRIME TYPE
+select [Crime Type], count([Crime Type]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+group by [Crime Type]
+order by [Count] desc
+
+
+--MONTHLY CRIME TREND
+select Year, Month, Count(Incident) as "Count" from [edureka].[dbo].['US Crime Data$']
+group by Year, Month
+order by Year, Month
+
+--ANNUAL CRIME TREND
+select Year, Count(Incident) as "Count" from [edureka].[dbo].['US Crime Data$']
+group by Year
+order by Year
+
+--AGENCY COUNT ACROSS THE STATES/+GEO MAP
+select [Agency Name], City, State, count([Agency Type]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+group by [Agency Name], City, State
+order by [Count] desc
+
+--AGENCY COUNT 
+select [Agency Name], count([Agency Type]) as "Count"
+from [edureka].[dbo].['US Crime Data$']
+group by [Agency Name]
+order by [Count] desc
+
+
+--TOTAL INCIDENTS RECORDED
+--CHECKING FOR DUPLICATES
+select count(*) as "Total Recorded Incidents"
+from [edureka].[dbo].['US Crime Data$'] a
+join [edureka].[dbo].['US Crime Data$'] b
+on a.[Record ID] = b.[Record ID] 
+where a.[Agency Code] <> b.[Agency Code]
+
+
+select count([Record ID]) as "Total Recorded Incidents"
+from [edureka].[dbo].['US Crime Data$']
+
+
+

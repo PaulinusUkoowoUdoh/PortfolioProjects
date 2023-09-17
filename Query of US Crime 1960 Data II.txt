@@ -1,0 +1,89 @@
+use edureka
+
+select * from [edureka].[dbo].[Sheet1$]
+
+
+--CRIMES COMMITTED
+select 
+ROUND(AVG([Crimes Committed]),2) as "Average",
+SUM([Crimes Committed]) as "Total"
+from [edureka].[dbo].[Sheet1$]
+
+
+--AVERAGE TIME ON IMPRISONMENT
+select 
+ROUND(AVG([Average Time in months by offenders in State Prisons before firs]),2) as "Average Time on Imprisonment"
+from [edureka].[dbo].[Sheet1$]
+
+
+--LIKELIHOOD OF IMPRISONMENT
+select 
+ROUND(AVG([Probability of Imprisonment])*100,2) as "% Probability of Imprisonment"
+from [edureka].[dbo].[Sheet1$]
+
+
+--INCOME INEQUALITY
+select 
+ROUND(AVG([Income Inequality]),2) as "Median Family Income",
+ROUND(SUM([Income Inequality]),2) as "Total Family Income"
+from [edureka].[dbo].[Sheet1$]
+
+
+--WEALTH AND FAMILY INCOME
+select 
+ROUND(AVG([Wealth/family income]),2) as "Median Family Income"
+from [edureka].[dbo].[Sheet1$]
+
+
+--URBAN UNEMPLOYMENT IN MALES 35-39 YEARS
+select 
+ROUND(AVG([Urban Unemployment rate in males aged 35-39 years]),2) as "Unemployment Rate"
+from [edureka].[dbo].[Sheet1$]
+
+--URBAN UNEMPLOYMENT IN MALES 14-24 YEARS
+select 
+ROUND(AVG([Urban Unemployment rate in males aged 14-24 years])*100,2) as "Unemployment Rate"
+from [edureka].[dbo].[Sheet1$]
+
+
+--PERCENT POPULATION OF NON-WHITE OFFENDERS 
+select 
+ROUND(AVG([% of non-whites in Population]),2) as "% Non-White Population"
+from [edureka].[dbo].[Sheet1$]
+
+
+--POPULATION OF OFFENDERS PER 100,000
+select 
+sum([Population in 1960 (per 100,000)]) as "Offenders per 100,000 Population"
+from [edureka].[dbo].[Sheet1$]
+
+
+-- AVERAGE MALES PER 100 FEMALES
+select 
+round(AVG([Number of Males per 100 females]),0) as "Males per 100 Females" 
+from [edureka].[dbo].[Sheet1$]
+
+
+-- PERCENT LABOUR FORCE PARTICIPATION FOR MALES AGE 14-24
+select 
+round(avg([Labour Force Participation rate of civilian urban males aged 14-]),2)*100 as "% Mean Participation" 
+from [edureka].[dbo].[Sheet1$]
+
+
+-- PER CAPITA EXPENDITURE ON POLICE PROTECTION
+select 
+round(SUM([Per Capita Expenditure on Police Protection in 1959]),2) as "Per Capita 1959",
+round(SUM([Per Capita Expenditure on Police Protection in 1960]),2) as "Per Capita 1960 "
+from [edureka].[dbo].[Sheet1$]
+
+
+---MEAN SCHOOLING YEARS FOR MALES AGE 25 AND ABOVE
+select 
+round(avg([Mean Years of Schooling of population between 25 years and above]),0) as "Average Schooling Years"
+from [edureka].[dbo].[Sheet1$]
+
+
+---% AVERAGE MALES BETWEEN 14-24 YEARS 
+select 
+round(avg([Males btw 14-24 years]),0) as "% Average from Total Population"
+from [edureka].[dbo].[Sheet1$]
