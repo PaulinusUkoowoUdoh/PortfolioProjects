@@ -1,0 +1,162 @@
+use PortfolioProject
+
+select * from PortfolioProject.dbo.Raw$
+
+--DROP COLUMNS - STATE, POSTAL CODE, TERRITORY, F21
+alter table Raw$
+drop column STATE, [POSTAL CODE], TERRITORY, F21
+
+select * from PortfolioProject.dbo.Raw$
+
+alter table Raw$
+add order_date date
+
+select [ORDER DATE]
+from PortfolioProject.dbo.Raw$
+
+select [ORDER DATE], convert(Date, [ORDER DATE]) 
+from PortfolioProject.dbo.Raw$
+
+update Raw$
+set order_date = convert(Date, [ORDER DATE])
+where order_date is null
+
+select * from PortfolioProject.dbo.Raw$
+
+--DROP COLUMN - ORDER DATE
+alter table Raw$
+drop column [ORDER DATE]
+
+select * from PortfolioProject.dbo.Raw$
+
+--CUSTOMERS WITH MAXIMUM ORDERS
+select [CUSTOMER NAME], sum([QUANTITY ORDERED]) as "Max Orders"
+from PortfolioProject.dbo.Raw$
+group by [CUSTOMER NAME]
+order by [Max Orders] desc
+
+-- DISTINCT COUNT OF SHIPPING STATUS
+select STATUS, count(STATUS) as "Count"
+from PortfolioProject.dbo.Raw$
+group by STATUS
+order by [Count] desc
+
+--SALES BY SHIPPING STATUS
+select STATUS, round(sum(SALES),0) as "Total Sales"
+from PortfolioProject.dbo.Raw$
+group by STATUS
+order by [Total Sales] desc
+
+
+--QUANTITY ORDER BY SHIPPING STATUS
+select STATUS, round(sum([QUANTITY ORDERED]),0) as "Quantity Ordered"
+from PortfolioProject.dbo.Raw$
+group by STATUS
+order by [Quantity Ordered] desc
+
+
+-- DISTINCT COUNT OF PRODUCT LINE
+select [PRODUCT LINE], count([PRODUCT LINE]) as "Count"
+from PortfolioProject.dbo.Raw$
+group by [PRODUCT LINE]
+order by [Count] desc
+
+select * from PortfolioProject.dbo.Raw$
+
+-- SALES BY PRODUCT LINE
+select [PRODUCT LINE], round(sum(SALES),0) as "Total Sales"
+from PortfolioProject.dbo.Raw$
+group by [PRODUCT LINE]
+order by [Total Sales] desc
+
+
+--QUANTITY ORDERED BY PRODUCT LINE
+select [PRODUCT LINE], sum([QUANTITY ORDERED]) as "Quantity Orders"
+from PortfolioProject.dbo.Raw$
+group by [PRODUCT LINE]
+order by [Quantity Orders] desc
+
+--SALES ACROSS THE COUNTRY
+select COUNTRY, round(sum(SALES),0) as "Total Sales"
+from PortfolioProject.dbo.Raw$
+group by COUNTRY
+order by [Total Sales] desc
+
+select * from PortfolioProject.dbo.Raw$
+
+--QUANTITY ORDERED ACROSS THE COUNTRY
+select COUNTRY, sum([QUANTITY ORDERED]) as "Quantity Ordered"
+from PortfolioProject.dbo.Raw$
+group by COUNTRY
+order by [Quantity Ordered] desc
+
+
+--SALES ACROSS THE CITY
+select CITY, round(sum(SALES),0) as "Total Sales"
+from PortfolioProject.dbo.Raw$
+group by CITY
+order by [Total Sales] desc
+
+--ORDERS ACROSS THE CITY
+select CITY, sum([QUANTITY ORDERED]) as "Total Quantity"
+from PortfolioProject.dbo.Raw$
+group by CITY
+order by [Total Quantity] desc
+
+select * from PortfolioProject.dbo.Raw$
+
+--QUANTITY ORDERED BY ORDER DATES
+select order_date, sum([QUANTITY ORDERED]) as "Quantity Ordered"
+from PortfolioProject.dbo.Raw$
+group by order_date
+order by order_date
+
+--SALES BY ORDER DATE
+select order_date, round(sum(SALES),0) as "Sales"
+from PortfolioProject.dbo.Raw$
+group by order_date
+order by order_date
+
+--DISTINCT COUNT OF DEAL SIZE
+select DEALSIZE,count(DEALSIZE) as "Count"
+from PortfolioProject.dbo.Raw$
+group by DEALSIZE
+order by [Count] desc
+
+select * from PortfolioProject.dbo.Raw$
+
+--DEAL SIZE BY CUSTOMER
+select [CUSTOMER NAME], count(DEALSIZE) as "Deal Size"
+from PortfolioProject.dbo.Raw$
+group by [CUSTOMER NAME]
+order by [Deal Size] desc
+
+--DEAL SIZE BY SHIPPING STATUS
+select [STATUS], count(DEALSIZE) as "Deal Size"
+from PortfolioProject.dbo.Raw$
+group by [STATUS]
+order by [Deal Size] desc
+
+--DEAL SIZE BY PRODUCT LINE
+select [PRODUCT LINE], count(DEALSIZE) as "Deal Size"
+from PortfolioProject.dbo.Raw$
+group by [PRODUCT LINE]
+order by [Deal Size] desc
+
+--DEAL SIZE BY CITY
+select CITY, count(DEALSIZE) as "Deal Size"
+from PortfolioProject.dbo.Raw$
+group by CITY
+order by [Deal Size] desc
+
+--DEAL SIZE BY COUNTRY
+select COUNTRY, count(DEALSIZE) as "Deal Size"
+from PortfolioProject.dbo.Raw$
+group by COUNTRY
+order by [Deal Size] desc
+
+--DEAL SIZE BY ORDER DATE
+select order_date, count(DEALSIZE) as "Deal Size"
+from PortfolioProject.dbo.Raw$
+group by order_date
+order by order_date
