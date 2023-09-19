@@ -1,0 +1,98 @@
+use PortfolioProject
+
+select * from PortfolioProject.dbo.['Sales Data$']
+
+--DELETE NUM COLUMN
+alter table ['Sales Data$']
+drop column Num
+
+select * from PortfolioProject.dbo.['Sales Data$']
+
+--CREATE NEW COLUMN SALEDATE
+alter table ['Sales Data$']
+add SaleDate Date
+
+select * from PortfolioProject.dbo.['Sales Data$']
+
+--UPDATE DATABASE WITH NEW COLUMN
+update ['Sales Data$']
+set SaleDate = convert(Date, Date)
+
+select * from PortfolioProject.dbo.['Sales Data$']
+
+--DROP OLD COLUMN DATE
+alter table ['Sales Data$']
+drop column Date
+
+select * from PortfolioProject.dbo.['Sales Data$']
+
+--CUSTOMER WITH THE HIGHEST ORDERS
+select [Customer ID], [Customer Name], sum(Total) as "Maximum Sales" 
+from PortfolioProject.dbo.['Sales Data$']
+group by [Customer ID], [Customer Name]
+order by [Maximum Sales] desc
+
+--DAILY SALES TREND WITH RUNNING TOTALS BY REGIONS
+select Region, SaleDate, Total, sum(Total) over (partition by Region order by Region, SaleDate) as "Running Totals"
+from PortfolioProject.dbo.['Sales Data$'] 
+where year(SaleDate) <> '1900' 
+
+--DAILY SALES TREND WITH RUNNING TOTALS
+select SaleDate, sum(Total) as "Running Totals"
+from PortfolioProject.dbo.['Sales Data$'] 
+where year(SaleDate) <> '1900' 
+group by SaleDate
+order by SaleDate
+
+--TOTAL SALES BY REGION
+select Region, sum(Total) as "Totals" from PortfolioProject.dbo.['Sales Data$'] 
+group by Region
+order by [Totals] desc
+
+--SALES REP WITH MAXIMUM SALES
+select [Sales Rep], sum(Total) as "Maximum Sales" from PortfolioProject.dbo.['Sales Data$'] 
+group by [Sales Rep]
+order by [Maximum Sales] desc
+
+--REPRESENTATIVE WITH MAXIMUM SALES
+select [Representative], round(sum(Total),0) as "Maximum Sales" from PortfolioProject.dbo.['Sales Data$'] 
+group by [Representative]
+order by [Maximum Sales] desc
+
+--DISTINCT MODELS
+select Model, count(Model) as "count"
+from PortfolioProject.dbo.['Sales Data$']
+group by Model
+order by Model desc
+
+--DISTINCT MODELS BY COLOUR
+select Model, Color, count(Model) as "count"
+from PortfolioProject.dbo.['Sales Data$']
+group by Model, Color
+order by Model desc
+
+--DISTINCT ITEM CODES 
+select [Item Code], count([Item Code]) as "count"
+from PortfolioProject.dbo.['Sales Data$']
+group by [Item Code]
+order by [count] desc
+
+--DISTINCT ITEM CODES BY COLOUR
+select [Item Code], Color, count([Item Code]) as "count"
+from PortfolioProject.dbo.['Sales Data$']
+group by [Item Code], Color
+order by [count] desc
+
+
+--MAXIMUM AND AVERAGE PRICES BY MODEL
+select Model, round(sum(Total),2) as "Totals", round(avg(Total),2) as "Average"
+from PortfolioProject.dbo.['Sales Data$']
+group by Model
+order by [Totals] desc, [Average] desc
+
+--AVERAGE PRICES BY MODEL PER COLOUR
+select Model, Color, round(avg(Total),2) as "Average"
+from PortfolioProject.dbo.['Sales Data$']
+--where Model = 'Energy'
+group by Model, Color
+order by Model
