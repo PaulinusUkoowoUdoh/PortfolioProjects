@@ -1,0 +1,55 @@
+use PortfolioProject
+
+select * from PortfolioProject.dbo.['Working Data$']
+
+--SALES BY CHAIN
+select Chain, round(sum(Sales),2) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by Chain
+order by [Total Sales] desc
+
+--SALES BY MANAGER ACROSS STATES
+select State, Manager, round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by State, Manager
+order by State, Manager, [Total Sales] desc
+
+--SALES BY STATES AND COUNTRY
+select Country, State as "State", round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by Country, State
+order by [Total Sales] desc
+
+--SALES ACROSS THE SUBURBS
+select Country, State as "State", Suburb, round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by Country, State, Suburb
+order by [Total Sales] desc
+
+--SALES BY CATEGORY
+select Category, round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by Category
+order by [Total Sales] desc
+
+--MONTHLY TOTAL SALES 
+select cast(Month as date) as "Date",
+round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by Month
+order by Month
+
+--MONTHLY SALES TOTAL ACROSS COUNTRY
+select Country, State, Suburb,cast(Month as date) as "Date", Sales
+from PortfolioProject.dbo.['Working Data$'] 
+
+--PROFITS BY FINANCIAL YEAR
+select [Financial Year], round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by [Financial Year]
+
+--CUSTOMER WITH MAXIMUM ORDERS
+select Buyer, round(sum(Sales),0) as "Total Sales"
+from PortfolioProject.dbo.['Working Data$']
+group by Buyer
+order by [Total Sales] desc

@@ -1,0 +1,39 @@
+
+use PortfolioProject
+
+select * from PortfolioProject.dbo.Sheet1$
+
+--CUSTOMER WITH THE HIGHEST ORDER
+select [Cust ID], [First Name] + ' ' + [Last Name] as "Customer", count([Ord Number]) as "Total Orders"
+from PortfolioProject.dbo.Sheet1$
+where [First Name] is not null and [Last Name] is not null
+group by [Cust ID], [First Name], [Last Name]
+order by [Total Orders] desc
+
+ --MOST PURCHASED ITEM
+select [Prod Desc], count([Prod Desc]) as "Product Count"
+from PortfolioProject.dbo.Sheet1$
+group by [Prod Desc]
+order by [Product Count] desc
+
+--ITEMS WITH HIGHEST SALES 
+select [Prod Desc], round(sum(Price * Quantity),0) as "Total Sales"
+from PortfolioProject.dbo.Sheet1$
+where [Prod Desc] is not null
+group by [Prod Desc]
+order by [Total Sales] desc
+
+--TOTAL SALES PER DAY
+select cast([Ord Date] as date) as Date, round(sum(Price * Quantity),0) as "Total Sales"
+from PortfolioProject.dbo.Sheet1$
+where [Ord Date] is not null
+group by [Ord Date]
+order by [Ord Date]
+
+--RUNNING TOTAL SALES PER DAY
+select cast([Ord Date] as date) as Date, sum(Price * Quantity) as "Total Sales",
+ sum(sum(Price * Quantity))  over (order by [Ord Date]) as "Running Total Sales"
+from PortfolioProject.dbo.Sheet1$
+where [Ord Date] is not null
+group by [Ord Date]
+order by [Ord Date]

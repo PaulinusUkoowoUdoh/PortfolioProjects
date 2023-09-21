@@ -1,0 +1,121 @@
+use PortfolioProject
+
+select * from PortfolioProject.dbo.Data$
+
+--ACTIVE EMPLOYEE BY GENDER ACROSS AGE GROUPS
+select AgeGroup, Gender, count(Gender) as "Count"
+from PortfolioProject.dbo.Data$
+group by AgeGroup, Gender
+
+--TOTAL ACTIVE EMPLOYEES
+select count(EmpID) as "Total Active Employees"
+from PortfolioProject.dbo.Data$
+where TermDate is null and EmpID is not null
+
+--ACTIVE EMPLOYEES BY DATE
+select cast(Date as date) as "Date",
+count(EmpID)  as "Total Active Employees"
+from PortfolioProject.dbo.Data$
+where TermDate is null and EmpID is not null 
+group by Date
+order by Date
+
+-- NEW HIRES
+select count(EmpID) as "Total New Hires"
+from PortfolioProject.dbo.Data$
+where isNewHire = 'Yes'  and EmpID is not null
+
+--NEW HIRES BY DATE
+select cast(Date as date) as "Date",
+count(EmpID) as "Total New Hires"
+from PortfolioProject.dbo.Data$
+where isNewHire = 'Yes'  and EmpID is not null
+group by Date
+order by Date
+
+--ACTIVE EMPLOYEES BY GENDER ACROSS ETHNIC GROUPS
+select Gender, EthnicGroup, count(EmpID) as "Active Employees"
+from PortfolioProject.dbo.Data$
+where TermDate is null and EmpID is not null
+group by Gender, EthnicGroup
+order by Gender, [Active Employees] desc
+
+--TERMINATIONS ACROSS THE YEAR
+select cast(Date as date) as "Date",
+count(TermReason) as "Terminations" 
+from PortfolioProject.dbo.Data$
+where TermReason is not null and TermDate is not null
+group by [Date]
+order by [Date]
+
+--ACTIVE EMPLOYEES BY REGION
+select [BU Region] as Region, count(EmpID) as "Total Active Employees"
+from PortfolioProject.dbo.Data$
+where TermDate is null and EmpID is not null
+Group by [BU Region]
+order by [Total Active Employees] desc
+
+--AVERAGE TENURE MONTHS BY GENDER
+select Gender, round(avg(TenureMonths),0) as "Avg Tenure Months"
+from PortfolioProject.dbo.Data$
+group by Gender
+order by Gender
+
+--AVERAGE TENURE MONTHS BY GENDER ACROSS ETHNIC GROUPS
+select EthnicGroup, Gender, round(avg(TenureMonths),0) as "Avg Tenure Months"
+from PortfolioProject.dbo.Data$
+group by EthnicGroup, Gender
+order by EthnicGroup
+
+--GENDER RATIO
+select Gender, count(Gender) as count
+from PortfolioProject.dbo.Data$
+group by Gender
+order by Gender
+
+--HOURLY PAY BY GENDER
+select Gender, PayType, count(PayType) as "Count"
+from PortfolioProject.dbo.Data$
+group by Gender, PayType
+order by Gender
+
+--FULL TIME /PART TIME BY GENDER
+select Gender, FP as "Full Time/Part Time", count(FP) as "Count"
+from PortfolioProject.dbo.Data$
+group by Gender, FP
+order by Gender
+
+--TOTAL SEPARATIONS
+select count(EmpID) as "Separations" 
+from PortfolioProject.dbo.Data$ 
+where TermDate is not null
+
+--SEPARATIONS BY DATES
+select cast(Date as date) as "Date", count(EmpID) as "Separations" 
+from PortfolioProject.dbo.Data$ 
+where TermDate is not null
+group by Date
+order by Date
+
+--BAD HIRES BY DATES
+select cast(Date as date) as "Date", count(BadHires) as "Bad Hires" 
+from PortfolioProject.dbo.Data$ 
+where BadHires <> '0'
+group by Date
+order by Date
+
+--ACTIVE EMPLOYEES BY GENDER
+select Gender as "Gender", count(Gender) as "Active Employee"
+from PortfolioProject.dbo.Data$
+where TermDate is null and EmpID is not null
+Group by Gender
+order by [Active Employee] desc
+
+--TOTAL SEPARATIONS BY GENDER
+select Gender as "Gender", count(EmpID) as "Separations" 
+from PortfolioProject.dbo.Data$ 
+where TermDate is not null
+Group by Gender
+order by [Separations] desc
+
+
