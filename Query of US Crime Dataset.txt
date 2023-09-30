@@ -1,4 +1,23 @@
+--MALE VICTIM SEX BY RACE
+select [Victim Sex], [Victim Race], count([Victim Race]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+Where [Victim Sex] = 'Male' 
+group by [Victim Sex], [Victim Race]
+order by [Count] desc
 
+--FEMALE VICTIM SEX BY ETHNICITY
+select [Victim Sex], [Victim Ethnicity], count([Victim Ethnicity]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+Where [Victim Sex] = 'Female' 
+group by [Victim Sex], [Victim Ethnicity]
+order by [Count] desc
+
+
+--PERPETRATOR COUNT BY RACE
+select [Perpetrator Race], count([Perpetrator Race]) as "Count"
+from [edureka].[dbo].['US Crime Data$'] 
+group by [Perpetrator Race]
+order by [Count] desc
 
 
 --AVERAGE AGE ACROSS ETHNICITY
