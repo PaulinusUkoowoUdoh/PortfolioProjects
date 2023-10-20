@@ -1,0 +1,468 @@
+use TABLEAU
+select * from TABLEAU.dbo.['Voting Final$'] 
+select * from TABLEAU.dbo.[eurovision_meta$]
+
+--SONG COUNT BY REGION
+select Region, count(Song) 'Song count'
+from TABLEAU.dbo.[eurovision_meta$]
+group by Region
+order by [Song count] desc
+
+--SONG COUNT BY COUNTRY
+select Country, count(Song) 'Song count'
+from TABLEAU.dbo.[eurovision_meta$]
+group by Country
+order by [Song count] desc
+
+--ENGLISH SONG THAT WON FROM HOME COUNTRY AND HOME REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Home' and Home#Away#Region = 'Home'
+and Song#In#English = 1 and Place = 1
+order by Year
+
+--ENGLISH SONG IN THE FINALS FROM HOME COUNTRY AND HOME REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Home' and Home#Away#Region = 'Home'
+and Song#In#English = 1 and Is#Final = 1
+order by Year
+
+--NON-ENGLISH SONG THAT WON FROM HOME COUNTRY AND HOME REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Home' and Home#Away#Region = 'Home'
+and Song#In#English = 0 and Place = 1
+order by Year
+
+--NON-ENGLISH SONG IN FINALS FROM HOME COUNTRY AND HOME REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Home' and Home#Away#Region = 'Home'
+and Song#In#English = 0 and Is#Final = 1
+order by Year
+
+======================
+--ENGLISH SONG THAT WON FROM AWAY COUNTRY AND AWAY REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Away' and Home#Away#Region = 'Away'
+and Song#In#English = 1 and Place = 1
+order by Year
+
+--ENGLISH SONG IN THE FINALS FROM AWAY COUNTRY AND AWAY REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Away' and Home#Away#Region = 'Away'
+and Song#In#English = 1 and Is#Final = 1
+order by Year
+
+--NON-ENGLISH SONG THAT WON FROM AWAY COUNTRY AND AWAY REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Away' and Home#Away#Region = 'Away'
+and Song#In#English = 0 and Place = 1
+order by Year
+
+--NON-ENGLISH SONG IN FINALS FROM AWAY COUNTRY AND AWAY REGION
+select Year, Country, Region
+from TABLEAU.dbo.[eurovision_meta$]
+where Home#Away#Country = 'Away' and Home#Away#Region = 'Away'
+and Song#In#English = 0 and Is#Final = 1
+order by Year
+
+
+--ARTIST WITH MOST FINALS
+select Artist, count(Artist) Finals
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1
+group by Artist
+order by count(Artist) desc
+
+--SONG IN MOST FINALS
+select Song, count(Song) Finals
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1
+group by Song
+order by count(Song) desc
+
+--GENDER IN MOST FINALS
+select Artist#gender, count(Artist#gender) Count
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and Artist#gender <> 'NA'
+group by Artist#gender
+order by count(Artist#gender) desc
+
+--SONGS IN FINALS BY QUALITY
+select Year, Song, round(AVG(Song#Quality),2) Quality
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and Song#Quality is not null and Place = 1
+group by Year, Song
+order by Year, Quality
+
+--SONGS IN FINALS BY NORMALIZED POINT
+select Year, Song, round(AVG(Normalized#Points),2) Points
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and Normalized#Points is not null and Place = 1
+group by Year, Song
+order by Year, Points
+
+--SONGS IN FINALS BY ENERGY
+select Year, Song, round(AVG(energy),2) Energy
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and energy is not null and Place = 1
+group by Year, Song
+order by Year, Energy
+
+--SONGS IN FINALS BY DURATION
+select Year, Song, round(AVG(duration),2) Duration
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and duration is not null and Place = 1
+group by Year, Song
+order by Year, Duration
+
+--SONGS IN FINALS BY ACOUSTICNESS
+select Year, Song, round(AVG(acousticness),2) Acousticness
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and acousticness is not null and Place = 1
+group by Year, Song
+order by Year, Acousticness
+
+--SONGS IN FINALS BY DANCEABILITY
+select Year, Song, round(AVG(danceability),2) Danceability
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and danceability is not null and Place = 1
+group by Year, Song
+order by Year, Danceability
+
+--SONGS IN FINALS BY TEMPO
+select Year, Song, round(AVG(tempo),2) Tempo
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and tempo is not null and Place = 1
+group by Year, Song
+order by Year, Tempo
+
+--SONGS IN FINALS BY SPEECHINESS
+select Year, Song, round(AVG(speechiness),2) Speechiness
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and speechiness is not null and Place = 1
+group by Year, Song
+order by Year, Speechiness
+
+--SONGS IN FINALS BY LIVENESS
+select Year, Song, round(AVG(liveness),2) Liveness
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and liveness is not null and Place = 1
+group by Year, Song
+order by Year, Liveness
+
+--SONGS IN FINALS BY LOUDNESS
+select Year, Song, round(AVG(loudness),2) Loudness
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and loudness is not null and Place = 1
+group by Year, Song
+order by Year, Loudness
+
+--SONGS IN FINALS BY VALENCE
+select Year, Song, round(AVG(valence),2) Valence
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and valence is not null and Place = 1
+group by Year, Song
+order by Year, Valence
+
+--SONGS IN FINALS BY HAPPINESS
+select Year, Song, round(AVG(Happiness),2) Happiness
+from TABLEAU.dbo.[eurovision_meta$]
+where Is#Final = 1 and Happiness is not null and Place = 1
+group by Year, Song
+order by Year, Happiness
+
+--SONG HAPPINESS BY REGION
+select Region, isnull(round(AVG(Happiness),2),0) 'Happiness'
+from TABLEAU.dbo.[eurovision_meta$]
+where Happiness is not null and Place = 1
+group by Region
+order by 'Happiness' 
+
+--SONG HAPPINESS BY COUNTRY
+select Country, round(AVG(Happiness),2) 'Happiness'
+from TABLEAU.dbo.[eurovision_meta$]
+where Happiness is not null and Place = 1
+group by Country
+order by 'Happiness' desc
+
+--SONG VALENCE BY REGION
+select Region, isnull(round(AVG(valence),2),0) 'Valence'
+from TABLEAU.dbo.[eurovision_meta$]
+where valence is not null and Place = 1
+group by Region
+order by 'Valence' desc
+
+--SONG VALENCE BY COUNTRY
+select Country, round(AVG(valence),2) 'Valence'
+from TABLEAU.dbo.[eurovision_meta$]
+where valence is not null and Place = 1
+group by Country
+order by 'Valence' desc
+
+--SONG NORMALIZED POINTS BY REGION
+select Region, isnull(round(AVG(Normalized#Points),2),0) 'Normalized Points'
+from TABLEAU.dbo.[eurovision_meta$]
+where Normalized#Points is not null and Place = 1
+group by Region
+order by 'Normalized Points' desc
+
+--SONG NORMALIZED POINTS BY COUNTRY
+select Country, round(AVG(Normalized#Points),2) 'Normalized Points'
+from TABLEAU.dbo.[eurovision_meta$]
+where Normalized#Points is not null and Place = 1
+group by Country
+order by 'Normalized Points' desc
+
+--SONG LOUDNESS BY REGION
+select Region, isnull(round(AVG(loudness),2),0) 'Loudness'
+from TABLEAU.dbo.[eurovision_meta$]
+where loudness  is not null and Place = 1
+group by Region
+order by 'Loudness' 
+
+--SONG LOUDNESS BY COUNTRY
+select Country, isnull(round(AVG(loudness),2),0) 'Loudness'
+from TABLEAU.dbo.[eurovision_meta$]
+where loudness is not null and Place = 1
+group by Country
+order by 'Loudness' 
+
+--SONG LIVENESS BY REGION
+select Region, round(AVG(liveness),2) 'Liveness'
+from TABLEAU.dbo.[eurovision_meta$]
+where liveness is not null and Place = 1
+group by Region
+order by 'Liveness' desc
+
+--SONG LIVENESS BY COUNTRY
+select Country, round(AVG(liveness),2) 'Liveness'
+from TABLEAU.dbo.[eurovision_meta$]
+where liveness is not null and Place = 1
+group by Country
+order by 'Liveness' desc
+
+--SONG SPEECHINESS BY REGION
+select Region, round(AVG(speechiness),2) 'Speechiness'
+from TABLEAU.dbo.[eurovision_meta$]
+where speechiness is not null and Place = 1
+group by Region
+order by 'Speechiness' desc
+
+--SONG SPEECHINESS BY COUNTRY
+select Country, round(AVG(speechiness),2) 'Speechiness'
+from TABLEAU.dbo.[eurovision_meta$]
+where speechiness is not null and Place = 1
+group by Country
+order by 'Speechiness' desc
+
+--SONG TEMPO BY REGION
+select Region, round(AVG(tempo),2) 'Tempo'
+from TABLEAU.dbo.[eurovision_meta$]
+where tempo is not null and Place = 1
+group by Region
+order by 'Tempo' desc
+
+--SONG TEMPO BY COUNTRY
+select Country, round(AVG(tempo),2) 'Tempo'
+from TABLEAU.dbo.[eurovision_meta$]
+where tempo is not null and Place = 1
+group by Country
+order by 'Tempo' desc
+
+--SONG DANCEABILITY BY REGION
+select Region, round(AVG(danceability),2) 'Danceability'
+from TABLEAU.dbo.[eurovision_meta$]
+where danceability is not null and Place = 1
+group by Region
+order by 'Danceability' desc
+
+--SONG DANCEABILITY BY COUNTRY
+select Country, round(AVG(danceability),2) 'Danceability'
+from TABLEAU.dbo.[eurovision_meta$]
+where danceability is not null and Place = 1
+group by Country
+order by 'Danceability' desc
+
+
+--SONG ACOUSTICNESS BY REGION
+select Region, round(AVG(acousticness),2) 'Acousticness'
+from TABLEAU.dbo.[eurovision_meta$]
+where acousticness is not null and Place = 1
+group by Region
+order by 'Acousticness' desc
+
+--SONG ACOUSTICNESS BY COUNTRY
+select Country, round(AVG(acousticness),2) 'Acousticness'
+from TABLEAU.dbo.[eurovision_meta$]
+where acousticness is not null and Place = 1
+group by Country
+order by 'Acousticness' desc
+
+--SONG DURATION BY REGION
+select Region, round(AVG(duration),2) 'Song Duration'
+from TABLEAU.dbo.[eurovision_meta$]
+where duration is not null and Place = 1
+group by Region
+order by 'Song Duration' desc
+
+--SONG DURATION BY COUNTRY
+select Country, round(AVG(duration),2) 'Song Duration'
+from TABLEAU.dbo.[eurovision_meta$]
+where duration is not null and Place = 1
+group by Country
+order by 'Song Duration' desc
+
+--SONG ENERGY BY REGION
+select Region, round(AVG(energy),2) 'Song Energy'
+from TABLEAU.dbo.[eurovision_meta$]
+where energy is not null and Place = 1
+group by Region
+order by 'Song Energy' desc
+
+--SONG ENERGY BY COUNTRY
+select Country, round(AVG(energy),2) 'Song Energy'
+from TABLEAU.dbo.[eurovision_meta$]
+where energy is not null and Place = 1
+group by Country
+order by 'Song Energy' desc
+
+
+--SONG QUALITY RANKING BY REGION
+select Region, round(AVG(Song#Quality),2) 'Song Quality'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#Quality is not null and Place = 1
+group by Region
+order by AVG(Song#Quality) desc
+
+--SONG QUALITY RANKING BY COUNTRY
+select Country, round(AVG(Song#Quality),2) 'Song Quality'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#Quality is not null and Place = 1
+group by Country
+order by AVG(Song#Quality) desc
+
+--SONGS IN ENGLISH BY REGION
+select Region, count(Song#In#English) 'Songs in English'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#In#English = 1 and Place = 1
+group by Region
+order by 'Songs in English' desc
+
+--SONGS IN ENGLISH BY COUNTRY
+select Country, count(Song#In#English) 'Songs in English'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#In#English = 1 and Place = 1
+group by Country
+order by 'Songs in English' desc
+
+--NON-ENGLISH SONGS BY REGION
+select Year, Region, count(Song#In#English) 'Non-English Songs'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#In#English = 0 and Place = 1
+group by Year, Region
+order by 'Non-English Songs' desc
+
+--NON-ENGLISH SONGS BY COUNTRY
+select Year, Country, count(Song#In#English) 'Non-English Songs'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#In#English = 0 and Place = 1
+group by Year, Country
+order by 'Non-English Songs' desc
+
+--COUNT OF NON-ENGLISH SONGS
+select count(Song#In#English) 'Non-English Songs'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#In#English = 0
+
+--COUNT OF SONGS IN ENGLISH 
+select count(Song#In#English) 'Songs in English'
+from TABLEAU.dbo.[eurovision_meta$]
+where Song#In#English = 1
+
+--GENDER COUNT BY COUNTRY
+select Country, Artist#gender, count(Artist#gender) 'Gender Count'
+from TABLEAU.dbo.[eurovision_meta$]
+where Artist#gender <> 'NA'
+group by Country, Artist#gender
+order by [Gender Count] desc
+
+--GENDER COUNT BY REGION
+select Region, Artist#gender, count(Artist#gender) 'Gender Count'
+from TABLEAU.dbo.[eurovision_meta$]
+where Artist#gender <> 'NA'
+group by Region, Artist#gender
+order by [Gender Count] desc
+
+--ARTISTES GENDER BY REGION
+select Region, Artist, Artist#gender 
+from TABLEAU.dbo.[eurovision_meta$]
+where Artist#gender <> 'NA'
+group by Region, Artist, Artist#gender 
+
+select Region, Artist#gender 
+from TABLEAU.dbo.[eurovision_meta$]
+where Artist#gender <> 'NA'
+group by Region, Artist#gender 
+
+--ARTISTES GENDER BY COUNTRY
+select Country, Artist, Artist#gender 
+from TABLEAU.dbo.[eurovision_meta$]
+where Artist#gender <> 'NA'
+group by Country, Artist, Artist#gender 
+
+select Country, Artist#gender 
+from TABLEAU.dbo.[eurovision_meta$]
+where Artist#gender <> 'NA'
+group by Country, Artist#gender 
+
+
+--ARTISTES COUNT BY COUNTRY
+select Country, count(distinct Artist) as 'Artist count'
+from TABLEAU.dbo.[eurovision_meta$]
+group by Country
+order by [Artist count] desc
+
+--ARTISTES COUNT BY REGION
+select Region, count(distinct Artist) as 'Artist count'
+from TABLEAU.dbo.[eurovision_meta$]
+group by Region
+order by [Artist count] desc
+
+--ARTISTES WITH THE MOST APPEARANCES BY REGION
+select Region, Artist, count(Artist) as count
+from TABLEAU.dbo.[eurovision_meta$]
+group by Region, Artist
+order by count desc
+
+--ARTISTES WITH THE MOST APPEARANCES 
+select Artist, count(Artist) as count
+from TABLEAU.dbo.[eurovision_meta$]
+group by Artist
+order by count desc
+
+--COUNTRIES WITH MOST EVENT HOSTING
+select Giver, count(Giver)/24 count
+from TABLEAU.dbo.['Voting Final$'] 
+group by Giver
+order by count desc
+
+--COUNTRIES WITH THE MOST WINS
+select Year, Country, Place, Points, count(Place) as Wins
+from TABLEAU.dbo.[eurovision_meta$] 
+where Place = '1'
+Group by Year, Country, Place, Points
+order by Wins desc
+
+select * from TABLEAU.dbo.[eurovision_meta$]
+
+--PARTICIPATING COUNTRIES OVER THE YEARS
+select Year, count(distinct Country) Participants
+from TABLEAU.dbo.['Voting Final$'] 
+group by Year
+order by Year

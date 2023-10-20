@@ -1,0 +1,72 @@
+use tableau
+select * from tableau.dbo.HollywoodsMostProfitableStories$
+
+--AUDIENCE SCORE GROUP BY GENRE
+select Genre, ROUND(AVG([Audience score]),2) 'Audience Score'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Genre
+order by 'Audience Score' desc
+
+--PROFITABILITY GROUP BY GENRE
+select Genre, ROUND(AVG(Profitability),2) 'Profitability'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Genre
+order by 'Profitability' desc
+
+--TOTAL WORLDWIDE GROSS EARNINGS BY FILM
+select Film, round(sum([Worldwide Gross]),2) as 'Total Gross'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Film, [Worldwide Gross]
+order by [Total Gross] desc
+
+--TOTAL WORLDWIDE GROSS EARNINGS BY LEAD STUDIO
+select distinct[Lead Studio], round(sum([Worldwide Gross]),2) as 'Total Gross'
+from tableau.dbo.HollywoodsMostProfitableStories$
+where [Lead Studio] is not null
+group by [Lead Studio]
+order by [Total Gross] desc
+
+--FILM COUNT BY YEAR RELEASED
+select Year, count(Film) as 'Film count'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Year
+order by Year
+
+--PROFITABILITY BY YEAR RELEASED
+select Year, round(sum(Profitability),2) as 'Profitability'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Year
+order by Year
+
+--WORLDWIDE GROSS EARNINGS BY YEAR RELEASED
+select Year, round(sum([Worldwide Gross]),2) as 'Worldwide Gross'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Year
+order by Year
+
+--PROFITABILITY, WORLDWIDE GROSS EARNINGS BY YEAR RELEASED
+select Year, round(sum([Worldwide Gross]),2) as 'Worldwide Gross',
+round(sum(Profitability),2) as 'Profitability'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by Year
+order by Year
+
+--LEAD STUDIO VS AUDIENCE SCORE GROUP BY GENRE
+select distinct[Lead Studio], Genre, ROUND(AVG([Audience score]),2) 'Audience Score'
+from tableau.dbo.HollywoodsMostProfitableStories$
+group by [Lead Studio], Genre
+order by 'Audience Score' desc
+
+--LEAD STUDIO VS PROFITABILITY GROUP BY GENRE
+select distinct[Lead Studio], Genre, ROUND(AVG([Profitability]),2) 'Profitability'
+from tableau.dbo.HollywoodsMostProfitableStories$
+where [Lead Studio] is not null
+group by [Lead Studio], Genre
+order by 'Profitability' desc
+
+--LEAD STUDIO VS TOTAL WORLDWIDE GROSS EARNINGS
+select distinct[Lead Studio], Genre, ROUND(AVG([Worldwide Gross]),2) 'Worldwide Gross'
+from tableau.dbo.HollywoodsMostProfitableStories$
+where [Lead Studio] is not null
+group by [Lead Studio], Genre
+order by 'Worldwide Gross' desc

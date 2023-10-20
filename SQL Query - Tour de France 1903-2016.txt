@@ -1,0 +1,79 @@
+use TABLEAU
+
+select * from dbo.Sheet1$
+
+--HEADLINE
+select cast([Start Date] as date) as 'Start Date', 
+cast([End Date] as date) as 'End Date',
+day([End Date] - [Start Date])  as 'Arrival in Days',
+[Number of stages],
+ROUND(day([End Date] - [Start Date]) / [Number of stages],1) as 'Days per Stage',
+[Winner's avg speed],
+round([Total Distance (km)]/[Winner's avg speed],2) as 'Time Taken (hr)',
+round(([Total Distance (km)]/[Winner's avg speed])/24,1) as 'Days Taken'
+from dbo.Sheet1$
+
+--DAYS SPENT BEFORE ARRIVAL
+select cast([Start Date] as date) as 'Start Date', 
+cast([End Date] as date) as 'End Date',
+day([End Date] - [Start Date])  as 'Arrival in Days'
+from dbo.Sheet1$
+
+--DISTINCT STARTING CITY
+select distinct([Starting city])
+from dbo.Sheet1$
+where [Starting city] is not null
+
+--DISTINCT COUNT OF STARTING CITY
+select count (distinct [Starting city]) as 'Distinct starting cities'
+from dbo.Sheet1$
+where [Starting city] is not null
+
+--DISTINCT STARTING COUNTRY
+select distinct([Starting country])
+from dbo.Sheet1$
+where [Starting country] is not null
+
+--DISTINCT COUNT OF STARTING COUNTRY
+select count (distinct [Starting country]) as 'Distinct starting Countries'
+from dbo.Sheet1$
+where [Starting country] is not null
+
+-- BY YEAR, TOTAL DISTANCE, WINNER'S AVERAGE SPEED, NUMBER OF STAGES 
+select Year, [Total distance (km)], [Winner's avg speed],  [Number of stages]
+from dbo.Sheet1$
+where Year is not null
+group by Year, [Total distance (km)], [Winner's avg speed],  [Number of stages]
+order by Year
+
+--WINNER'S TEAM WITH MOST WINS
+select [Winner's Team], count([Winner's Team]) as count
+from dbo.Sheet1$
+where [Winner's Team] is not null and Winner <> 'Results voided'
+group by [Winner's Team]
+order by count desc
+
+--WINNERS WITH MOST WINS
+select Winner, [Winner's Nationality], count(Winner) as count
+from dbo.Sheet1$
+where Winner is not null and Winner <> 'Results voided'
+group by Winner, [Winner's Nationality]
+order by count desc
+
+--ANNUAL TREND OF PARTICIPANTS
+select Year, Entrants, Finishers, [Number of stages]
+from dbo.Sheet1$
+
+--WINNERS NATIONALITY BY COUNT
+select [Winner's Nationality], count([Winner's Nationality]) as count
+from dbo.Sheet1$
+group by [Winner's Nationality]
+order by count desc
+
+--WINNERS' TEAM NATIONALITY BY COUNT
+select [Winner's Team], count([Winner's Team]) as count
+from dbo.Sheet1$
+where [Winner's Team] is not null and [Winner's Team] <> 'Results voided'
+group by [Winner's Team]
+order by count desc
+

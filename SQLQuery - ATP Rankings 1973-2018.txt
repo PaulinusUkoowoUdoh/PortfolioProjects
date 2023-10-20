@@ -1,0 +1,79 @@
+use TABLEAU
+select * from dbo.ATP_Clean$
+
+--MAXIMUM CUMMULATIVE WEEKS FOR MALE PLAYERS
+select Year(Date) as 'Year', Player, max([Cumulative Weeks]) 'Max Cumm. Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Male'
+group by Year(Date), Player
+order by max([Cumulative Weeks]) desc
+
+--MAXIMUM CUMMULATIVE WEEKS FOR FEMALE PLAYERS
+select Year(Date) as 'Year', Player, max([Cumulative Weeks]) 'Max Cumm. Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Female'
+group by Year(Date), Player
+order by max([Cumulative Weeks]) desc
+
+
+--MAXIMUM WEEKS FOR MALE PLAYERS
+select Year(Date) as 'Year', Player, max([Weeks]) 'Max Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Male'
+group by Year(Date), Player
+order by max([Weeks]) desc
+
+--MAXIMUM WEEKS FOR FEMALE PLAYERS
+select Year(Date) as 'Year', Player, max([Weeks]) 'Max Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Female'
+group by Year(Date), Player
+order by max([Weeks]) desc
+
+--MAXIMUM CUMMULATIVE WEEKS FOR OLDEST MALE PLAYERS
+select Year(Date) as 'Year', Player, Age, max([Cumulative Weeks]) 'Max Cumm. Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Male' and Age > 30
+group by Year(Date), Player, Age
+order by max([Cumulative Weeks]) desc
+
+--MAXIMUM CUMMULATIVE WEEKS FOR OLDEST FEMALE PLAYERS
+select Year(Date) as 'Year', Player, Age, max([Cumulative Weeks]) 'Max Cumm. Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Female' and Age > 30
+group by Year(Date), Player, Age
+order by max([Cumulative Weeks]) desc
+
+--MAXIMUM WEEKS FOR OLDEST MALE PLAYERS
+select Year(Date) as 'Year', Player, Age, max([Weeks]) 'Max Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Male' and Age > 30
+group by Year(Date), Player, Age
+order by max([Weeks]) desc
+
+--MAXIMUM WEEKS FOR OLDEST FEMALE PLAYERS
+select Year(Date) as 'Year', Player, Age, max([Weeks]) 'Max Weeks'
+from dbo.ATP_Clean$
+where Sex = 'Female' and Age > 30
+group by Year(Date), Player, Age
+order by max([Weeks]) desc
+
+--GENDER COUNT GROUP BY YEAR 
+select Year(Date) as 'Year', count(Sex) 'Gender'
+from dbo.ATP_Clean$
+group by Year(Date)
+order by Year(Date)
+
+--FEMALE COUNT RANKINGS BY YEAR
+select Year(Date) as 'Year', count(Sex) 'Gender'
+from dbo.ATP_Clean$
+where Sex = 'Female'
+group by Year(Date)
+order by Year(Date)
+
+--MALE COUNT RANKINGS BY YEAR
+select Year(Date) as 'Year', count(Sex) 'Gender'
+from dbo.ATP_Clean$
+where Sex = 'Male'
+group by Year(Date)
+order by Year(Date)

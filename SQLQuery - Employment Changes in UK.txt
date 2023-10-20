@@ -1,0 +1,71 @@
+use tableau
+
+select * from dbo.['1 digit$']
+
+alter table ['1 digit$']
+drop column F9
+
+--DISTINCT INDUSTRY TYPE
+select distinct Industry from dbo.['1 digit$']
+
+--DISTINCT INDUSTRY COUNT
+select count(distinct Industry) as 'Industry Count'
+from dbo.['1 digit$']
+
+--DISTINCT SIC CODES
+select distinct [SIC Code] as 'SIC Codes'
+from dbo.['1 digit$']
+
+--DISTINCT SIC CODES COUNT
+select count(distinct [SIC Code]) as 'SIC Codes Count'
+from dbo.['1 digit$']
+
+--RANK CITY BY POSITIVE CHANGE 
+select Country, City, Change
+from dbo.['1 digit$']
+where Change > 0 
+order by Change desc
+
+--RANK CITY BY PERCENTAGE POSITIVE CHANGE 
+select Country, City, [% Change]
+from dbo.['1 digit$']
+where [% Change] > 0
+order by [% Change] desc
+
+--RANK CITY BY NEGATIVE CHANGE 
+select Country, City, Change
+from dbo.['1 digit$']
+where Change < 0 
+order by Change 
+
+--RANK CITY BY PERCENTAGE NEGATIVE CHANGE 
+select Country, City, [% Change]
+from dbo.['1 digit$']
+where [% Change] < 0
+order by [% Change] 
+
+
+--RANK CITY BY POSITIVE CHANGE BY INDUSTRY
+select Country, City, Industry, Change
+from dbo.['1 digit$']
+where Change > 0 
+order by Change desc
+
+--RANK CITY BY PERCENTAGE POSITIVE CHANGE BY INDUSTRY
+select Country, City, Industry, [% Change]
+from dbo.['1 digit$']
+where [% Change] > 0
+order by [% Change] desc
+
+--RANK CITY BY NEGATIVE CHANGE BY INDUSTRY
+select Country, City, Industry, Change
+from dbo.['1 digit$']
+where Change < 0 
+order by Change 
+
+--RANK CITY BY PERCENTAGE NEGATIVE CHANGE BY INDUSTRY
+select Country, City, Industry, [% Change]
+from dbo.['1 digit$']
+where [% Change] < 0
+order by [% Change] 
+

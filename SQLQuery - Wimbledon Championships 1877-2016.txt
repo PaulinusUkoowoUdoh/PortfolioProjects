@@ -1,0 +1,69 @@
+use TABLEAU
+
+select * from dbo.wimbledons_champions$
+
+--MALE CHAMPION BY NUMBER OF WINS
+select Champion as 'Men Champion', [Champion Nationality], count(Year) as 'Wimbledon Wins'
+from dbo.wimbledons_champions$
+where Gender = 'Men'
+group by Champion, [Champion Nationality]
+order by 'Wimbledon Wins' desc
+
+--FEMALE CHAMPION BY NUMBER OF WINS
+select Champion as 'Women Champion', [Champion Nationality], count(Year) as 'Wimbledon Wins'
+from dbo.wimbledons_champions$
+where Gender = 'Women'
+group by Champion, [Champion Nationality]
+order by 'Wimbledon Wins' desc
+
+--MALE RUNNER-UP BY COUNT
+select [Runner-up] as 'Men Runner-up', [Runner-up Nationality], count(Year) as count
+from dbo.wimbledons_champions$
+where Gender = 'Men'
+group by [Runner-up], [Runner-up Nationality]
+order by count desc
+
+--FEMALE RUNNER-UP BY COUNT
+select [Runner-up] as 'Women Runner-up', [Runner-up Nationality], count(Year) as count
+from dbo.wimbledons_champions$
+where Gender = 'Women'
+group by [Runner-up], [Runner-up Nationality]
+order by count desc
+
+--COUNT OF MEN RUNNER-UP BY NATIONALITY 
+select [Runner-up Nationality] as 'Men Runner-up Nationality', count([Runner-up Nationality]) as count
+from dbo.wimbledons_champions$
+where Gender = 'Men'
+group by [Runner-up Nationality]
+order by count desc
+
+--COUNT OF WOMEN RUNNER-UP BY NATIONALITY 
+select [Runner-up Nationality] as 'Women Runner-up Nationality', count([Runner-up Nationality]) as count
+from dbo.wimbledons_champions$
+where Gender = 'Women'
+group by [Runner-up Nationality]
+order by count desc
+
+--COUNT OF MEN CHAMPION BY NATIONALITY 
+select [Champion Nationality] as 'Men Champion Nationality', count([Champion Nationality]) as count
+from dbo.wimbledons_champions$
+where Gender = 'Men'
+group by [Champion Nationality]
+order by count desc
+
+--COUNT OF WOMEN CHAMPION BY NATIONALITY 
+select [Champion Nationality] as 'Women Champion Nationality', count([Champion Nationality]) as count
+from dbo.wimbledons_champions$
+where Gender = 'Women'
+group by [Champion Nationality]
+order by count desc
+
+--COUNT OF MEN CHAMPIONS
+select count (distinct Champion) as 'Men Champion count'
+from dbo.wimbledons_champions$
+where Gender = 'Men'
+
+--COUNT OF WOMEN CHAMPIONS
+select count (distinct Champion) as 'Women Champion count'
+from dbo.wimbledons_champions$
+where Gender = 'Women'

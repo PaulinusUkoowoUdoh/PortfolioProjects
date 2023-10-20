@@ -1,0 +1,154 @@
+use tableau
+
+select * from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+
+--CATEGORIES BY COUNTRY
+select Category, country, count(Category) count
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by Category, country
+order by count desc
+
+--DISTINCT MOVIE RATINGS
+select rating as 'Rating', count(rating) 'count'
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+where rating is not null
+group by rating
+order by count desc
+
+--DISTINCT MOVIE TYPES
+select type as 'Film Type', count(type) 'count'
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+where rating is not null
+group by type
+order by count desc
+
+--DIRECTORS WITH MOST FILMS BY COUNTRY
+select director as Director, country as Country, count(distinct title) 'Film count'
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by director, country
+order by 'Film count' desc
+
+--DISTINCT COUNT BY CATEGORY
+select Category, count(Category) as Count
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by Category
+order by Count desc
+
+--TITLES BY MAXIMUM DURATION
+select title as Title, duration_minutes
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by title, duration_minutes
+order by duration_minutes desc
+
+--TITLES BY RELEASE YEAR
+select distinct t.title as Title, release_year
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+order by release_year
+
+--TITLES COUNT BY RELEASE YEAR
+select release_year, count(title) as Films
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by release_year
+order by release_year
+
+
+--DIRECTORS COUNT BY COUNTRY
+select country as Country, count(distinct director) Directors
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by country
+order by Directors desc
+
+--CAST BY COUNTRY
+select country as Country, count(distinct cast) 'Total Cast'
+from dbo.netflix_cast$ c
+join dbo.netflix_category$ cat
+on c.show_id = cat.show_id
+join dbo.netflix_countries$ cou
+on c.show_id = cou.show_id
+join dbo.netflix_directors$ d
+on c.show_id = d.show_id
+join dbo.netflix_titles$ t
+on c.show_id = t.show_id
+group by country
+order by 'Total Cast' desc
+

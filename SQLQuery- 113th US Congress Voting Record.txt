@@ -1,0 +1,253 @@
+create database TABLEAU
+use TABLEAU
+select * from tableau.dbo.Bills$
+select * from tableau.dbo.['Sunlight Info$']
+
+select [Bill Number], [Required for Majority]  from tableau.dbo.Bills$
+
+
+update tableau.dbo.Bills$
+set [Required for Majority] = 'NULL'
+where [Required for Majority] not in ('RECORDED VOTE', '2/3 RECORDED VOTE',  'YEA-AND-NAY', '2/3 YEA-AND-NAY')
+
+select b.[Bill Number], b.[Required for Majority]  from tableau.dbo.Bills$ b
+where b.[Required for Majority]  = 'NULL'
+
+select b.[Bill Number], b.[Required for Majority]  from tableau.dbo.Bills$ b
+where b.[Required for Majority] <> 'NULL'
+
+
+select UPPER(b.[Bill Number]), b.[Required for Majority], 
+UPPER(c.[Bill Number]), c.[Required for Majority], 
+replace(b.[Required for Majority], 'NULL', c.[Required for Majority])
+from tableau.dbo.Bills$ as b
+join tableau.dbo.Bills$ as c 
+on b.[Source URL] = c.[Source URL] 
+where b.[Required for Majority] = 'NULL' and c.[Required for Majority] <> 'NULL' 
+
+
+update b
+set [Required for Majority] = replace(b.[Required for Majority], 'NULL', c.[Required for Majority])
+from tableau.dbo.Bills$ as b
+join tableau.dbo.Bills$ as c 
+on b.[Source URL] = c.[Source URL] 
+where b.[Required for Majority] = 'NULL' and c.[Required for Majority] <> 'NULL' 
+
+--REQUIRED BY MAJORITY VOTES
+select b.[Required for Majority], count(b.[Required for Majority]) count
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.[Required for Majority] in ('RECORDED VOTE', '2/3 RECORDED VOTE',  'YEA-AND-NAY', '2/3 YEA-AND-NAY')
+group by b.[Required for Majority] 
+order by count desc
+
+--DISTINCT COUNT OF BILLS
+select COUNT (distinct b.Question) 'Bill Counts'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+
+--DISTINCT QUESTIONS
+select distinct b.Question 'Questions'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+
+--DISTINCT COMMITTEES COUNT
+select COUNT (distinct committee) 'Committee Counts'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+
+--DISTINCT COMMITTEES 
+select distinct committee 'Committees'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where committee is not null
+
+--SPONSORS, PARTY, STATE AND MAXIMUM COMMITTEES
+select s.sponsor Sponsor, s.[Sponsor Party] as 'Sponsor Party', s.State State , max(s.committee) as Maximum
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by sponsor, [Sponsor Party], State
+order by Maximum desc
+
+--SPONSORS, PARTY, STATE AND TOTAL COMMITTEES
+select s.sponsor as Sponsor, s.[Sponsor Party] as 'Sponsor Party', s.State State, count(s.committee) as Committees
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by sponsor, [Sponsor Party], State
+order by Committees desc
+
+--COMMITTEES, PARTY SPONSORS AND THEIR STATES
+select committee as 'Committee', [Sponsor Party] as 'Sponsor Party', count([Sponsor Party]) as 'Count',
+CASE
+when [Sponsor Party] = 'R' then 'Republican'
+when [Sponsor Party] = 'D' then 'Democrat'
+when [Sponsor Party] = 'I' then 'Independent'
+END as 'Category'
+from tableau.dbo.['Sunlight Info$']
+where committee <> 'NULL'
+group by committee, [Sponsor Party]
+order by [Count] desc
+
+
+--SPONSORS AND THEIR COMMITTEES
+select s.committee as 'Committee', count(s.sponsor) as 'Sponsors' from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where committee <> 'NULL'
+group by committee
+order by [Sponsors] desc
+
+
+--PARTY SPONSORS AND THEIR STATES
+select State, [Sponsor Party], count([Sponsor Party]) as 'Count',
+CASE
+when [Sponsor Party] = 'R' then 'Republican'
+when [Sponsor Party] = 'D' then 'Democrat'
+when [Sponsor Party] = 'I' then 'Independent'
+END as 'Category'
+from tableau.dbo.['Sunlight Info$']
+group by State, [Sponsor Party]
+order by [Count] desc
+
+
+--SPONSORS AND THEIR CONTRIBUTIONS
+select sponsor as 'Sponsor', [Sponsor Party] as 'Party', State as 'State', committee as 'Committee', max(Pages) as 'Maximum Pages'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by sponsor, [Sponsor Party], State, committee
+order by [Maximum Pages] desc
+
+select sponsor as 'Sponsor', [Sponsor Party] as 'Party', State as 'State', committee as 'Committee', sum(Pages) as 'Total Pages'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by sponsor, [Sponsor Party], State, committee
+order by [Total Pages] desc
+
+select sponsor as 'Sponsor', [Sponsor Party] as 'Party', State as 'State', committee as 'Committee', COUNT(Pages) as 'Pages Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by sponsor, [Sponsor Party], State, committee
+order by [Pages Count] desc
+
+--TOTAL VOTES COUNT
+
+select b.[Vote Result] as 'Vote', count(b.[Vote Result]) as 'Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by b.[Vote Result]
+order by [Count] desc
+
+--TOTAL VOTE COUNT BY PARTIES
+select b.Party as 'Party', b.[Vote Result] as 'Vote', count(b.[Vote Result]) as 'Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where Party = 'Democrats'
+group by b.Party, b.[Vote Result]
+order by [Count] desc
+
+select b.Party as 'Party', b.[Vote Result] as 'Vote', count(b.[Vote Result]) as 'Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where Party = 'Republicans'
+group by b.Party, b.[Vote Result]
+order by [Count] desc
+
+--REQUIRED MAJORITY FOR PASSAGE
+select b.Question, b.[Required for Majority], count(b.[Required for Majority]) as 'Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.[Required for Majority] in ('RECORDED VOTE', '2/3 RECORDED VOTE',  'YEA-AND-NAY', '2/3 YEA-AND-NAY')
+group by b.Question, b.[Required for Majority]
+order by [Count] desc
+
+select b.Question, count(b.[Required for Majority]) as 'Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.Body = 'Senate'
+group by b.Question
+order by [Count] desc
+
+select b.Question, count(b.[Required for Majority]) as 'Count'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.Body = 'House of Representatives'
+group by b.Question
+order by [Count] desc
+
+
+--Questions count by Bills
+
+select b.[Bill Number] as 'Bill Number', count(b.Question) as 'Questions Count',
+sum([Total Yes]) as 'YES', sum([Total No]) as 'NO', sum([Total Abstain]) as 'ABSTAIN'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by [Bill Number]
+order by [Questions Count] desc
+
+select b.[Bill Number] as 'Bill Number', count(b.Question) as 'Questions Count',
+sum([Total Yes]) as 'YES', sum([Total No]) as 'NO', sum([Total Abstain]) as 'ABSTAIN'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.Body = 'Senate'
+group by [Bill Number]
+order by [Questions Count] desc
+
+select b.[Bill Number] as 'Bill Number', count(b.Question) as 'Questions Count',
+sum([Total Yes]) as 'YES', sum([Total No]) as 'NO', sum([Total Abstain]) as 'ABSTAIN'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.Body = 'House of Representatives'
+group by [Bill Number]
+order by [Questions Count] desc
+
+--VOTE DATE BY ROLL CALL NUMBER
+
+select cast(b.[Vote Date] as date) as 'Vote Date', 
+sum(b.[Role Call Number]) as 'Role Call Number'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+group by cast(b.[Vote Date] as date)
+
+select cast(b.[Vote Date] as date) as 'Vote Date', 
+sum(b.[Role Call Number]) as 'Role Call Number'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.Body = 'House of Representatives'
+group by cast(b.[Vote Date] as date)
+
+
+select cast(b.[Vote Date] as date) as 'Vote Date', 
+sum(b.[Role Call Number]) as 'Role Call Number'
+from tableau.dbo.Bills$ as b
+join tableau.dbo.['Sunlight Info$'] as s
+on b.[Source URL] = s.[Source URL]
+where b.Body = 'Senate'
+group by cast(b.[Vote Date] as date)
+
+
+
+
+
+
+

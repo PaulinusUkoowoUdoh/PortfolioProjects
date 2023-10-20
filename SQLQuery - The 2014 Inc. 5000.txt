@@ -1,0 +1,141 @@
+use tableau
+
+select * from tableau.dbo.['Data Set- Inc5000 Company List_$']
+
+alter table ['Data Set- Inc5000 Company List_$']
+drop column _input
+
+
+--RANK COMPANY BY GROWTH
+select company as Company, rank as Rank, round(growth,2) as Growth
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by rank , growth
+
+--RANK COMPANY BY GROWTH WRT INDUSTRY
+select industry as Industry, company as Company, round(growth,2) as Growth
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by industry, growth desc
+
+--COMPANY STATE LOCATIONS BY GROWTH
+select state as State, round(SUM(growth),2) Growth
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by state
+order by Growth desc
+
+--COMPANY CITY LOCATIONS BY GROWTH
+select city as City, round(SUM(growth),2) Growth
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by city
+order by Growth desc
+
+--COMPANY CITY LOCATIONS BY GROWTH
+select metropolis as Metropolis, round(SUM(growth),2) Growth
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by metropolis
+order by Growth desc
+
+--COMPANY MAXIMUM YEAR ON LIST BY GROWTH ON NUMBER ONE
+select company as Company, max(yrs_on_list) 'Max Years'
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+where rank = 1
+group by company
+order by max(yrs_on_list) desc
+
+--COMPANY MAXIMUM YEAR ON LIST BY GROWTH 
+select company as Company, max(yrs_on_list) 'Max Years'
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by company
+order by max(yrs_on_list) desc
+
+--RANK COMPANY BY REVENUE
+select company as Company, rank as Rank, revenue as Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by rank , growth
+
+--RANK COMPANY BY REVENUE WRT INDUSTRY
+select industry as Industry, company as Company, revenue as Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by industry, revenue desc
+
+--COMPANY STATE LOCATIONS BY REVENUE
+select state as State, SUM(revenue) Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by state
+order by Revenue desc
+
+--COMPANY CITY LOCATIONS BY REVENUE
+select city as City, SUM(revenue) Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by city
+order by Revenue desc
+
+--COMPANY CITY LOCATIONS BY REVENUE
+select metropolis as Metropolis, SUM(revenue) Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by metropolis
+order by Revenue desc
+
+--RANK COMPANY BY NUMBER OF WORKERS
+select company as Company, workers as Workers
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by workers desc
+
+--RANK COMPANY BY NUMBER OF WORKERS WRT INDUSTRY
+select industry as Industry, company as Company, workers as Workers
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by industry, Workers desc
+
+--RANK COMPANY BY REVENUE WRT INDUSTRY
+select industry as Industry, company as Company, revenue as Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+order by industry, Revenue  desc
+
+--COMPANY STATE LOCATIONS BY NUMBER OF WORKERS
+select state as State, SUM(workers) as Workers
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by state
+order by Workers desc
+
+--COMPANY CITY LOCATIONS BY NUMBER OF WORKERS
+select city as City, SUM(workers) as Workers
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by city
+order by Workers desc
+
+--COMPANY CITY LOCATIONS BY NUMBER OF WORKERS
+select metropolis as Metropolis, SUM(workers) as Workers
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by metropolis
+order by Workers desc
+
+--INDUSTRY MAXIMUM YEAR ON LIST AS NUMBER ONE
+select industry as Industry, max(yrs_on_list) 'Max Years'
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+where rank = 1
+group by industry
+order by max(yrs_on_list) desc
+
+--INDUSTRY MAXIMUM YEAR ON LIST 
+select industry as Industry, max(yrs_on_list) 'Max Years'
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by industry
+order by max(yrs_on_list) desc
+
+--DISTINCT INDUSTRY TYPES
+select distinct industry as Industry
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+
+--RANK INDUSTRY BY GROWTH
+select industry, ROUND(SUM(growth),2) Growth
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by industry
+order by Growth desc
+
+--RANK INDUSTRY BY REVENUE
+select industry, ROUND(SUM(revenue),2) Revenue
+from tableau.dbo.['Data Set- Inc5000 Company List_$']
+group by industry
+order by Revenue desc
+
+
+

@@ -1,0 +1,331 @@
+use TABLEAU
+
+select * from dbo.['Metropolitan Areas$']
+
+--POSITIVE JOB CHANGE BY CITY
+select City, sum([Job Change]) as 'Positive Job Change'
+from dbo.['Metropolitan Areas$']
+where [Job Change] > 0
+group by City
+order by [Positive Job Change] desc
+
+--NEGATIVE JOB CHANGE BY CITY
+select City, sum([Job Change]) as 'Negative Job Change'
+from dbo.['Metropolitan Areas$']
+where [Job Change] < 0
+group by City
+order by [Negative Job Change] 
+
+--PERCENTAGE POSITIVE JOB CHANGE BY CITY
+select City, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.['Metropolitan Areas$']
+where [% Job Change] > 0
+group by City
+order by [% Positive Job Change] desc
+
+--PERCENTAGE NEGATIVE JOB CHANGE BY CITY
+select City, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from ['Metropolitan Areas$']
+where [% Job Change] < 0
+group by City
+order by [% Negative Job Change] 
+
+--CHANGE IN SHARE OF ALL JOBS BY CITY
+select City, round(sum([Change in Share])*100,2) as '% Change in Share'
+from ['Metropolitan Areas$']
+where [Change in Share] > 0
+group by City
+order by [% Change in Share] desc
+
+select * from dbo.['Metropolitan Areas$']
+
+--GROUP BY CITY, BABY BOOMERS WITH POSITIVE JOB CHANGE
+select City, sum([Job Change]) as 'Positive Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Baby Boomer' and [Job Change] > 0
+group by City
+order by [Positive Job Change] desc
+
+--GROUP BY CITY, BABY BOOMERS WITH NEGATIVE JOB CHANGE
+select City, sum([Job Change]) as 'Negative Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Baby Boomer' and [Job Change] < 0
+group by City
+order by [Negative Job Change] 
+
+--GROUP BY CITY, BABY BOOMERS WITH % POSITIVE JOB CHANGE
+select City, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Baby Boomer' and [% Job Change] > 0
+group by City
+order by [% Positive Job Change] desc
+
+--GROUP BY CITY, BABY BOOMERS WITH % NEGATIVE JOB CHANGE
+select City, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Baby Boomer' and [% Job Change] < 0
+group by City
+order by [% Negative Job Change] 
+
+select * from dbo.['Metropolitan Areas$']
+
+--GROUP BY CITY, MILLENNIALS WITH POSITIVE JOB CHANGE
+select City, sum([Job Change]) as 'Positive Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Millennial' and [Job Change] > 0
+group by City
+order by [Positive Job Change] desc
+
+--GROUP BY CITY, MILLENNIALS WITH NEGATIVE JOB CHANGE
+select City, sum([Job Change]) as 'Negative Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Millennial' and [Job Change] < 0
+group by City
+order by [Negative Job Change] 
+
+--GROUP BY CITY, MILLENNIALS WITH % POSITIVE JOB CHANGE
+select City, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Millennial' and [% Job Change] > 0
+group by City
+order by [% Positive Job Change] desc
+
+--GROUP BY CITY, MILLENNIALS WITH % NEGATIVE JOB CHANGE
+select City, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from dbo.['Metropolitan Areas$']
+where Generation = 'Millennial' and [% Job Change] < 0
+group by City
+order by [% Negative Job Change] 
+
+
+select * from dbo.States$
+
+--POSITIVE JOB CHANGE BY STATE
+select State, sum([Job Change]) as 'Positive Job Change'
+from dbo.States$
+where [Job Change] > 0
+group by State
+order by [Positive Job Change] desc
+
+--NEGATIVE JOB CHANGE BY STATE
+select State, sum([Job Change]) as 'Negative Job Change'
+from dbo.States$
+where [Job Change] < 0
+group by State
+order by [Negative Job Change] 
+
+--PERCENTAGE POSITIVE JOB CHANGE BY STATE
+select State, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.States$
+where [% Job Change] > 0
+group by State
+order by [% Positive Job Change] desc
+
+--PERCENTAGE NEGATIVE JOB CHANGE BY STATE
+select State, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from dbo.States$
+where [% Job Change] < 0
+group by State
+order by [% Negative Job Change] 
+
+--CHANGE IN SHARE OF ALL JOBS BY STATE
+select State, round(sum([Change in Share])*100,2) as '% Change in Share'
+from dbo.States$
+where [Change in Share] > 0
+group by State
+order by [% Change in Share] desc
+
+select * from dbo.States$
+
+--GROUP BY STATE, BABY BOOMERS WITH POSITIVE JOB CHANGE
+select State, sum([Job Change]) as 'Positive Job Change'
+from dbo.States$
+where Generation = 'Baby Boomer' and [Job Change] > 0
+group by State
+order by [Positive Job Change] desc
+
+--GROUP BY STATE, BABY BOOMERS WITH NEGATIVE JOB CHANGE
+select State, sum([Job Change]) as 'Negative Job Change'
+from dbo.States$
+where Generation = 'Baby Boomer' and [Job Change] < 0
+group by State
+order by [Negative Job Change] desc
+
+--GROUP BY STATE, BABY BOOMERS WITH % POSITIVE JOB CHANGE
+select State, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.States$
+where Generation = 'Baby Boomer' and [% Job Change] > 0
+group by State
+order by [% Positive Job Change] desc
+
+--GROUP BY STATE, BABY BOOMERS WITH % NEGATIVE JOB CHANGE
+select State, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from dbo.States$
+where Generation = 'Baby Boomer' and [% Job Change] < 0
+group by State
+order by [% Negative Job Change] 
+
+select * from dbo.States$
+
+--GROUP BY STATE, MILLENNIALS WITH POSITIVE JOB CHANGE
+select State, sum([Job Change]) as 'Positive Job Change'
+from dbo.States$
+where Generation = 'Millennial' and [Job Change] > 0
+group by State
+order by [Positive Job Change] desc
+
+--GROUP BY STATE, MILLENNIALS WITH NEGATIVE JOB CHANGE
+select State, sum([Job Change]) as 'Negative Job Change'
+from dbo.States$
+where Generation = 'Millennial' and [Job Change] < 0
+group by State
+order by [Negative Job Change] 
+
+--GROUP BY STATE, MILLENNIALS WITH % POSITIVE JOB CHANGE
+select State, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.States$
+where Generation = 'Millennial' and [% Job Change] > 0
+group by State
+order by [% Positive Job Change] desc
+
+--GROUP BY STATE, MILLENNIALS WITH % NEGATIVE JOB CHANGE
+select State, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from dbo.States$
+where Generation = 'Millennial' and [% Job Change] < 0
+group by State
+order by [% Negative Job Change] 
+
+select * from dbo.['National, 2-digit$']
+
+--GROUP BY GENERATION, OCCUPATION WITH POSITIVE JOB CHANGE
+select Generation, Occupation, sum([Job Change]) as 'Positive Job Change'
+from dbo.['National, 2-digit$']
+where [Job Change] > 0
+group by Generation, Occupation
+order by [Positive Job Change] desc
+
+--GROUP BY GENERATION, OCCUPATION WITH PERCENTAGE POSITIVE JOB CHANGE
+select Generation, Occupation, round(sum([% Job Change])*100,2) as '% Positive Job Change'
+from dbo.['National, 2-digit$']
+where [% Job Change] > 0
+group by Generation, Occupation
+order by [% Positive Job Change] desc
+
+--GROUP BY GENERATION, OCCUPATION WITH NEGATIVE JOB CHANGE
+select Generation, Occupation, sum([Job Change]) as 'Negative Job Change'
+from dbo.['National, 2-digit$']
+where [Job Change] < 0
+group by Generation, Occupation
+order by [Negative Job Change] 
+
+--GROUP BY GENERATION, OCCUPATION WITH PERCENTAGE NEGATIVE JOB CHANGE
+select Generation, Occupation, round(sum([% Job Change])*100,2) as '% Negative Job Change'
+from dbo.['National, 2-digit$']
+where [% Job Change] < 0
+group by Generation, Occupation
+order by [% Negative Job Change] 
+
+--PERCENTAGE SHARE OF JOBS BY GENERATION
+select Generation, sum([2007 Share of All Jobs]) as '2007', sum([2013 Share of All Jobs]) as '2013'
+from dbo.['National, 2-digit$']
+where Generation is not null
+group by Generation
+
+--JOBS BY GENERATION
+select Generation, sum([2007 Jobs]) as '2007', sum([2013 Jobs]) as '2013'
+from dbo.['National, 2-digit$']
+where Generation is not null
+group by Generation
+
+--JOB CHANGE BY GENERATION
+select Generation, sum([Job Change]) as 'Total Job Change'
+from dbo.['National, 2-digit$']
+where Generation is not null
+group by Generation
+
+--PERCENTAGE JOB CHANGE BY GENERATION
+select Generation, sum([% Job Change]) as '% Total Job Change'
+from dbo.['National, 2-digit$']
+where Generation is not null
+group by Generation
+
+--RANK OCCUPATION BY POSITIVE JOB CHANGE
+select Occupation, sum([Job Change]) as 'Positive Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having sum([Job Change]) > 0
+order by [Positive Change] desc
+
+--RANK OCCUPATION BY PERCENTAGE POSITIVE JOB CHANGE
+select Occupation, round(sum([% Job Change]),2) as '% Positive Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having sum([% Job Change]) > 0
+order by [% Positive Change] desc
+
+--RANK OCCUPATION BY AVERAGE POSITIVE JOB CHANGE
+select Occupation, AVG([Job Change]) as 'Average Positive Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having AVG([Job Change]) > 0
+order by [Average Positive Change] desc
+
+--RANK OCCUPATION BY AVERAGE PERCENTAGE POSITIVE JOB CHANGE
+select Occupation, round(AVG([% Job Change]),2) as 'Average % Positive Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having AVG([% Job Change]) > 0
+order by [Average % Positive Change] desc
+
+--RANK OCCUPATION BY NEGATIVE JOB CHANGE
+select Occupation, sum([Job Change]) as 'Negative Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having sum([Job Change]) < 0
+order by [Negative Change] 
+
+--RANK OCCUPATION BY PERCENTAGE NEGATIVE JOB CHANGE
+select Occupation, ROUND(sum([% Job Change])*100, 2) as '% Negative Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having sum([% Job Change]) < 0
+order by [% Negative Change] 
+
+--RANK OCCUPATION BY AVERAGE NEGATIVE JOB CHANGE
+select Occupation, AVG([Job Change]) as 'Average Negative Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having AVG([Job Change]) < 0
+order by [Average Negative Change] 
+
+--RANK OCCUPATION BY AVERAGE NEGATIVE PERCENTAGE JOB CHANGE
+select Occupation, ROUND(AVG([% Job Change]), 2) as 'Average % Negative Change'
+from dbo.['National, 2-digit$']
+where Occupation is not null 
+group by Occupation
+having AVG([% Job Change]) < 0
+order by [Average % Negative Change] 
+
+--DISTINCT OCCUPATION
+select distinct Occupation from dbo.['National, 2-digit$']
+where Occupation is not null
+
+--DISTINCT OCCUPATION COUNT
+select count(distinct Occupation) as 'Occupation Count'
+from dbo.['National, 2-digit$']
+where Occupation is not null
+
+--DISTINCT GENERATION
+select distinct Generation from dbo.['National, 2-digit$']
+where Generation is not null
+
+--DISTINCT GENERATION COUNT
+select count(distinct Generation) from dbo.['National, 2-digit$']
+where Generation is not null
