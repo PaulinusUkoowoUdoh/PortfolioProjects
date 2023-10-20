@@ -2,6 +2,32 @@ use TABLEAU
 
 select * from dbo.wimbledons_champions$
 
+--COUNT OF WINS BY MATCH SETS
+select [Match Sets], count([Match Sets]) as 'Wins count'
+from dbo.wimbledons_champions$
+group by [Match Sets]
+order by [Wins count] desc
+
+--WINNER WITH MOST MATCH SETS
+select Gender, Champion, [Champion Nationality], count([Match Sets])
+from dbo.wimbledons_champions$
+group by Gender, Champion, [Champion Nationality]
+order by count([Match Sets]) desc
+
+--MEN WINNER WITH MOST MATCH SETS
+select Gender, Champion, [Champion Nationality], count([Match Sets])
+from dbo.wimbledons_champions$
+Where Gender = 'Men'
+group by Gender, Champion, [Champion Nationality]
+order by count([Match Sets]) desc
+
+--WOMEN WINNER WITH MOST MATCH SETS
+select Gender, Champion, [Champion Nationality], count([Match Sets])
+from dbo.wimbledons_champions$
+Where Gender = 'Women'
+group by Gender, Champion, [Champion Nationality]
+order by count([Match Sets]) desc
+
 --MALE CHAMPION BY NUMBER OF WINS
 select Champion as 'Men Champion', [Champion Nationality], count(Year) as 'Wimbledon Wins'
 from dbo.wimbledons_champions$
