@@ -1,0 +1,173 @@
+use tableau
+select * from dbo.['Top teams Payroll List$']
+
+--AVERAGE ANNUAL PAY PER PLAYER BY LEAGUE
+select League, sum([Average Annual pay per player]) as 'Average Annual pay per player'
+from dbo.['Top teams Payroll List$']
+group by League
+order by sum([Average Annual pay per player]) desc
+
+--% CHANGE FROM LAST YEAR SURVEY BY LEAGUE
+select League, round(sum([% change from last year's survey ]),1) as '% change from last year survey'
+from dbo.['Top teams Payroll List$']
+group by League
+order by sum([% change from last year's survey ]) desc
+
+--TOTAL PAYROLL BY LEAGUE
+select League, sum([Total Payroll]) as 'Total Payroll' 
+from dbo.['Top teams Payroll List$']
+group by League
+order by sum([Total Payroll]) desc
+
+--AVERAGE PLAYER 5 YEAR EARNINGS BY LEAGUE
+select League, sum([Average player 5 year earnings]) from dbo.['Top teams Payroll List$']
+group by League
+order by sum([Average player 5 year earnings]) desc
+
+--% CHANGE OVER LAST 5 YEARS BY LEAGUE
+select League, [% change over last 5 years] from dbo.['Top teams Payroll List$']
+group by League, [% change over last 5 years]
+order by [% change over last 5 years] desc
+
+--DISTINCT LEAGUES COUNT 
+select count(distinct League) 'League count'
+from dbo.['Top teams Payroll List$']
+
+--DISTINCT LEAGUES 
+select distinct League from dbo.['Top teams Payroll List$']
+
+select * from dbo.['Top teams Payroll List$']
+
+--AVERAGE ANNUAL PAY PER PLAYER BY TEAM
+select Team, sum([Average Annual pay per player]) as 'Average Annual pay per player'
+from dbo.['Top teams Payroll List$']
+group by Team
+order by sum([Average Annual pay per player]) desc
+
+--% CHANGE FROM LAST YEAR SURVEY BY TEAM
+select Team, sum([% change from last year's survey ]) as '% change from last year survey '
+from dbo.['Top teams Payroll List$']
+group by Team
+order by sum([% change from last year's survey ]) desc
+
+--TOTAL PAYROLL BY TEAM
+select Team, sum([Total Payroll]) as 'Total Payroll'
+from dbo.['Top teams Payroll List$']
+group by Team
+order by sum([Total Payroll]) desc
+
+--RANK OF TOTAL PAYROLL BY TEAM
+select Team, sum([Rank of Total Payroll]) as 'Rank of Total Payroll'
+from dbo.['Top teams Payroll List$']
+group by Team
+order by sum([Rank of Total Payroll]) desc
+
+--AVERAGE PLAYER 5 YEAR EARNINGS BY TEAM
+select Team, sum([Average player 5 year earnings]) as 'Average player 5 year earnings'
+from dbo.['Top teams Payroll List$']
+group by Team
+order by sum([Average player 5 year earnings]) desc
+
+--% CHANGE OVER LAST 5 YEARS BY TEAM
+select Team, sum([% change over last 5 years]) as '5-Year % change'
+from dbo.['Top teams Payroll List$']
+group by Team
+order by sum([% change over last 5 years]) desc
+
+--DISTINCT TEAMS
+select distinct Team 'Distinct Teams'
+from dbo.['Top teams Payroll List$']
+where Team is not null
+
+--DISTINCT TEAM COUNT
+select COUNT(distinct Team) 'Count of Teams'
+from dbo.['Top teams Payroll List$']
+where Team is not null
+
+select * from dbo.['Top Athlete Salaries$']
+
+--ATHLETE ENDORSEMENTS ACROSS SPORT
+select Sport, Athlete, [Endorsements]
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and Athlete is not null and [Endorsements] is not null
+group by Sport, Athlete, [Endorsements] 
+order by [Endorsements] desc
+
+--ATHLETE WITH MAXIMUM ENDORSEMENTS ACROSS SPORT 
+--APPLY FILTER AFTERWARDS BY SPORT
+select Sport, Athlete, [Endorsements] 'Max Endorsement'
+from dbo.['Top Athlete Salaries$']
+where [Endorsements] in (select max([Endorsements]) over (partition by Sport) from dbo.['Top Athlete Salaries$'])
+order by [Endorsements] desc
+
+--ATHLETE SALARY/WINNINGS ACROSS SPORT
+select Sport, Athlete, [Salary/Winnings]
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and Athlete is not null and [Salary/Winnings] is not null
+group by Sport, Athlete, [Salary/Winnings] 
+order by [Salary/Winnings] desc
+
+--ATHLETE WITH MAXIMUM SALARY/WINNINGS ACROSS SPORT 
+--APPLY FILTER AFTERWARDS BY SPORT
+select Sport, Athlete, [Salary/Winnings]
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and Athlete is not null and [Salary/Winnings] is not null
+and [Salary/Winnings] in (select max([Salary/Winnings]) over (partition by Sport) from dbo.['Top Athlete Salaries$'])
+order by  [Salary/Winnings] desc
+
+--ATHLETE PAY ACROSS SPORT
+select Sport, Athlete, [2014 Pay]
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and Athlete is not null and [2014 Pay] is not null
+group by Sport, Athlete, [2014 Pay] 
+order by [2014 Pay] desc
+
+--ATHLETE WITH MAXIMUM PAY ACROSS SPORT 
+--APPLY FILTER AFTERWARDS 
+select Sport, Athlete, [2014 Pay] 'Max Pay'
+from dbo.['Top Athlete Salaries$']
+where [2014 Pay] in (select max([2014 Pay]) over(partition by Sport) from dbo.['Top Athlete Salaries$'])
+order by [2014 Pay] desc
+
+--TOTAL ENDORSEMENTS BY SPORT
+select Sport, sum([Endorsements]) as 'Total Endorsements'
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and [Endorsements] is not null
+group by Sport
+order by [Total Endorsements] desc
+
+--TOTAL SALARY/WINNINGS BY SPORT
+select Sport, sum([Salary/Winnings]) as 'Total Salary/Winnings'
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and [Salary/Winnings] is not null
+group by Sport
+order by [Total Salary/Winnings] desc
+
+--TOTAL 2014 PAY BY SPORT
+select Sport, sum([2014 Pay]) as 'Total Pay'
+from dbo.['Top Athlete Salaries$']
+where Sport is not null and [2014 Pay] is not null
+group by Sport
+order by [Total Pay] desc
+
+--DISTINCT ATHLETE
+select Athlete from dbo.['Top Athlete Salaries$']
+where Athlete is not null
+
+--DISTINCT ATHLETE COUNT
+select count(Athlete) 'Number of Athletes'
+from dbo.['Top Athlete Salaries$']
+where Athlete is not null
+
+--DISTINCT SPORT
+select distinct Sport from dbo.['Top Athlete Salaries$']
+where Sport is not null
+
+--DISTINCT SPORT COUNT
+select count(distinct Sport) 'Distinct Sports count'
+from dbo.['Top Athlete Salaries$']
+where Sport is not null
+
+
+
+
