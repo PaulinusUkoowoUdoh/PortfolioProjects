@@ -1,0 +1,67 @@
+use TABLEAU
+
+select * from dbo.['U#S# Home Sales, 1963-2016$']
+
+--VALUATION BY GEOGRAPHY LOCATION
+select [geo_desc] as 'Location', sum(val) as 'Valuation' 
+from dbo.['U#S# Home Sales, 1963-2016$']
+group by [geo_desc]
+order by [Valuation] desc
+
+--DESCRIPTION BY VALUATION
+select [dt_desc], sum([val]) as 'Valuation'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where [dt_desc] is not null
+group by [dt_desc]
+order by [Valuation] desc
+
+--DESCRIPTION BY COUNT
+select [dt_desc], count([dt_desc]) as 'Count'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where [dt_desc] is not null
+group by [dt_desc]
+order by [Count] desc
+
+--DESCRIPTION CODE BY COUNT
+select [dt_code], count([dt_code]) as 'Count'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where [dt_code] is not null
+group by [dt_code]
+order by [Count] desc
+
+--CATEGORY CODE BY COUNT
+select [cat_code], count([cat_code]) as 'Count'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where [cat_code] is not null
+group by [cat_code]
+order by [Count] desc
+
+--CATEGORY CODE BY VALUATION
+select [cat_code], SUM([val]) as 'Valuation'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where [cat_code] is not null
+group by [cat_code]
+order by [Valuation] desc
+
+--CATEGORY BY COUNT
+select cat_idx, cat_desc, count([cat_desc]) as 'Count'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where cat_idx is not null and  cat_desc is not null
+group by cat_idx, cat_desc
+order by [Count] desc
+
+--CATEGORY BY VALUATION
+select cat_idx, cat_desc, sum(val) as 'Valuation'
+from dbo.['U#S# Home Sales, 1963-2016$']
+where cat_idx is not null and  cat_desc is not null
+group by cat_idx, cat_desc
+order by [Valuation] desc
+
+--VALUATION BY DATE
+select cast(date as date) as Date,
+sum(val) as 'Valuation'
+from dbo.['U#S# Home Sales, 1963-2016$']
+group by date
+order by date
+
+

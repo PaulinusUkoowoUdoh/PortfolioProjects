@@ -1,0 +1,33 @@
+USE TABLEAU
+
+select * from dbo.['U#S# Construction Spending, by $']
+
+--DISTINCT CATEGORY DESCRIPTION
+select distinct [cat description] from dbo.['U#S# Construction Spending, by $']
+
+--DISTINCT DT DESCRIPTION
+select distinct [dt_desc] from dbo.['U#S# Construction Spending, by $']
+where dt_desc is not null
+
+--DESCRIPTION BY VALUATION
+select dt_code, [dt_desc], sum(val) as 'Valuation'
+from dbo.['U#S# Construction Spending, by $']
+where dt_code is not null and [dt_desc] is not null and val is not null
+group by dt_code, [dt_desc]
+order by [Valuation] desc
+
+--CATEGORY BY VALUATION
+select cat_idx, [cat description], sum(val) as 'Valuation'
+from dbo.['U#S# Construction Spending, by $']
+where cat_idx is not null and [cat description] is not null and val is not null
+group by cat_idx, [cat description]
+order by [Valuation] desc
+
+--VALUATION BY DATE
+select cast(date as date)  as 'Date', 
+sum(val) as 'Valuation'
+from dbo.['U#S# Construction Spending, by $']
+group by date
+order by date
+
+

@@ -1,0 +1,69 @@
+use TABLEAU
+
+select * from dbo.[Total_cleaned$]
+
+--NLULUCF NET EMISSIONS BY CITY
+select [Name of City], round(sum([N# LULUCF Net Emissions]),2) as 'NLULUCF Net Emissions'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [NLULUCF Net Emissions] desc
+
+-- TRANSPORT EMISSIONS BY CITY
+select [Name of City], round(sum([Transport]),2) as 'Transport'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [Transport] desc
+
+-- DOMESTIC EMISSIONS BY CITY
+select [Name of City], round(sum([Domestic]),2) as 'Domestic'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [Domestic] desc
+
+-- INDUSTRY AND COMMERCIAL EMISSIONS BY CITY
+select [Name of City], round(sum([Industry and Commercial]),2) as 'Industry and Commercial'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [Industry and Commercial] desc
+
+-- POPULATION SIZE BY CITY
+select [Name of City], round(sum([Population]),0) as 'Population'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [Population] desc
+
+-- PER CAPITAL EMISSIONS BY CITY
+select [Name of City], round(sum([Per Capita Emissions]),2) as 'Per Capita Emissions'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [Per Capita Emissions] desc
+
+-- TOTAL EMISSIONS BY CITY
+select [Name of City], round(sum([Grand Total]),2) as 'Total Emissions'
+from dbo.[Total_cleaned$]
+group by [Name of City]
+order by [Total Emissions] desc
+
+--ANNUAL TREND OF PER CAPITA EMMISSIONS AND POPULATION
+select Year, 
+round(sum(Population),0) as 'Population', 
+round(sum([Grand Total]),2) as 'Per Capita Emmissions'
+from dbo.[Total_cleaned$]
+group by Year
+order by Year
+
+--HEADLINE
+select ROUND(sum([Industry and Commercial]),2) as 'Industry and Commercial',
+ROUND(sum([Domestic]),2) as 'Domestic',
+ROUND(sum([Transport]),2) as 'Transport',
+ROUND(sum([N# LULUCF Net Emissions]),2) as 'NLULUCF Net Emissions',
+ROUND(sum([Per Capita Emissions]),2) as 'Per Capita Emissions'
+from dbo.[Total_cleaned$]
+
+--ANNUAL TREND OF TOTAL EMMISSIONS AND POPULATION
+select Year, 
+ROUND(sum(Population),0) as 'Population', 
+round(sum([Grand Total]),2) as 'Total Emmissions'
+from dbo.[Total_cleaned$]
+group by Year
+order by Year
