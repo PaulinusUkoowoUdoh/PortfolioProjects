@@ -1,0 +1,237 @@
+use TABLEAU
+
+select * from dbo.volerup$
+
+alter table volerup$
+drop column [Associated Tsunami?], [Associated Earthquake?]
+
+alter table volerup$
+drop column [Month], [Day]
+
+delete from volerup$
+where Year is NULL
+
+--ANNUAL TREND OF TOTAL DEATHS 
+select Year, 
+isnull(sum(cast([DEATHS] as int)),0) as 'Deaths', 
+isnull(sum(cast([TOTAL_DEATHS] as int)),0) as 'Total Deaths' 
+from dbo.volerup$
+group by Year
+order by Year
+
+--ANNUAL TREND OF TOTAL MISSING 
+select Year, 
+isnull(sum(cast([MISSING] as int)),0) as 'Missing', 
+isnull(sum(cast([TOTAL_MISSING] as int)),0) as 'Total Missing' 
+from dbo.volerup$
+group by Year
+order by Year
+
+--ANNUAL TREND OF TOTAL INJURIES 
+select Year, 
+isnull(sum(cast([INJURIES] as int)),0) as 'Injuries', 
+isnull(sum(cast([TOTAL_INJURIES] as int)),0) as 'Total Injuries' 
+from dbo.volerup$
+group by Year
+order by Year
+
+--ANNUAL TREND OF TOTAL DAMAGES IN MILLION DOLLARS 
+select Year, 
+isnull(sum(cast([DAMAGE_MILLIONS_DOLLARS] as float)),0) as 'Damages (Million USD)', 
+isnull(sum(cast([TOTAL_DAMAGE_MILLIONS_DOLLARS] as float)),0) as 'Total Damages (Million USD)' 
+from dbo.volerup$
+group by Year
+order by Year
+
+--ANNUAL TREND OF TOTAL HOUSES DESTROYED
+select Year, 
+isnull(sum(cast([HOUSES_DESTROYED] as float)),0) as 'Houses Destroyed',
+isnull(sum(cast([TOTAL_HOUSES_DESTROYED] as float)),0) as 'Total Houses Destroyed' 
+from dbo.volerup$
+group by Year
+order by Year
+
+--TOTAL HOUSES DESTROYED BY COUNTRY
+select Country, isnull(sum(cast([TOTAL_HOUSES_DESTROYED] as float)),0) as 'Total Houses Destroyed' 
+from dbo.volerup$
+group by Country
+order by [Total Houses Destroyed] desc
+
+--HOUSES DESTROYED BY COUNTRY
+select Country, isnull(sum(cast([HOUSES_DESTROYED] as float)),0) as 'Houses Destroyed' 
+from dbo.volerup$
+group by Country
+order by [Houses Destroyed] desc
+
+--TOTAL DAMAGES IN MILLION DOLLARS BY COUNTRY
+select Country, isnull(sum(cast([TOTAL_DAMAGE_MILLIONS_DOLLARS] as float)),0) as 'Total Damages (Million USD)' 
+from dbo.volerup$
+group by Country
+order by [Total Damages (Million USD)] desc
+
+
+--DAMAGES IN MILLION DOLLARS BY COUNTRY
+select Country, isnull(sum(cast([DAMAGE_MILLIONS_DOLLARS] as float)),0) as 'Damages (Million USD)' 
+from dbo.volerup$
+group by Country
+order by [Damages (Million USD)] desc
+
+--TOTAL INJURIES BY COUNTRY
+select Country, isnull(sum(cast([TOTAL_INJURIES] as int)),0) as 'Total Injuries' 
+from dbo.volerup$
+group by Country
+order by [Total Injuries] desc
+
+--INJURIES BY COUNTRY
+select Country, isnull(sum(cast([INJURIES] as int)),0) as 'Injuries' 
+from dbo.volerup$
+group by Country
+order by [Injuries] desc
+
+--TOTAL MISSING BY COUNTRY
+select Country, isnull(sum(cast([TOTAL_MISSING] as int)),0) as 'Total Missing' 
+from dbo.volerup$
+group by Country
+order by [Total Missing] desc
+
+--MISSING BY COUNTRY
+select Country, isnull(sum(cast(MISSING as int)),0) as 'Missing' from dbo.volerup$
+group by Country
+order by [Missing] desc
+
+--TOTAL DEATHS BY COUNTRY
+select Country, isnull(sum(cast([TOTAL_DEATHS] as int)),0) as 'Total Deaths' 
+from dbo.volerup$
+group by Country
+order by [Total Deaths] desc
+
+--DEATHS BY COUNTRY
+select Country, isnull(sum(cast(DEATHS as int)),0) as 'Deaths' from dbo.volerup$
+group by Country
+order by [Deaths] desc
+
+--VOLCANO EXPLOSIVITY INDEX BY STATUS
+select Status, round(avg([Volcano Explosivity Index (VEI)]),2) as 'Average VEI'
+from volerup$
+where Status is not null
+group by Status
+order by [Average VEI] desc
+
+--VOLCANO EXPLOSIVITY INDEX BY TYPE
+select Type, round(avg([Volcano Explosivity Index (VEI)]),2) as 'Average VEI'
+from volerup$
+where Type is not null
+group by Type
+order by [Average VEI] desc
+
+--VOLCANO EXPLOSIVITY INDEX BY COUNTRY
+select Country, round(avg([Volcano Explosivity Index (VEI)]),2) as 'Average VEI'
+from volerup$
+where Country is not null
+group by Country
+order by [Average VEI] desc
+
+--VOLCANO EXPLOSIVITY INDEX BY LOCATION
+select Location, round(avg([Volcano Explosivity Index (VEI)]),2) as 'Average VEI'
+from volerup$
+where Location is not null
+group by Location
+order by [Average VEI] desc
+
+--VOLCANO EXPLOSIVITY INDEX BY NAME
+select Name, round(avg([Volcano Explosivity Index (VEI)]),2) as 'Average VEI'
+from volerup$
+where Name is not null
+group by Name
+order by [Average VEI] desc
+
+--STATUS BY COUNTRY
+select Country, Status, count(Status) as 'Count' from dbo.volerup$
+group by Country, Status
+order by [Count] desc
+
+--STATUS BY LOCATION
+select Location, Status, count(Status) as 'Count' from dbo.volerup$
+group by Location, Status
+order by [Count] desc
+
+--STATUS BY NAME
+select Name, Status, count(Status) as 'Count' from dbo.volerup$
+group by Name, Status
+order by [Count] desc
+
+--DISTINCT TYPES BY COUNTRIES
+select Country, Type, count(Type) as 'Count'
+from dbo.volerup$
+group by Country, Type
+order by [Count] desc
+
+--DISTINCT TYPES BY LOCATION
+select Location, Type, count(Type) as 'Count'
+from dbo.volerup$
+group by Location, Type
+order by [Count] desc
+
+--DISTINCT TYPES BY NAME
+select Name, Type, count(Type) as 'Count'
+from dbo.volerup$
+group by Name, Type
+order by [Count] desc
+
+--ANNUAL TREND OF INCIDENTS 
+select Year, count(Country)
+from dbo.volerup$
+group by Year, Country
+order by Year
+
+--ELEVATION BY GEOGRAPHICAL LOCATION
+select Country, ROUND(AVG(Elevation),2) as 'Elevation'
+from dbo.volerup$
+group by Country
+order by Elevation desc
+
+--COUNT OF INCIDENTS BY NAMES
+select distinct Name, COUNT(Name) as 'Incidents' 
+from volerup$
+group by Name
+order by [Incidents] desc
+
+--INCIDENTS BY LOCATIONS
+select distinct Location as 'Distinct Locations',
+count(Location) as 'Incidents'
+from volerup$
+group by Location
+order by [Incidents] desc
+
+--DISTINCT LOCATION COUNT
+select COUNT(distinct Location) as 'Count of Distinct Location' 
+from volerup$
+
+--INCIDENTS BY COUNTRY
+select distinct Country as 'Distinct Countries',
+count(Country) as Incidents
+from volerup$
+group by Country
+order by Incidents desc
+
+--INCIDENTS BY DISTINCT TYPE
+select distinct Type as 'Distinct Types',
+count(Distinct Type) as Incidents
+from volerup$
+group by Type
+order by Incidents desc
+
+--DISTINCT TYPE COUNT
+select count(distinct Type) as 'Count of Distinct Types'
+from volerup$
+
+--INCIDENTS BY DISTINCT STATUS
+select distinct Status as 'Distinct Status',
+count(Status) as Incidents
+from volerup$
+group by Status
+order by Incidents desc
+
+--COUNT OF DISTINCT STATUS
+select count(distinct Status) as 'Count of Distinct Status'
+from volerup$
