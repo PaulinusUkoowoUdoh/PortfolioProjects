@@ -1,0 +1,100 @@
+use TABLEAU
+
+select * from dbo.query$
+
+alter table  query$
+drop column time, gap, dmin, rms
+
+--AVERAGE DEPTH BY LOCATION
+select place as Place, round(avg(depth),2) as 'Average Depth'
+from dbo.query$
+where depth is not null
+group by place
+order by [Average Depth] desc
+
+--6+ MAGNITUDE INCIDENTS BY LOCATION
+select place as Place, count(place) as '6+ Incidents'
+from dbo.query$
+where mag > = 6 and mag < 7
+group by place
+order by [6+ Incidents] desc
+
+--TREND OF 6+ MAGNITUDE
+select year(Date) as Year, count(place) as 'Incidents'
+from dbo.query$
+where mag > = 6 and mag < 7
+group by year(Date)
+order by year(Date)
+
+--7+ MAGNITUDE INCIDENTS BY LOCATION
+select place as Place, count(place) as '7+ Incidents'
+from dbo.query$
+where mag > = 7 and mag < 8
+group by place
+order by [7+ Incidents] desc
+
+--TREND OF 7+ MAGNITUDE
+select year(Date) as Year, count(place) as 'Incidents'
+from dbo.query$
+where mag > = 7 and mag < 8
+group by year(Date)
+order by year(Date)
+
+--8+ MAGNITUDE INCIDENTS BY LOCATION
+select place as Place, count(place) as '8+ Incidents'
+from dbo.query$
+where mag > = 8 and mag < 9
+group by place
+order by [8+ Incidents] desc
+
+--TREND OF 8+ MAGNITUDE
+select year(Date) as Year, count(place) as 'Incidents'
+from dbo.query$
+where mag > = 8 and mag < 9
+group by year(Date)
+order by year(Date)
+
+--9+ MAGNITUDE INCIDENTS BY LOCATION
+select place as Place, count(place) as '9+ Incidents'
+from dbo.query$
+where mag > = 9 
+group by place
+order by [9+ Incidents] desc
+
+--TREND OF 9+ MAGNITUDE
+select year(Date) as Year, count(place) as 'Incidents'
+from dbo.query$
+where mag > = 9 
+group by year(Date)
+order by year(Date)
+
+--ANNUAL TREND OF OCCURRENCE
+select year(Date) Year, count(place) as 'Incidents'
+from dbo.query$
+group by year(Date)
+order by year(Date)
+
+--RECORDED OCCURRENCES BY DATE
+select year(Date) as Year, count(place) as 'Incidents'
+from dbo.query$
+group by Date
+order by [Incidents] desc
+
+--DISTINCT PLACES BY COUNT
+select place as Places, count(place) as 'count'
+from dbo.query$
+group by place
+order by [count] desc
+
+--DISTINCT TYPES COUNT
+select type Type, count(type) as 'count'
+from dbo.query$
+group by type
+order by [count] desc
+
+--DISTINCT MAGNITUDE TYPES
+select mag as 'Magnitude', count(mag) as 'count'
+from dbo.query$
+where mag is not null
+group by mag
+order by [count] desc

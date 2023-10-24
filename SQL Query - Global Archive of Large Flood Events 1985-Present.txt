@@ -1,0 +1,151 @@
+use TABLEAU
+
+select * from dbo.[MasterTable$]
+
+alter table MasterTable$
+drop column Other, F26, F27, F28, F29, F30, F31
+
+alter table MasterTable$
+drop column [Damage (USD)]
+
+--TOTAL ANNUAL FLOOD M>6 BY COUNTRY
+select Country, sum([Total annual floods M>6]) 'Total annual floods M>6'
+from dbo.[MasterTable$]
+group by Country
+order by [Total annual floods M>6] desc
+
+--TOTAL ANNUAL FLOOD M>4 BY COUNTRY
+select Country, sum([Total annual floods M>4]) 'Total annual floods M>4'
+from dbo.[MasterTable$]
+group by Country
+order by [Total annual floods M>4] desc
+
+--TOTAL FLOOD M>6 BY COUNTRY
+select Country, sum([Total floods M>6]) 'Total floods M>6'
+from dbo.[MasterTable$]
+group by Country
+order by [Total floods M>6] desc
+
+--TOTAL FLOOD M>4 BY COUNTRY
+select Country, sum([Total floods M>4]) 'Total floods M>4'
+from dbo.[MasterTable$]
+group by Country
+order by [Total floods M>4] desc
+
+--AFFECTED COUNTRY WITH MAGNITUDE > 6
+select Country, count([M>6]) as 'Magnitude'
+from dbo.[MasterTable$]
+where [M>6] = 1
+group by Country
+order by [Magnitude] desc
+
+--AFFECTED COUNTRY WITH MAGNITUDE < 6
+select Country, count([M>6]) as 'Magnitude'
+from dbo.[MasterTable$]
+where [M>6] = 0
+group by Country
+order by [Magnitude] desc
+
+--AFFECTED COUNTRY WITH MAGNITUDE > 4
+select Country, count([M>6]) as 'Magnitude'
+from dbo.[MasterTable$]
+where [M>4] = 1
+group by Country
+order by [Magnitude] desc
+
+--AFFECTED COUNTRY WITH MAGNITUDE < 4
+select Country, count([M>6]) as 'Magnitude'
+from dbo.[MasterTable$]
+where [M>4] = 0
+group by Country
+order by [Magnitude] desc
+
+
+--EVENTS VALIDATED BY NEWS
+select ["News" if validated], count(["News" if validated]) as 'count'
+from dbo.[MasterTable$]
+where ["News" if validated] is not null
+group by ["News" if validated]
+order by [count] desc
+
+--HIGHEST DURATION IN DAYS BY COUNTRY
+select Country, round(avg([Duration in Days]),2) as 'Average Duration in Days'
+from dbo.[MasterTable$]
+where [Duration in Days] is not null
+group by Country
+order by [Average Duration in Days] desc
+
+--AVERAGE MAGNITUDE BY COUNTRY
+select TRIM(Country) as 'Country', round(AVG([Magnitude (M)**]),2) as 'Average Magnitude'
+from dbo.[MasterTable$]
+where [Magnitude (M)**] is not null
+group by Country
+order by [Average Magnitude] desc
+
+--AVERAGE AFFECTED AREA BY COUNTRY
+select TRIM(Country) as 'Country', round(AVG([Affected sq km]),2) as 'Average Affected Area'
+from dbo.[MasterTable$]
+where [Affected sq km] is not null
+group by Country
+order by [Average Affected Area] desc
+
+--TOTAL AFFECTED AREA BY COUNTRY
+select TRIM(Country) as 'Country', round(sum([Affected sq km]),2) as 'Total Affected Area'
+from dbo.[MasterTable$]
+where [Affected sq km] is not null
+group by Country
+order by [Total Affected Area] desc
+
+--DISTINCT SEVERITY
+select [Severity *], count([Severity *]) as 'count'
+from dbo.[MasterTable$]
+where [Severity *] is not null
+group by [Severity *]
+order by [count] desc
+
+--SEVERITY BY COUNTRY
+select Country, [Severity *], count([Severity *]) as 'count'
+from dbo.[MasterTable$]
+where [Severity *] is not null
+group by Country, [Severity *]
+order by [Severity *] desc, [count] desc
+
+--DISPLACED BY COUNTRY
+select Country, sum(Displaced) as 'Displaced'
+from dbo.[MasterTable$]
+group by Country
+order by [Displaced] desc
+
+--FATALITIES BY COUNTRY
+select Country, sum(Dead) as 'Fatalities'
+from dbo.[MasterTable$]
+group by Country
+order by [Fatalities] desc
+
+--DISTINCT MAIN CAUSES BY COUNT
+select [Main Cause], count([Main Cause]) as 'count'
+from dbo.[MasterTable$]
+where [Main Cause] <> '0' and [Main Cause] <> '#N/A' 
+group by [Main Cause]
+order by [count] desc
+
+--DISTINCT COUNTRY BY COUNT
+select Country, count([Detailed Locations]) as 'Locations'
+from dbo.[MasterTable$]
+where Country is not null and [Detailed Locations] is not null
+group by Country
+order by [Locations] desc
+
+--DISTINCT DETAILED LOCATIONS BY COUNT
+select [Detailed Locations], count([Detailed Locations]) as 'count'
+from dbo.[MasterTable$]
+where [Detailed Locations] is not null and [Detailed Locations] <> '0'
+group by [Detailed Locations]
+order by [count] desc
+
+--DISTINCT VALIDATION OF POST EVENTS BY COUNT
+select [Validation (post event #3503)], count([Validation (post event #3503)]) as 'count'
+from dbo.[MasterTable$]
+where [Validation (post event #3503)] is not null
+group by [Validation (post event #3503)]
+order by [count] desc
