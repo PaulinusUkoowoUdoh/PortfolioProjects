@@ -1,0 +1,77 @@
+use tableau
+
+select * from dbo.['Cats and Dogs$']
+
+--TOTAL HOUSEHOLDS VS HOUSEHOLDS WITH PETS
+select sum([Number of Households (in 1000)]) as 'Total Households',
+sum([Number of Pet Households (in 1000)]) as 'Households with Pets'
+from dbo.['Cats and Dogs$']
+
+--DOG OWNING HOUSEHOLDS VS CAT OWNING HOUSEHOLDS
+select sum([Dog Owning Households (1000s)]) as 'Dog Owning Households',
+sum([Cat Owning Households]) as 'Cat Owning Households'
+from dbo.['Cats and Dogs$']
+
+--TOTAL DOG POPULATION VS TOTAL CAT POPULATION
+select sum([Dog Population (in 1000)]) as 'Total Dog Population',
+sum([Cat Population]) as 'Total Cat Population'
+from dbo.['Cats and Dogs$']
+
+--CAT OWNING HOUSEHOLDS BY LOCATION
+select Location, [Cat Owning Households]
+from dbo.['Cats and Dogs$']
+order by [Cat Owning Households] desc
+
+--PERCENTAGE OF CAT OWNERS BY LOCATION
+select Location, [Percentage of Cat Owners]
+from dbo.['Cats and Dogs$']
+order by [Percentage of Cat Owners] desc
+
+
+--MEAN NUMBER OF CATS BY LOCATION
+select Location, [Mean Number of Cats]
+from dbo.['Cats and Dogs$']
+order by [Mean Number of Cats] desc
+
+--MEAN NUMBER OF DOGS PER HOUSEHOLD BY LOCATION
+select Location, [Mean Number of Dogs per household]
+from dbo.['Cats and Dogs$']
+order by [Mean Number of Dogs per household] desc
+
+
+--DOG OWNING HOUSEHOLDS BY LOCATION
+select Location, [Dog Owning Households (1000s)]
+from dbo.['Cats and Dogs$']
+order by [Dog Owning Households (1000s)] desc
+
+
+--PERCENTAGE OF DOG OWNERS BY LOCATION
+select Location, [Percentage of Dog Owners]
+from dbo.['Cats and Dogs$']
+order by [Percentage of Dog Owners] desc
+
+--NUMBER OF PET HOUSEHOLDS BY LOCATION
+select Location, [Number of Pet Households (in 1000)]
+from dbo.['Cats and Dogs$']
+order by [Number of Pet Households (in 1000)] desc
+
+--PERCENTAGE OF HOUSEHOLDS WITH PETS BY LOCATION
+select Location, [Percentage of households with pets]
+from dbo.['Cats and Dogs$']
+order by [Percentage of households with pets] desc
+
+--NUMBER OF HOUSEHOLDS BY LOCATION
+select Location, [Number of Households (in 1000)]
+from dbo.['Cats and Dogs$']
+order by [Number of Households (in 1000)] desc
+
+--DOG POPULATION BY LOCATION
+select Location, [Dog Population (in 1000)] as 'Dog Population'
+from dbo.['Cats and Dogs$']
+order by [Dog Population] desc
+
+--CAT POPULATION BY LOCATION
+select Location, [Cat Population] as 'Dog Population'
+from dbo.['Cats and Dogs$']
+order by [Cat Population] desc
+

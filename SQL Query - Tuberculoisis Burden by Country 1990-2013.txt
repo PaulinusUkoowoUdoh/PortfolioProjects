@@ -1,0 +1,256 @@
+use tableau
+select * from dbo.['Tuberculosis Burden by Country$']
+
+--AVERAGE CASE DETECTION RATE BY COUNTRY
+select [Country or territory name], 
+round(avg([Case detection rate (all forms), percent]),2) as 'Average Case Detection Rate'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Case Detection Rate] desc
+
+--AVERAGE CASE DETECTION RATE BY REGION
+select [Region], 
+round(avg([Case detection rate (all forms), percent]),2) as 'Average Case Detection Rate'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Region]
+order by [Average Case Detection Rate] desc
+
+select * from dbo.['Tuberculosis Burden by Country$']
+
+--ANNUAL TREND OF POPULATION
+select Year, 
+sum([Estimated total population number]) as 'Estimated Population'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+select * from dbo.['Tuberculosis Burden by Country$']
+
+--ANNUAL TREND OF ESTIMATED PREVALENCE (ALL FORMS)/100,000
+select Year, 
+sum([Estimated prevalence of TB (all forms) per 100 000 population]) as 'Estimated Prevalence/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE ESTIMATED PREVALENCE (ALL FORMS)/100,000 BY COUNTRY
+select [Country or territory name], 
+round(AVG([Estimated prevalence of TB (all forms) per 100 000 population]),2) as 'Average Estimated Prevalence/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Prevalence/100,000] desc
+
+--AVERAGE ESTIMATED PREVALENCE (ALL FORMS)/100,000 BY REGION
+select Region, 
+round(AVG([Estimated prevalence of TB (all forms) per 100 000 population]),2) as 'Average Estimated Prevalence/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Prevalence/100,000] desc
+
+
+--ANNUAL TREND OF ESTIMATED PREVALENCE (ALL FORMS)
+select Year, 
+sum([Estimated prevalence of TB (all forms)]) as 'Estimated Prevalence (All Forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE ESTIMATED PREVALENCE (ALL FORMS) BY COUNTRY
+select [Country or territory name], 
+round(avg([Estimated prevalence of TB (all forms)]),2) as 'Average Estimated Prevalence (All Forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Prevalence (All Forms)] desc
+
+--AVERAGE ESTIMATED PREVALENCE (ALL FORMS) BY REGION
+select Region, 
+round(avg([Estimated prevalence of TB (all forms)]),2) as 'Average Estimated Prevalence (All Forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Prevalence (All Forms)] desc
+
+--ANNUAL TREND OF ESTIMATED MORTALITY (ALL FORMS, EXCLUDING HIV) /100,000
+select Year, 
+sum([Estimated mortality of TB cases (all forms, excluding HIV) per 1]) as 'Estimated Mortality/100,000 (All Forms, Excluding HIV)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE ESTIMATED MORTALITY (ALL FORMS, EXCLUDING HIV) /100,000 BY COUNTRY
+select [Country or territory name], 
+round(avg([Estimated mortality of TB cases (all forms, excluding HIV) per 1]),2) as 'Average Estimated Mortality/100,000 (All Forms, Excluding HIV)'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Mortality/100,000 (All Forms, Excluding HIV)] DESC
+
+--AVERAGE ESTIMATED MORTALITY (ALL FORMS, EXCLUDING HIV) /100,000 BY REGION
+select Region, 
+round(avg([Estimated mortality of TB cases (all forms, excluding HIV) per 1]),2) as 'Average Estimated Mortality/100,000 (All Forms, Excluding HIV)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Mortality/100,000 (All Forms, Excluding HIV)] DESC
+
+
+--ANNUAL TREND OF ESTIMATED DEATHS (ALL FORMS, EXCLUDING HIV) 
+select Year, 
+sum([Estimated number of deaths from TB (all forms, excluding HIV)]) as 'Estimated Deaths from TB (All Forms, Excluding HIV)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE ESTIMATED DEATHS (ALL FORMS, EXCLUDING HIV) BY COUNTRY
+select [Country or territory name], 
+ROUND(AVG([Estimated number of deaths from TB (all forms, excluding HIV)]),2) as 'Average Estimated Deaths from TB (All Forms, Excluding HIV)'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Deaths from TB (All Forms, Excluding HIV)] desc
+
+--AVERAGE ESTIMATED DEATHS (ALL FORMS, EXCLUDING HIV) BY REGION
+select Region, 
+ROUND(AVG([Estimated number of deaths from TB (all forms, excluding HIV)]),2) as 'Average Estimated Deaths from TB (All Forms, Excluding HIV)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Deaths from TB (All Forms, Excluding HIV)] desc
+
+
+--ANNUAL TREND OF MORTALITY + HIV/100,000
+select Year, 
+sum([Estimated mortality of TB cases who are HIV-positive, per 100 00]) as 'Estimated Mortality + HIV/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE MORTALITY + HIV/100,000 BY COUNTRY
+select [Country or territory name], 
+ROUND(AVG([Estimated mortality of TB cases who are HIV-positive, per 100 00]),2) as 'Average Estimated Mortality + HIV/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Mortality + HIV/100,000] desc
+
+--AVERAGE MORTALITY + HIV/100,000 BY REGION
+select Region, 
+ROUND(AVG([Estimated mortality of TB cases who are HIV-positive, per 100 00]),2) as 'Average Estimated Mortality + HIV/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Mortality + HIV/100,000] desc
+
+
+--ANNUAL TREND OF DEATHS FROM TUBERCULOISIS + HIV
+select Year, 
+sum([Estimated number of deaths from TB in people who are HIV-positiv]) as 'Estimated Deaths + HIV'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE DEATHS FROM TUBERCULOISIS + HIV BY COUNTRY
+select [Country or territory name], 
+ROUND(AVG([Estimated number of deaths from TB in people who are HIV-positiv]),2) as 'Average Estimated Deaths + HIV'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Deaths + HIV] desc
+
+--AVERAGE DEATHS FROM TUBERCULOISIS + HIV BY REGION
+select Region, 
+ROUND(AVG([Estimated number of deaths from TB in people who are HIV-positiv]),2) as 'Average Estimated Deaths + HIV'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Deaths + HIV] desc
+
+
+--ANNUAL TREND OF INCIDENCE (ALL FORMS)/100,000
+select Year, 
+sum([Estimated incidence (all forms) per 100 000 population]) as 'Estimated incidence (all forms)/100 000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE INCIDENCE (ALL FORMS)/100,000 BY COUNTRY
+select [Country or territory name], 
+round(avg([Estimated incidence (all forms) per 100 000 population]),2) as 'Average Estimated incidence (all forms)/100 000'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated incidence (all forms)/100 000] desc
+
+--AVERAGE INCIDENCE (ALL FORMS)/100,000 BY REGION
+select Region, 
+round(avg([Estimated incidence (all forms) per 100 000 population]),2) as 'Average Estimated incidence (all forms)/100 000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated incidence (all forms)/100 000] desc
+
+--ANNUAL TREND OF INCIDENCE (ALL FORMS)
+select Year, 
+sum([Estimated number of incident cases (all forms)]) as 'Estimated number of incidence (all forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE TREND OF INCIDENCE (ALL FORMS) BY COUNTRY
+select [Country or territory name], 
+ROUND(AVG([Estimated number of incident cases (all forms)]),2) as 'Average Estimated number of incidence (all forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated number of incidence (all forms)] desc
+
+--AVERAGE TREND OF INCIDENCE (ALL FORMS) BY REGION
+select Region, 
+ROUND(AVG([Estimated number of incident cases (all forms)]),2) as 'Average Estimated number of incidence (all forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated number of incidence (all forms)] desc
+
+
+--ANNUAL TREND OF INCIDENCE + HIV/100,000
+select Year, 
+sum([Estimated incidence of TB cases who are HIV-positive per 100 000]) as 'Estimated Incidence + HIV/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE INCIDENCE + HIV/100,000 BY COUNTRY
+select [Country or territory name], 
+ROUND(AVG([Estimated incidence of TB cases who are HIV-positive per 100 000]),2) as 'Average Estimated Incidence + HIV/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Incidence + HIV/100,000] desc
+
+--AVERAGE INCIDENCE + HIV/100,000 BY REGION
+select Region, 
+ROUND(AVG([Estimated incidence of TB cases who are HIV-positive per 100 000]),2) as 'Average Estimated Incidence + HIV/100,000'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Incidence + HIV/100,000] desc
+
+
+--ANNUAL TREND OF INCIDENCE + HIV
+select Year, 
+sum([Estimated incidence of TB cases who are HIV-positive]) as 'Estimated Incidence + HIV'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+--AVERAGE INCIDENCE + HIV BY COUNTRY
+select [Country or territory name], 
+ROUND(AVG([Estimated incidence of TB cases who are HIV-positive]),2) as 'Average Estimated Incidence + HIV'
+from dbo.['Tuberculosis Burden by Country$']
+group by [Country or territory name]
+order by [Average Estimated Incidence + HIV] desc
+
+--AVERAGE INCIDENCE + HIV BY REGION
+select Region, 
+ROUND(AVG([Estimated incidence of TB cases who are HIV-positive]),2) as 'Average Estimated Incidence + HIV'
+from dbo.['Tuberculosis Burden by Country$']
+group by Region
+order by [Average Estimated Incidence + HIV] desc
+
+
+--ANNUAL TREND OF CASE DETECTION RATE (ALL FORMS)
+select Year, 
+SUM([Case detection rate (all forms), percent]) as 'Sum of Case detection rate (all forms)',
+AVG([Case detection rate (all forms), percent]) as 'Average Case detection rate (all forms)'
+from dbo.['Tuberculosis Burden by Country$']
+group by Year
+order by Year
+
+
+
