@@ -1,0 +1,477 @@
+use TABLEAU
+
+select * from dbo.['U#S# County Health Rankings$']
+
+alter table dbo.['U#S# County Health Rankings$']
+drop column [Measure id], Numerator, Denominator
+
+alter table dbo.['U#S# County Health Rankings$']
+drop column [Confidence Interval Lower Bound], [Confidence Interval Upper Bound], [Data Release Year]
+
+--TOTALS OF CHILDREN IN POVERTY BY COUNTY
+select County, round(sum([Raw value]),2) as 'Children in poverty (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Children in poverty'
+group by County
+order by [Children in poverty (Totals)] desc
+
+--AVERAGE OF CHILDREN IN POVERTY BY COUNTY
+select County, round(avg([Raw value]),2) as 'Children in poverty (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Children in poverty'
+group by County
+order by [Children in poverty (Average)] desc
+
+--TOTALS OF PREMATURE DEATH BY COUNTY
+select County, round(sum([Raw value]),2) as 'Premature Deaths (Total)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Premature Death'
+group by County
+order by [Premature Deaths (Total)] desc
+
+--AVERAGE OF PREMATURE DEATH BY COUNTY
+select County, round(avg([Raw value]),2) as 'Premature Deaths (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Premature Death'
+group by County
+order by [Premature Deaths (Average)] desc
+
+--TOTALS OF UNEMPLOYMENT BY COUNTY
+select County, round(sum([Raw value]),2) as 'Total Unemployment'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Unemployment'
+group by County
+order by [Total Unemployment] desc
+
+--AVERAGE UNEMPLOYMENT BY COUNTY
+select County, round(avg([Raw value]),2) as 'Average Unemployment'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Unemployment'
+group by County
+order by [Average Unemployment] desc
+
+--TOTALS OF DAILY FINE PARTICULATE MATTER BY COUNTY
+select County, round(sum([Raw value]),2) as 'Daily fine particulate matter (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Daily fine particulate matter' 
+group by County
+order by [Daily fine particulate matter (Totals)] desc
+
+--AVERAGE DAILY FINE PARTICULATE MATTER BY COUNTY
+select County, round(avg([Raw value]),2) as 'Daily fine particulate matter (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Daily fine particulate matter' 
+group by County
+order by [Daily fine particulate matter (Average)] desc
+
+--TOTALS OF ADULT OBESITY BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Adult Obesity (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Adult obesity'
+group by County
+order by [Adult Obesity (Totals)] desc
+
+--AVERAGE ADULT OBESITY BY COUNTY
+select County, round(avg([Raw value]),2) as 'Adult Obesity (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Adult obesity'
+group by County
+order by [Adult Obesity (Average)] desc
+
+
+--TOTALS OF VIOLENT CRIME RATE BY COUNTY
+select County, round(sum([Raw value]),2) as 'Violent Crime Rate (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Violent crime rate'
+group by County
+order by [Violent Crime Rate (Totals)] desc
+
+--AVERAGE VIOLENT CRIME RATE BY COUNTY
+select County, round(avg([Raw value]),2) as 'Violent Crime Rate (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Violent crime rate'
+group by County
+order by [Violent Crime Rate (Average)] desc
+
+
+--TOTALS OF PHYSICAL INACTIVITY BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Physical inactivity (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Physical inactivity'
+group by County
+order by [Physical inactivity (Totals)] desc
+
+--AVERAGE PHYSICAL INACTIVITY BY COUNTY
+select County, round(avg([Raw value]),2) as 'Physical inactivity (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Physical inactivity'
+group by County
+order by [Physical inactivity (Average)] desc
+
+--TOTALS OF DIABETIC SCREENING BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Diabetic screening (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Diabetic screening'
+group by County
+order by [Diabetic screening (Totals)] desc
+
+--AVERAGE DIABETIC SCREENING BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Diabetic screening (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Diabetic screening'
+group by County
+order by [Diabetic screening (Average)] desc
+
+--TOTALS OF PREVENTABLE HOSPITAL STAYS BY COUNTY
+select County, round(sum([Raw value]),2) as 'Preventable hospital stays (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Preventable hospital stays'
+group by County
+order by [Preventable hospital stays (Totals)] desc
+
+--AVERAGE PREVENTABLE HOSPITAL STAYS BY COUNTY
+select County, round(avg([Raw value]),2) as 'Preventable hospital stays (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Preventable hospital stays'
+group by County
+order by [Preventable hospital stays (Average)] desc
+
+--TOTALS OF MAMMOGRAPHY SCREENING BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Mammography screening (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Mammography screening'
+group by County
+order by [Mammography screening (Totals)] desc
+
+--AVERAGE MAMMOGRAPHY SCREENING BY COUNTY
+select County, round(avg([Raw value]),2) as 'Mammography screening (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Mammography screening'
+group by County
+order by [Mammography screening (Average)] desc
+
+--TOTALS OF UNINSURED BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Uninsured (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Uninsured'
+group by County
+order by [Uninsured (Totals)] desc
+
+--AVERAGE UNINSURED BY COUNTY
+select County, round(avg([Raw value]),2) as 'Uninsured (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Uninsured'
+group by County
+order by [Uninsured (Average)] desc
+
+--TOTALS OF SEXUALLY TRANSMITTED INFECTIONS BY COUNTY
+select County, round(SUM([Raw value]),2) as 'Sexually transmitted infections (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Sexually transmitted infections'
+group by County
+order by [Sexually transmitted infections (Totals)] desc
+
+--AVERAGE SEXUALLY TRANSMITTED INFECTIONS BY COUNTY
+select County, round(AVG([Raw value]),2) as 'Sexually transmitted infections (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Sexually transmitted infections'
+group by County
+order by [Sexually transmitted infections (Average)] desc
+
+--TOTALS OF CHILDREN IN POVERTY BY STATE
+select State, round(sum([Raw value]),2) as 'Children in poverty (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Children in poverty'
+group by State
+order by [Children in poverty (Totals)] desc
+
+--AVERAGE OF CHILDREN IN POVERTY BY STATE
+select State, round(avg([Raw value]),2) as 'Children in poverty (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Children in poverty'
+group by State
+order by [Children in poverty (Average)] desc
+
+--TOTALS OF PREMATURE DEATH BY STATE
+select State, round(sum([Raw value]),2) as 'Premature Deaths (Total)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Premature Death'
+group by State
+order by [Premature Deaths (Total)] desc
+
+--AVERAGE OF PREMATURE DEATH BY STATE
+select State, round(avg([Raw value]),2) as 'Premature Deaths (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Premature Death'
+group by State
+order by [Premature Deaths (Average)] desc
+
+--TOTALS OF UNEMPLOYMENT BY STATE
+select State, round(sum([Raw value]),2) as 'Total Unemployment'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Unemployment'
+group by State
+order by [Total Unemployment] desc
+
+--AVERAGE UNEMPLOYMENT BY STATE
+select State, round(avg([Raw value]),2) as 'Average Unemployment'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Unemployment'
+group by State
+order by [Average Unemployment] desc
+
+--TOTALS OF DAILY FINE PARTICULATE MATTER BY STATE
+select State, round(sum([Raw value]),2) as 'Daily fine particulate matter (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Daily fine particulate matter' 
+group by State
+order by [Daily fine particulate matter (Totals)] desc
+
+--AVERAGE DAILY FINE PARTICULATE MATTER BY STATE
+select State, round(avg([Raw value]),2) as 'Daily fine particulate matter (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Daily fine particulate matter' 
+group by State
+order by [Daily fine particulate matter (Average)] desc
+
+--TOTALS OF ADULT OBESITY BY STATE
+select State, round(SUM([Raw value]),2) as 'Adult Obesity (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Adult obesity'
+group by State
+order by [Adult Obesity (Totals)] desc
+
+--AVERAGE ADULT OBESITY BY STATE
+select State, round(avg([Raw value]),2) as 'Adult Obesity (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Adult obesity'
+group by State
+order by [Adult Obesity (Average)] desc
+
+--TOTALS OF VIOLENT CRIME RATE BY STATE
+select State, round(sum([Raw value]),2) as 'Violent Crime Rate (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Violent crime rate'
+group by State
+order by [Violent Crime Rate (Totals)] desc
+
+--AVERAGE VIOLENT CRIME RATE BY STATE
+select State, round(avg([Raw value]),2) as 'Violent Crime Rate (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Violent crime rate'
+group by State
+order by [Violent Crime Rate (Average)] desc
+
+--TOTALS OF PHYSICAL INACTIVITY BY STATE
+select State, round(SUM([Raw value]),2) as 'Physical inactivity (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Physical inactivity'
+group by State
+order by [Physical inactivity (Totals)] desc
+
+--AVERAGE PHYSICAL INACTIVITY BY STATE
+select State, round(avg([Raw value]),2) as 'Physical inactivity (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Physical inactivity'
+group by State
+order by [Physical inactivity (Average)] desc
+
+--TOTALS OF DIABETIC SCREENING BY STATE
+select State, round(SUM([Raw value]),2) as 'Diabetic screening (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Diabetic screening'
+group by State
+order by [Diabetic screening (Totals)] desc
+
+--AVERAGE DIABETIC SCREENING BY STATE
+select State, round(SUM([Raw value]),2) as 'Diabetic screening (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Diabetic screening'
+group by State
+order by [Diabetic screening (Average)] desc
+
+--TOTALS OF PREVENTABLE HOSPITAL STAYS BY STATE
+select State, round(sum([Raw value]),2) as 'Preventable hospital stays (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Preventable hospital stays'
+group by State
+order by [Preventable hospital stays (Totals)] desc
+
+--AVERAGE PREVENTABLE HOSPITAL STAYS BY STATE
+select State, round(avg([Raw value]),2) as 'Preventable hospital stays (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Preventable hospital stays'
+group by State
+order by [Preventable hospital stays (Average)] desc
+
+--TOTALS OF MAMMOGRAPHY SCREENING BY STATE
+select State, round(SUM([Raw value]),2) as 'Mammography screening (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Mammography screening'
+group by State
+order by [Mammography screening (Totals)] desc
+
+--AVERAGE MAMMOGRAPHY SCREENING BY STATE
+select State, round(avg([Raw value]),2) as 'Mammography screening (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Mammography screening'
+group by State
+order by [Mammography screening (Average)] desc
+
+--TOTALS OF UNINSURED BY STATE
+select State, round(SUM([Raw value]),2) as 'Uninsured (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Uninsured'
+group by State
+order by [Uninsured (Totals)] desc
+
+--AVERAGE UNINSURED BY STATE
+select State, round(avg([Raw value]),2) as 'Uninsured (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Uninsured'
+group by State
+order by [Uninsured (Average)] desc
+
+--TOTALS OF SEXUALLY TRANSMITTED INFECTIONS BY STATE
+select State, round(SUM([Raw value]),2) as 'Sexually transmitted infections (Totals)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Sexually transmitted infections'
+group by State
+order by [Sexually transmitted infections (Totals)] desc
+
+--AVERAGE SEXUALLY TRANSMITTED INFECTIONS BY STATE
+select State, round(AVG([Raw value]),2) as 'Sexually transmitted infections (Average)'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] = 'Sexually transmitted infections'
+group by State
+order by [Sexually transmitted infections (Average)] desc
+
+
+--DISTINCT COUNTY BY COUNT
+select County, count(County) as 'count' 
+from dbo.['U#S# County Health Rankings$']
+group by County
+order by [count] desc
+
+--COUNT OF DISTINCT COUNTY BY STATE
+select State, count(County) as 'Number of County'
+from dbo.['U#S# County Health Rankings$']
+group by State
+order by [Number of County] desc
+
+--DISTINCT MEASURE NAMES BY COUNT
+select [Measure Name], count([Measure Name]) as 'count'
+from dbo.['U#S# County Health Rankings$']
+where [Measure Name] is not null
+group by [Measure Name]
+order by [count] desc
+
+--DISTINCT YEAR SPAN
+select distinct [Year span] from dbo.['U#S# County Health Rankings$']
+where [Year span] not in ('2002','2003','2004', '2005','2006','2007','2008', '2009','2010','2011','2012')
+and [Year span] is not null
+order by [Year span] 
+
+--DISTINCT YEAR
+select distinct [Year span] as 'Year' from dbo.['U#S# County Health Rankings$']
+where [Year span] in ('2002','2003','2004', '2005','2006','2007','2008', '2009','2010','2011','2012')
+and [Year span] is not null
+order by [Year span] 
+
+
+--ANNUAL TREND : CHILDREN IN POVERTY
+select [Year span],
+round(sum([Raw value]),2) as 'Children in poverty'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Children in poverty'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND : PREMATURE DEATH
+select [Year span],
+round(sum([Raw value]),2) as 'Premature Death'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Premature Death'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND : UNEMPLOYMENT
+select [Year span],
+round(sum([Raw value]),2) as 'Unemployment'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Unemployment'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: VIOLENT CRIME RATE
+select [Year span],
+round(sum([Raw value]),2) as 'Violent crime rate'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Violent crime rate'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: ADULT OBESITY
+select [Year span],
+round(sum([Raw value]),2) as 'Adult obesity'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Adult obesity'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: PHYSICAL INACTIVITY
+select [Year span],
+round(sum([Raw value]),2) as 'Physical inactivity'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Physical inactivity'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: DIABETIC SCREENING
+select [Year span],
+round(sum([Raw value]),2) as 'Diabetic screening'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Diabetic screening'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: MAMMOGRAPHY SCREENING
+select [Year span],
+round(sum([Raw value]),2) as 'Mammography screening'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Mammography screening'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: PREVENTABLE HOSPITAL STAYS
+select [Year span],
+round(sum([Raw value]),2) as 'Preventable hospital stays'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Preventable hospital stays'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: UNINSURED
+select [Year span],
+round(sum([Raw value]),2) as 'Uninsured'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Uninsured'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: SEXUALLY TRANSMITTED INFECTIONS
+select [Year span],
+round(sum([Raw value]),2) as 'Sexually transmitted infections'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Sexually transmitted infections'
+group by [Year span] 
+order by [Year span] 
+
+--ANNUAL TREND: DAILY FINE PARTICULATE MATTER
+select [Year span],
+round(sum([Raw value]),2) as 'Daily fine particulate matter'
+from dbo.['U#S# County Health Rankings$']
+where [Year span] is not null and [Measure Name] = 'Daily fine particulate matter'
+group by [Year span] 
+order by [Year span] 
+
