@@ -1,0 +1,238 @@
+use FP20
+
+select * from ['Retails Order Full Dataset$']
+
+--------BEST RETAIL SUPPLY CHAIN MANAGEMENT BY CITY------
+--SHORTEST AVERAGE DELIVERY DAYS PER CATEGORY
+with cte_AveDDays as (
+select City, Category,
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select City, Category,avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by City, Category
+order by [Average Delivery Days] 
+
+--SHORTEST AVERAGE DELIVERY DAYS PER SUB-CATEGORY
+with cte_AveDDays as (
+select City, [Sub-Category],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select City, [Sub-Category],avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by City, [Sub-Category]
+order by [Average Delivery Days] 
+
+--SHORTEST AVERAGE DELIVERY DAYS PER SEGMENT
+with cte_AveDDays as (
+select City, Segment,
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select City, Segment,avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by City, Segment
+order by [Average Delivery Days] 
+
+--LOWEST RETURN RATE
+select City, count(Returned) as 'Return count'
+from ['Retails Order Full Dataset$']
+where Returned = 'Not'
+group by City
+order by 'Return count' 
+
+--MOST DISCOUNTED 
+select City, round(sum(Discount),2) as 'Total Discount'
+from ['Retails Order Full Dataset$']
+group by City
+order by 'Total Discount' desc 
+
+
+--------BEST RETAIL SUPPLY CHAIN MANAGEMENT BY STATE------
+--SHORTEST AVERAGE DELIVERY DAYS PER CATEGORY
+with cte_AveDDays as (
+select State, Category,
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select State, Category,avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by State, Category
+order by [Average Delivery Days] 
+
+--SHORTEST AVERAGE DELIVERY DAYS PER SUB-CATEGORY
+with cte_AveDDays as (
+select State, [Sub-Category],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select State, [Sub-Category],avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by State, [Sub-Category]
+order by [Average Delivery Days] 
+
+--SHORTEST AVERAGE DELIVERY DAYS PER SEGMENT
+with cte_AveDDays as (
+select State, Segment,
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select State, Segment,avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by State, Segment
+order by [Average Delivery Days] 
+
+--LOWEST RETURN RATE
+select State, count(Returned) as 'Return count'
+from ['Retails Order Full Dataset$']
+where Returned = 'Not'
+group by State
+order by 'Return count' 
+
+--MOST DISCOUNTED 
+select State, round(sum(Discount),2) as 'Total Discount'
+from ['Retails Order Full Dataset$']
+group by State
+order by 'Total Discount' desc 
+
+
+--AVERAGE DELIVERY DAYS BY CATEGORY
+with cte_AveDDays as (
+select Category,
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select Category,avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by Category
+order by [Average Delivery Days] desc
+
+--AVERAGE DELIVERY DAYS BY SUB-CATEGORY
+with cte_AveDDays as (
+select [Sub-Category],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select [Sub-Category],avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by [Sub-Category]
+order by [Average Delivery Days] desc
+
+--AVERAGE DELIVERY DAYS BY SEGMENT 
+with cte_AveDDays as (
+select Segment,
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select Segment,avg(datediff(day,[order date],[ship date])) as 'Average Delivery Days'
+from cte_AveDDays
+group by Segment
+order by [Average Delivery Days] desc
+
+--FASTEST DELIVERY PRODUCTS
+with cte_DDays as (
+select [Product Name],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select *
+from cte_DDays
+order by [Delivery Days] 
+
+--TOP FIVE FASTEST DELIVERY PRODUCTS
+with cte_DDays as (
+select [Product Name],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select top 5*
+from cte_DDays
+order by [Delivery Days] 
+
+--SLOWEST DELIVERY PRODUCTS
+with cte_DDays as (
+select [Product Name],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select *
+from cte_DDays
+order by [Delivery Days] desc
+
+--TOP FIVE SLOWEST DELIVERY PRODUCTS
+with cte_DDays as (
+select [Product Name],
+cast([order date] as date) 'Order Date', 
+cast([ship date] as date) 'Ship Date',
+datediff(day,[order date],[ship date]) 'Delivery Days'
+from ['Retails Order Full Dataset$']
+)
+select top 5*
+from cte_DDays
+order by [Delivery Days] desc
+
+--LOWEST RETURN RATE BY SALESPERSON
+select [Retail Sales People], count(Returned) as 'Return count'
+from ['Retails Order Full Dataset$']
+where Returned = 'Not'
+group by [Retail Sales People]
+order by 'Return count' 
+
+--HIGHEST RETURN RATE BY SHIPPING MODE
+select [Ship Mode], count(Returned) as 'Return count'
+from ['Retails Order Full Dataset$']
+where Returned = 'Not'
+group by [Ship Mode]
+order by 'Return count' desc
+
+--LOWEST RETURN RATE BY SHIPPING MODE
+select [Ship Mode], count(Returned) as 'Return count'
+from ['Retails Order Full Dataset$']
+where Returned = 'Not'
+group by [Ship Mode]
+order by 'Return count' 
+
+--TOP CUSTOMERS BY PROFIT
+select [Customer Name], round(sum(Profit),2) as 'Profits'
+from ['Retails Order Full Dataset$']
+group by [Customer Name]
+order by Profits desc
+
+
+--SALES BY GEOGRAPHY - CITY
+select City, round(sum(Sales),2) as 'Total Sales'
+from ['Retails Order Full Dataset$']
+group by City
+order by [Total Sales] desc
+
+--SALES BY GEOGRAPHY - STATE
+select State, round(sum(Sales),2) as 'Total Sales'
+from ['Retails Order Full Dataset$']
+group by State
+order by [Total Sales] desc

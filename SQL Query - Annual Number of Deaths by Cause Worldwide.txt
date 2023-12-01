@@ -1,0 +1,395 @@
+use FP20
+
+select top 10* from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+
+--ANNUAL TREND BY MONTH/YEAR
+select ct.[Month & Year],
+sum([ Meningitis]) + sum([ Alzheimer's disease and other dementias])+sum([ Parkinson's disease])+
+sum([ Nutritional deficiencies])+sum([ Malaria])+sum([ Drowning])+sum([ Interpersonal violence])+sum([ Maternal disorders])+
+sum([ HIV/AIDS])+sum([ Drug use disorders])+sum([ Tuberculosis])+sum([ Cardiovascular diseases])+sum([ Lower respiratory infections])+
+sum([ Neonatal disorders])+sum([ Alcohol use disorders])+sum([ Self-harm])+sum([ Exposure to forces of nature])+sum( [ Diarrheal diseases])+
+sum([ Environmental heat and cold exposure])+sum([ Neoplasms])+sum([ Conflict and terrorism])+sum( [ Diabetes mellitus])+
+sum([ Chronic kidney disease])+sum([ Poisonings])+sum([ Road injuries])+sum( [ Chronic respiratory diseases])+
+sum([ Cirrhosis and other chronic liver diseases])+sum([ Digestive diseases])+sum([ Fire, heat, and hot substances])+sum( [ Acute hepatitis]) as 'Total Mortalities'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by ct.[Month & Year]
+order by ct.[Month & Year]
+
+--ANNUAL TREND BY QUARTER/YEAR
+select ct.[Quarter & Year],
+sum([ Meningitis]) + sum([ Alzheimer's disease and other dementias])+sum([ Parkinson's disease])+
+sum([ Nutritional deficiencies])+sum([ Malaria])+sum([ Drowning])+sum([ Interpersonal violence])+sum([ Maternal disorders])+
+sum([ HIV/AIDS])+sum([ Drug use disorders])+sum([ Tuberculosis])+sum([ Cardiovascular diseases])+sum([ Lower respiratory infections])+
+sum([ Neonatal disorders])+sum([ Alcohol use disorders])+sum([ Self-harm])+sum([ Exposure to forces of nature])+sum( [ Diarrheal diseases])+
+sum([ Environmental heat and cold exposure])+sum([ Neoplasms])+sum([ Conflict and terrorism])+sum( [ Diabetes mellitus])+
+sum([ Chronic kidney disease])+sum([ Poisonings])+sum([ Road injuries])+sum( [ Chronic respiratory diseases])+
+sum([ Cirrhosis and other chronic liver diseases])+sum([ Digestive diseases])+sum([ Fire, heat, and hot substances])+sum( [ Acute hepatitis]) as 'Total Mortalities'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by ct.[Quarter & Year]
+order by ct.[Quarter & Year]
+
+--ANNUAL TREND BY YEAR
+select ct.Year,
+sum([ Meningitis]) + sum([ Alzheimer's disease and other dementias])+sum([ Parkinson's disease])+
+sum([ Nutritional deficiencies])+sum([ Malaria])+sum([ Drowning])+sum([ Interpersonal violence])+sum([ Maternal disorders])+
+sum([ HIV/AIDS])+sum([ Drug use disorders])+sum([ Tuberculosis])+sum([ Cardiovascular diseases])+sum([ Lower respiratory infections])+
+sum([ Neonatal disorders])+sum([ Alcohol use disorders])+sum([ Self-harm])+sum([ Exposure to forces of nature])+sum( [ Diarrheal diseases])+
+sum([ Environmental heat and cold exposure])+sum([ Neoplasms])+sum([ Conflict and terrorism])+sum( [ Diabetes mellitus])+
+sum([ Chronic kidney disease])+sum([ Poisonings])+sum([ Road injuries])+sum( [ Chronic respiratory diseases])+
+sum([ Cirrhosis and other chronic liver diseases])+sum([ Digestive diseases])+sum([ Fire, heat, and hot substances])+sum( [ Acute hepatitis]) as 'Total Mortalities'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by ct.Year
+order by ct.Year
+
+--TOTAL MORTALITIES BY COUNTRY
+select [Country Code], Country,
+sum([ Meningitis]) + sum([ Alzheimer's disease and other dementias])+sum([ Parkinson's disease])+
+sum([ Nutritional deficiencies])+sum([ Malaria])+sum([ Drowning])+sum([ Interpersonal violence])+sum([ Maternal disorders])+
+sum([ HIV/AIDS])+sum([ Drug use disorders])+sum([ Tuberculosis])+sum([ Cardiovascular diseases])+sum([ Lower respiratory infections])+
+sum([ Neonatal disorders])+sum([ Alcohol use disorders])+sum([ Self-harm])+sum([ Exposure to forces of nature])+sum( [ Diarrheal diseases])+
+sum([ Environmental heat and cold exposure])+sum([ Neoplasms])+sum([ Conflict and terrorism])+sum( [ Diabetes mellitus])+
+sum([ Chronic kidney disease])+sum([ Poisonings])+sum([ Road injuries])+sum( [ Chronic respiratory diseases])+
+sum([ Cirrhosis and other chronic liver diseases])+sum([ Digestive diseases])+sum([ Fire, heat, and hot substances])+sum( [ Acute hepatitis]) as 'Total Mortalities'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+order by [Total Mortalities] desc
+
+--TOP FOUR COUNTRIES BY DRUG RELATED DEATHS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Drug use disorders]) as 'Drug-Related Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Drug-Related Deaths' desc
+
+--TOP FOUR COUNTRIES BY ALCOHOL RELATED DEATHS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Alcohol use disorders]) as 'Alcohol-Related Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Alcohol-Related Deaths' desc
+
+--TOP FOUR COUNTRIES BY CIRRHOSIS RELATED DEATHS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Cirrhosis and other chronic liver diseases]) as 'Cirrhosis/Chronic Liver Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Cirrhosis/Chronic Liver Deaths' desc
+
+--TOP FOUR COUNTRIES BY ACUTE HEPATITIS RELATED DEATHS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Acute hepatitis]) as 'Acute Hepatitis Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Acute Hepatitis Deaths' desc
+
+--TOP FOUR COUNTRIES BY EXPOSURE TO HEAT AND COLD TEMPERATURES DEATHS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Environmental heat and cold exposure]) as 'Deaths by Environmental heat and cold exposure'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Environmental heat and cold exposure' desc
+
+-- TOP FOUR COUNTRIES BY ALZHEIMER'S DISEASE AND OTHER DEMENTIAS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Alzheimer's disease and other dementias]) as 'Deaths by Alzheimer disease and other dementias'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Alzheimer disease and other dementias' desc
+
+--TOP FOUR COUNTRIES BY PARKINSON'S DISEASE
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Parkinson's disease]) as 'Deaths by Parkinson disease'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Parkinson disease' desc
+
+--TOP FOUR COUNTRIES BY NUTRITIONAL DEFICIENCIES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Nutritional deficiencies]) as 'Deaths by Nutritional deficiencies'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Nutritional deficiencies' desc
+
+--TOP FOUR COUNTRIES BY MALARIA
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Malaria]) as 'Deaths by Malaria'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Malaria' desc
+
+--TOP FOUR COUNTRIES BY DROWNING
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Drowning]) as 'Deaths by Drowning'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Drowning' desc
+
+--TOP FOUR COUNTRIES BY INTERPERSONAL VIOLENCE
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Interpersonal violence]) as 'Deaths by Interpersonal Violence'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Interpersonal Violence' desc
+
+--TOP FOUR COUNTRIES BY MATERNAL DISORDERS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Maternal disorders]) as 'Deaths by Maternal disorders'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Maternal disorders' desc
+
+--TOP FOUR COUNTRIES BY HIV/AIDS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ HIV/AIDS]) as 'HIV/AIDS Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'HIV/AIDS Deaths' desc
+
+--TOP FOUR COUNTRIES BY TUBERCULOISIS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Tuberculosis]) as 'Tuberculosis Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Tuberculosis Deaths' desc
+
+--TOP FOUR COUNTRIES BY CARDIOVASCULAR DISEASES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Cardiovascular diseases]) as 'Cardiovascular Deaths'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Cardiovascular Deaths' desc
+
+--TOP FOUR COUNTRIES BY LOWER RESPIRATORY DISORDERS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Lower respiratory infections]) as 'Deaths by Lower respiratory infections'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Lower respiratory infections' desc
+
+--TOP FOUR COUNTRIES BY SELF-HARM
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Self-harm]) as 'Deaths by Self-Harm'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Self-Harm' desc
+
+--TOP FOUR COUNTRIES BY EXPOSURE TO FORCES OF NATURE
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Exposure to forces of nature]) as 'Deaths by Exposure to forces of nature'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Exposure to forces of nature' desc
+
+--TOP FOUR COUNTRIES BY DIARRHEAL DISEASES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Diarrheal diseases]) as 'Deaths by Diarrheal diseases'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Diarrheal diseases' desc
+
+--TOP FOUR COUNTRIES BY NEOPLASMS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Neoplasms]) as 'Deaths by Neoplasms'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Neoplasms' desc
+
+--TOP FOUR COUNTRIES BY CONFLICT AND TERRORISM
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Conflict and terrorism]) as 'Deaths by Conflict and terrorism'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Conflict and terrorism' desc
+
+--TOP FOUR COUNTRIES BY DIABETES MELITUS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Diabetes mellitus]) as 'Deaths by Diabetes mellitus'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Diabetes mellitus' desc
+
+--TOP FOUR COUNTRIES BY CHRONIC KIDNEY DISEASE
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Chronic kidney disease]) as 'Deaths by Chronic kidney disease'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Chronic kidney disease' desc
+
+--TOP FOUR COUNTRIES BY POISONINGS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Poisonings]) as 'Deaths by Poisonings'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Poisonings' desc
+
+--TOP FOUR COUNTRIES BY PROTEIN-ENERGY MALNUTRITION
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Protein-energy malnutrition]) as 'Deaths by Protein-energy malnutrition'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Protein-energy malnutrition' desc
+
+--TOP FOUR COUNTRIES BY ROAD INJURIES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Road injuries]) as 'Deaths by Road Injuries'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Road Injuries' desc
+
+--TOP FOUR COUNTRIES BY CHRONIC RESPIRATORY DISEASES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Chronic respiratory diseases]) as 'Deaths by Chronic respiratory diseases'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Chronic respiratory diseases' desc
+
+--TOP FOUR COUNTRIES BY DIGESTIVE DISEASES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Digestive diseases]) as 'Deaths by Digestive diseases'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Digestive diseases' desc
+
+--TOP FOUR COUNTRIES BY FIRE, HEAT AND HOT SUBSTANCES
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Fire, heat, and hot substances]) as 'Deaths by Fire, heat, and hot substances'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Fire, heat, and hot substances' desc
+
+--TOP FOUR COUNTRIES BY MENINGITIS
+WITH CTE_MAX AS (
+select [Country Code], Country, sum([ Meningitis]) as 'Deaths by Meningitis'
+from ['Source Data_Cleaned$'] as sdc
+join ['Calendar Table$'] as ct
+on sdc.Year = ct.Year
+group by [Country Code], Country
+)
+select top 4* from CTE_MAX
+order by 'Deaths by Meningitis' desc
