@@ -1,0 +1,94 @@
+use FP20
+
+select * 
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+
+--DISCOUNT BAND BY BUYER TYPE
+select [Buyer Type], [Discount Band], count([Discount Band]) as count
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+group by [Buyer Type], [Discount Band]
+order by count desc
+
+--DISCOUNT BAND BY COUNT
+select [Discount Band], count([Discount Band]) as count
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+group by [Discount Band]
+order by count desc
+
+--DISTINCT BUYER TYPE BY COUNT
+select [Buyer Type], count([Buyer Type]) as count
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = C.DATE
+group by [Buyer Type]
+order by count desc
+
+--TREND OF TOTAL GROSS SALES/NET SALES/DISCOUNT/PROFIT
+select CAST(mcc.Date as date) as Date, 
+sum(mcc.[Units Sold]) as 'Total Unit Sold',
+sum(mcc.[Gross Sales]) as 'Total Gross Sales',
+sum(mcc.[Net Sales]) as 'Total Net Sales',
+sum(mcc.[Cost]) as 'Total Costs',
+sum(mcc.[Discount Type]) as 'Total Discounts',
+sum(mcc.[Profit]) as 'Total Profit'
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+group by mcc.Date
+order by mcc.Date
+
+--GROSS SALES/NET SALES/DISCOUNT/PROFIT BY PRODUCT
+select Product,
+sum(mcc.[Gross Sales]) as 'Total Gross Sales',
+sum(mcc.[Net Sales]) as 'Total Net Sales',
+sum(mcc.[Discount Type]) as 'Total Discounts',
+sum(mcc.[Profit]) as 'Total Profit'
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+group by Product
+order by 'Total Gross Sales' desc, 'Total Net Sales' desc, 'Total Discounts' desc, 'Total Profit' desc
+
+--GROSS SALES/NET SALES/DISCOUNT/PROFIT BY BUYER TYPE
+select [Buyer Type],
+sum(mcc.[Gross Sales]) as 'Total Gross Sales',
+sum(mcc.[Net Sales]) as 'Total Net Sales',
+sum(mcc.[Discount Type]) as 'Total Discounts',
+sum(mcc.[Profit]) as 'Total Profit'
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+group by [Buyer Type]
+order by 'Total Gross Sales' desc, 'Total Net Sales' desc, 'Total Discounts' desc,'Total Profit' desc
+
+--GROSS SALES/NET SALES/DISCOUNT/PROFIT BY COUNTRY
+select Country,
+sum(mcc.[Gross Sales]) as 'Total Gross Sales',
+sum(mcc.[Net Sales]) as 'Total Net Sales',
+sum(mcc.[Discount Type]) as 'Total Discounts',
+sum(mcc.[Profit]) as 'Total Profit'
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+group by Country
+order by 'Total Gross Sales' desc, 'Total Net Sales' desc, 'Total Discounts' desc, 'Total Profit' desc
+
+--HEADLINE
+select 
+sum(mcc.[Units Sold]) as 'Total Unit Sold',
+sum(mcc.[Gross Sales]) as 'Total Gross Sales',
+sum(mcc.[Net Sales]) as 'Total Net Sales',
+sum(mcc.[Cost]) as 'Total Costs',
+sum(mcc.[Discount Type]) as 'Total Discounts',
+sum(mcc.[Profit]) as 'Total Profit'
+from FP20.dbo.['Mediterranean Cameras Company$'] as mcc
+join FP20.dbo.[Calendar$] as c
+on mcc.Date = c.Date
+
+

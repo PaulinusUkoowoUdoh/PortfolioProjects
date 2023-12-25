@@ -1,0 +1,395 @@
+use FP20
+
+select * from ['HR_Gender Diversity & Equality$']
+
+--TOTAL EMPLOYEES
+select count([Employee ID]) 'Total Workers'
+from ['HR_Gender Diversity & Equality$']
+
+--TOTAL EMPLOYEES BY BRANCH
+select Branch, count([Employee ID]) 'Total Workers'
+from ['HR_Gender Diversity & Equality$']
+group by Branch
+order by [Total Workers] desc
+
+--TOTAL EMPLOYEES BY DEPARTMENT
+select Department, count([Employee ID]) 'Total Workers'
+from ['HR_Gender Diversity & Equality$']
+group by Department
+order by [Total Workers] desc
+
+--TOTAL EMPLOYEES BY GENDER
+select 
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender,
+count([Employee ID]) 'Total Workers'
+from ['HR_Gender Diversity & Equality$']
+group by Gender
+order by [Total Workers] desc
+
+--ACTIVE EMPLOYEES
+select count([Employee ID]) 'Total Active Workers'
+from ['HR_Gender Diversity & Equality$']
+where Status = 'Active'
+
+--ACTIVE EMPLOYEES BY GENDER
+select 
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender,
+count([Employee ID]) 'Total Active Workers'
+from ['HR_Gender Diversity & Equality$']
+where Status = 'Active'
+group by Gender
+order by [Total Active Workers] desc
+
+--ACTIVE EMPLOYEES BY BRANCH
+select Branch,
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender, 
+count([Employee ID]) 'Total Active Workers'
+from ['HR_Gender Diversity & Equality$']
+where Status = 'Active'
+group by Branch, Gender
+order by [Total Active Workers] desc
+
+--ACTIVE EMPLOYEES BY DEPARTMENT
+select Department,
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender, 
+count([Employee ID]) 'Total Active Workers'
+from ['HR_Gender Diversity & Equality$']
+where Status = 'Active'
+group by Department, Gender
+order by [Total Active Workers] desc
+
+--AGE DISTRIBUTION OF ACTIVE EMPLOYEES
+select [Emp Age] as 'Employee Age', count([Employee ID]) 'Total Active Workers'
+from ['HR_Gender Diversity & Equality$']
+where Status = 'Active'
+group by [Emp Age]
+
+--BY GENDER: AGE DISTRIBUTION OF ACTIVE EMPLOYEES 
+select 
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender,
+[Emp Age] as 'Employee Age', count([Employee ID]) 'Total Active Workers'
+from ['HR_Gender Diversity & Equality$']
+where Status = 'Active'
+group by Gender, [Emp Age]
+
+--TURNOVER RATE OF EMPLOYEES
+select ROUND((count(Status) / sum([Employee ID]))*100,4) as 'Turnover Rate'
+from ['HR_Gender Diversity & Equality$']
+where Status <> 'Active'
+
+
+--TURNOVER BY BRANCH
+select Branch,
+ROUND((count(Status) / sum([Employee ID]))*100,4) as 'Turnover Rate'
+from ['HR_Gender Diversity & Equality$']
+where Status <> 'Active'
+group by Branch
+order by [Turnover Rate] desc
+
+--TURNOVER BY DEPARTMENT
+select Department,
+ROUND((count(Status) / sum([Employee ID]))*100,4) as 'Turnover Rate'
+from ['HR_Gender Diversity & Equality$']
+where Status <> 'Active'
+group by Department
+order by [Turnover Rate] desc
+
+
+--BY GENDER: TURNOVER RATE OF EMPLOYEES
+select 
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender,
+ROUND((count(Status) / sum([Employee ID]))*100,4) as 'Turnover Rate'
+from ['HR_Gender Diversity & Equality$']
+where Status <> 'Active'
+group by Gender
+order by [Turnover Rate] desc
+
+
+--AGE DISTRIBUTION: TURNOVER RATE OF EMPLOYEES
+select [Emp Age],
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender,
+ROUND((count(Status) / sum([Employee ID]))*100,4) as 'Turnover Rate'
+from ['HR_Gender Diversity & Equality$']
+where Status <> 'Active'
+group by [Emp Age], Gender
+order by [Emp Age]
+
+
+select * from ['HR_Gender Diversity & Equality$']
+
+--DISTINCT LEAVE REASON BY COUNT
+select distinct([Leave Reason]), COUNT([Leave Reason]) as 'Count'
+from ['HR_Gender Diversity & Equality$']
+group by [Leave Reason]
+order by Count desc
+
+--LEAVE REASON BY BRANCH
+select Branch, [Leave Reason], COUNT([Leave Reason]) as 'Leave Count'
+from ['HR_Gender Diversity & Equality$']
+group by Branch, [Leave Reason]
+order by [Leave Count] desc
+
+--LEAVE REASON BY DEPARTMENT
+select Department, [Leave Reason], COUNT([Leave Reason]) as 'Leave Count'
+from ['HR_Gender Diversity & Equality$']
+group by  Department, [Leave Reason]
+order by [Leave Count] desc
+
+--LEAVE REASON BY GENDER
+select [Leave Reason],
+CASE 
+	when Gender = 'M' then 'Male'
+	else 'Female'
+END as Gender,
+COUNT([Leave Reason]) as 'Leave Count'
+from ['HR_Gender Diversity & Equality$']
+where Status <> 'Active'
+group by [Leave Reason], Gender
+order by [Leave Count] desc
+
+select * from ['HR_Gender Diversity & Equality$']
+
+--MARITAL STATUS BY GENDER
+select [Marital Status], Gender, count([Gender]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Marital Status], Gender
+order by count desc
+
+--DISTINCT BRANCH BY COUNT
+select distinct(Branch), count(Branch) as count
+ from ['HR_Gender Diversity & Equality$']
+ group by Branch
+ order by count desc
+
+--DISTINCT DEPARTMENT BY COUNT
+select distinct(Department), count(Department) as count
+ from ['HR_Gender Diversity & Equality$']
+ group by Department
+ order by count desc
+
+ select * from ['HR_Gender Diversity & Equality$']
+
+--EMPLOYEE SATISFACTION BY BRANCH
+select Branch, [Employee Satisfaction], count([Employee Satisfaction]) as count
+from ['HR_Gender Diversity & Equality$']
+group by Branch, [Employee Satisfaction]
+order by [Employee Satisfaction] desc, count desc
+
+--EMPLOYEE SATISFACTION BY DEPARTMENT
+select Department, [Employee Satisfaction], count([Employee Satisfaction]) as count
+from ['HR_Gender Diversity & Equality$']
+group by Department, [Employee Satisfaction]
+order by [Employee Satisfaction] desc, count desc
+
+--TOTAL REMUNERATION BY BRANCH
+select Branch, 
+sum([Annual Salary ($)]) 'Yearly Salary', 
+sum([Bonus ($)]) 'Total Bonuses', 
+sum([Total Compensation]) 'Total Compensation'
+from ['HR_Gender Diversity & Equality$']
+group by Branch
+order by 'Yearly Salary' desc, 'Total Bonuses' desc, 'Total Compensation' desc
+
+--AVERAGE REMUNERATION BY BRANCH
+select Branch, 
+round(AVG([Annual Salary ($)]),2) 'Average Salary', 
+round(AVG([Bonus ($)]),2) 'Average Bonus', 
+round(AVG([Total Compensation]),2) 'Average Compensation'
+from ['HR_Gender Diversity & Equality$']
+group by Branch
+order by 'Average Salary' desc, 'Average Bonus' desc, 'Average Compensation' desc
+
+--ANNUAL SALARY BY DEPARTMENT
+select Department, 
+sum([Annual Salary ($)]) 'Yearly Salary', 
+sum([Bonus ($)]) 'Total Bonuses', 
+sum([Total Compensation]) 'Total Compensation'
+from ['HR_Gender Diversity & Equality$']
+group by Department
+order by 'Yearly Salary' desc, 'Total Bonuses' desc, 'Total Compensation' desc
+
+--AVERAGE REMUNERATION BY DEPARTMENT
+select Department, 
+round(AVG([Annual Salary ($)]),2) 'Average Salary', 
+round(AVG([Bonus ($)]),2) 'Average Bonus', 
+round(AVG([Total Compensation]),2) 'Average Compensation'
+from ['HR_Gender Diversity & Equality$']
+group by Department
+order by 'Average Salary' desc, 'Average Bonus' desc, 'Average Compensation' desc
+
+select * from ['HR_Gender Diversity & Equality$']
+
+--DISTINCT JOB TITLE BY COUNT
+select [Job Title], count([Job Title]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Job Title]
+order by count desc
+
+--DISTINCT JOB DESCRIPTION BY COUNT
+select [Job Description], count([Job Title]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Job Description]
+order by count desc
+
+--JOB TITLE BY GENDER
+select [Job Title], 
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Job Title]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Job Title], Gender
+order by count desc
+
+--JOB DESCRIPTION BY GENDER
+select [Job Description], 
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Job Description]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Job Description], Gender
+order by count desc
+
+--JOB TITLE BY DEPARTMENT/GENDER
+select [Department], [Job Title],
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Job Title]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Department], [Job Title], Gender
+order by count desc
+
+--JOB DESCRIPTION BY DEPARTMENT/GENDER
+select [Department], [Job Description],
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Job Title]) as count
+from ['HR_Gender Diversity & Equality$']
+group by [Department], [Job Description], Gender
+order by count desc
+
+--JOB TITLE BY BRANCH/GENDER
+select Branch, [Job Title],
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Job Title]) as count
+from ['HR_Gender Diversity & Equality$']
+group by Branch, [Job Title], Gender
+order by count desc
+
+--JOB DESCRIPTION BY BRANCH/GENDER
+select Branch, [Job Description],
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Job Description]) as count
+from ['HR_Gender Diversity & Equality$']
+group by Branch, [Job Description], Gender
+order by count desc
+
+select * from ['HR_Gender Diversity & Equality$']
+
+--MANAGER COUNT BY GENDER
+select 
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Manager (Y/N)]) as 'Manager count'
+from ['HR_Gender Diversity & Equality$']
+group by Gender
+order by 'Manager count' desc
+
+--MANAGER COUNT BY BRANCH/GENDER
+select Branch,
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Manager (Y/N)]) as 'Manager count'
+from ['HR_Gender Diversity & Equality$']
+group by Branch, Gender
+order by 'Manager count' desc
+
+--MANAGER COUNT BY DEPARTMENT/GENDER
+select Department,
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Manager (Y/N)]) as 'Manager count'
+from ['HR_Gender Diversity & Equality$']
+group by Department, Gender
+order by 'Manager count' desc
+
+select * from ['HR_Gender Diversity & Equality$']
+
+--DISTINCT PERFORMANCE BY COUNT
+select Performance, count(Performance) as count
+from ['HR_Gender Diversity & Equality$']
+group by Performance
+order by count desc
+
+--PERFORMANCE BY GENDER COUNT
+select Performance,
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Manager (Y/N)]) as 'count'
+from ['HR_Gender Diversity & Equality$']
+group by Performance, Gender
+order by 'count' desc
+
+--PERFORMANCE BY BRANCH
+select Branch, Performance,
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Manager (Y/N)]) as 'count'
+from ['HR_Gender Diversity & Equality$']
+group by Branch, Performance, Gender
+order by 'count' desc
+
+--PERFORMANCE BY DEPARTMENT
+select Department, Performance,
+case
+	when Gender = 'M' then 'Male'
+	else 'Female'
+end as Gender,
+count([Manager (Y/N)]) as 'count'
+from ['HR_Gender Diversity & Equality$']
+group by Department, Performance, Gender
+order by 'count' desc

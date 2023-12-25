@@ -1,0 +1,164 @@
+use FP20
+
+select top 3* from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+
+--TOTAL SALES BY PAYMENT METHODS
+select xd.[Payment Method], sum([Total Sales]) as 'Total Sales'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by [Payment Method]
+order by [Total Sales] desc
+
+--TOTAL SALES BY XMAS BUDGET
+select xd.[Xmas Budget], ROUND(sum([Total Sales]),2) as 'Total Sales'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by [Xmas Budget]
+order by [Total Sales] desc
+
+--TREND OF TOTAL SALES, QUANTITY, TAX AMOUNT, PROFIT
+select cast(Date as date), sum(Quantity) as Quantity, sum([Tax Amount]) as 'Tax',
+sum([Cost]) as 'Cost', sum([Total Sales]) as 'Total Sales', sum([Profit]) as 'Profit'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by Date
+order by Date
+
+
+--DISTINCT AGE GROUPS BY GENDER COUNT
+select xd.[Customer Age Range] as 'Age Group', xd.Gender,
+count(xd.[Customer Age Range]) as customers
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by [Customer Age Range], Gender
+order by customers desc
+
+--DISTINCT PRODUCT TYPE BY COUNT
+select xd.[Product Type], count(xd.[Product Type]) as count
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by [Product Type]
+order by count desc
+
+--DISTINCT PRODUCT CATEGORY BY COUNT
+select xd.[Product Category], count(xd.[Product Category]) as count
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by [Product Category]
+order by count desc
+
+--DISTINCT PRODUCT NAME BY COUNT
+select xd.[Product Name], count(xd.[Product Name]) as count
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by [Product Name]
+order by count desc
+
+--DISTINCT PURCHASE TYPE BY COUNT
+select xd.[Purchase Type], count(xd.[Purchase Type]) as count
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by xd.[Purchase Type]
+order by count desc
+
+
+--MOST POPULAR PRODUCT TYPE BY XMAS SALES
+select xd.[Customer Age Range], xd.[Product Type], SUM(xd.[Total Sales]) as 'Total Sales'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+where xd.[Purchase Type] = 'Xmas Market'
+group by xd.[Customer Age Range], [Product Type]
+order by [Total Sales] desc
+
+--MOST POPULAR PRODUCT CATEGORY BY XMAS SALES
+select xd.[Customer Age Range], [Product Category], count(xd.[Product Category]) as count
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+where xd.[Purchase Type] = 'Xmas Market'
+group by xd.[Customer Age Range], [Product Category]
+order by count desc
+
+
+--MOST POPULAR PRODUCT NAME BY XMAS SALES
+select xd.[Customer Age Range], [Product Name], count(xd.[Product Name]) as count
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+where xd.[Purchase Type] = 'Xmas Market'
+group by xd.[Customer Age Range], [Product Name]
+order by count desc
+
+
+--COUNTRY WITH THE MOST XMAS SALES
+select xd.Country, round(sum([Total Sales]),2) as 'Total Sales'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+where xd.[Purchase Type] = 'Xmas Market'
+group by xd.Country
+order by [Total Sales] desc
+
+--TOTAL SALES BY PURCHASE TYPE 
+select xd.[Purchase Type], round(sum([Total Sales]),2) as 'Total Sales'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by xd.[Purchase Type] 
+order by [Total Sales] desc
+
+
+--WHICH CUSTOMER SEGMENT HAD MOST XMAS SALES
+select xd.[Customer Age Range] as 'Age Group', round(sum([Total Sales]),2) as 'Total Sales'
+from ['Xmas Dataset$'] as xd
+join ['Purchase Type$'] as pt
+on xd.[Purchase Type] = pt.[Purchase Type]
+join Countries$ as c
+on xd.Country = c.Country
+group by xd.[Customer Age Range]
+order by [Total Sales] desc
+
+
+
+
+
+

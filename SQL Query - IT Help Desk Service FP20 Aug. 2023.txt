@@ -1,0 +1,253 @@
+use FP20
+
+select * from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+
+alter table Tickets$
+drop column F11, F12, F13
+
+--AGENT WITH THE MOST SATISFACTION RATE
+select t.[Agent ID], ita.[Full Name], t.[Satisfaction Rate], count(t.[Satisfaction Rate]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by t.[Agent ID], ita.[Full Name], t.[Satisfaction Rate]
+order by count desc
+
+--EMPLOYEE WITH THE MOST SATISFACTION RATE
+select t.[Employee ID], t.[Satisfaction Rate], count(t.[Satisfaction Rate]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by t.[Employee ID], t.[Satisfaction Rate]
+order by count desc
+
+--AGENT WITH THE FASTEST RESOLUTION TIME
+select t.[Agent ID], ita.[Full Name], t.[Resolution Time (Days)] as 'Resolution Time (Days)',
+count(t.[Resolution Time (Days)]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where t.[Resolution Time (Days)] = '0'
+group by t.[Agent ID], ita.[Full Name], t.[Resolution Time (Days)]
+order by count desc
+
+--EMPLOYEE WITH THE FASTEST RESOLUTION TIME
+select t.[Employee ID], t.[Resolution Time (Days)] as 'Resolution Time (Days)',
+count(t.[Resolution Time (Days)]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where t.[Resolution Time (Days)] = '0'
+group by t.[Employee ID], t.[Resolution Time (Days)]
+order by count desc
+
+--CREATE DATE OF BIRTH COLUMN
+alter table ['IT Agents$']
+add Age int
+
+update ['IT Agents$'] 
+set Age = (convert(int, year(GETDATE())))-[Year of Birth]
+
+--AGE DISTRIBUTION BY AGENT
+select t.[Agent ID], ita.[Full Name], ita.Age
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+
+--AGE DISTRIBUTION BY EMPLOYEE
+select t.[Employee ID], ita.[Full Name], ita.Age
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+
+--FASTEST RESOLUTION TIME BY EMPLOYEE
+select t.[Employee ID], [Resolution Time (Days)], count([Resolution Time (Days)]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where [Resolution Time (Days)] = '0'
+group by t.[Employee ID], [Resolution Time (Days)]
+order by count desc
+
+--FASTEST RESOLUTION TIME BY AGENT
+select t.[Agent ID], ita.[Full name], [Resolution Time (Days)], count([Resolution Time (Days)]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where [Resolution Time (Days)] = '0'
+group by t.[Agent ID], ita.[Full name], [Resolution Time (Days)]
+order by count desc
+
+--PROPORTION: PRIORITY BY COUNT
+select Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by Priority
+order by count desc
+
+--PROPORTION:SEVERITY BY COUNT
+select Severity, count(Severity) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by Severity
+order by count desc
+
+--PROPORTION: ISSUE TYPE BY COUNT
+select [Issue Type], count([Issue Type]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by [Issue Type]
+order by count desc
+
+--PROPORTION:REQUEST CATEGORY BY COUNT
+select [Request Category], count([Request Category]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by [Request Category]
+order by count desc
+
+--MONTHLY TREND BY PRIORITY TYPES
+select cast([Fecha] as Date) as date, Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by Fecha, Priority
+order by Date
+
+--MONTHLY TREND BY SEVERITY TYPE
+select cast([Fecha] as Date) as date, Severity, count(Severity) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by Fecha, Severity
+order by Date
+
+--MONTHLY TREND BY ISSUE TYPE
+select cast([Fecha] as Date) as date, [Issue Type], count([Issue Type]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by Fecha, [Issue Type]
+order by Date
+
+--AGENT WITH THE MOST LOWEST PRIORITY
+select ita.[Agent ID], [Full Name], Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Priority = '1 - Low'
+group by ita.[Agent ID], [Full Name], Priority
+order by count desc
+
+--EMPLOYEE WITH THE MOST LOWEST PRIORITY
+select t.[Employee ID], Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Priority = '1 - Low'
+group by t.[Employee ID], [Full Name], Priority
+order by count desc
+
+--AGENT WITH THE MOST HIGHEST PRIORITY
+select ita.[Agent ID], [Full Name], Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Priority = '3 - High'
+group by ita.[Agent ID], [Full Name], Priority
+order by count desc
+
+--EMPLOYEE WITH THE MOST HIGHEST PRIORITY
+select t.[Employee ID], Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Priority = '3 - High'
+group by t.[Employee ID], [Full Name], Priority
+order by count desc
+
+--AGENT WITH THE MOST HIGHEST PRIORITY
+select ita.[Agent ID], [Full Name], Priority, count(Priority) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Priority = '3 - High'
+group by ita.[Agent ID], [Full Name], Priority
+order by count desc
+
+--AGENT WITH THE MOST MAJOR SEVERITY
+select ita.[Agent ID], [Full Name], Severity, count(Severity) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Severity = '4 - Urgent'
+group by ita.[Agent ID], [Full Name], Severity
+order by count desc
+
+--EMPLOYEE WITH THE MOST MAJOR SEVERITY
+select t.[Employee ID], Severity, count(Severity) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Severity = '4 - Urgent'
+group by t.[Employee ID], Severity
+order by count desc
+
+--AGENT WITH THE MOST MINOR SEVERITY
+select ita.[Agent ID], [Full Name], Severity, count(Severity) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Severity = '1 - Minor'
+group by ita.[Agent ID], [Full Name], Severity
+order by count desc
+
+--EMPLOYEE WITH THE MOST MINOR SEVERITY
+select t.[Employee ID], Severity, count(Severity) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+where Severity = '1 - Minor'
+group by t.[Employee ID], Severity
+order by count desc
+
+--AGENT WITH THE MOST REQUEST CATEGORY
+select ita.[Agent ID], [Full Name], count([Request Category]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by ita.[Agent ID], [Full Name]
+order by count desc
+
+--EMPLOYEE WITH THE MOST REQUEST CATEGORY
+select t.[Employee ID], count([Request Category]) as count
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+group by t.[Employee ID]
+order by count desc
+
+--TOTAL EMPLOYEES
+select count(t.[Employee ID]) as 'Total Employees'
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+
+--TOTAL AGENTS
+select count(t.[Agent ID]) as 'Total Agents'
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+
+--TOTAL TICKETS SOLD
+select count(t.[ID Ticket]) as 'Total Tickets Sold'
+from Tickets$ as t
+join ['IT Agents$'] as ita
+on t.[Agent ID] = ita.[Agent ID]
+
