@@ -1,0 +1,626 @@
+create database SanMartin
+use SanMartin
+
+select * from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+
+
+--DAY INTERVAL BETWEEN ORDERS AND INVOICE
+select cast(s.[Order Date] as date) 'Order Date', 
+cast(s.[Invoice Date] as date) 'Invoice Date',
+DATEDIFF(DAY,s.[Order Date], s.[Invoice Date]) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+
+--BY REGION:: MEAN DAY INTERVAL BETWEEN ORDERS AND INVOICE
+select l.Region,
+avg(DATEDIFF(DAY,s.[Order Date], s.[Invoice Date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Region
+order by 'Days Interval'
+
+--BY PROVINCE:: MEAN DAY INTERVAL BETWEEN ORDERS AND INVOICE
+select l.Provincia,
+avg(DATEDIFF(DAY,s.[Order Date], s.[Invoice Date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Provincia
+order by 'Days Interval'
+
+--BY TOWN:: DAY INTERVAL BETWEEN ORDERS AND INVOICE
+select l.Town,
+avg(DATEDIFF(DAY,s.[Order Date], s.[Invoice Date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Town
+order by 'Days Interval'
+
+--DAY INTERVAL BETWEEN INVOICE AND SHIPPING
+select cast(s.[Shipping Date] as date) 'Shipping Date',
+cast(s.[Invoice Date] as date) 'Invoice Date', 
+DATEDIFF(DAY,s.[Shipping date], s.[Invoice Date]) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+
+--BY REGION:: DAY INTERVAL BETWEEN INVOICE AND SHIPPING
+select l.Region,
+avg(DATEDIFF(DAY,s.[Shipping Date], s.[Invoice Date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Region
+order by 'Days Interval'
+
+--BY PROVINCE:: DAY INTERVAL BETWEEN INVOICE AND SHIPPING
+select l.Provincia,
+avg(DATEDIFF(DAY,s.[Shipping Date], s.[Invoice Date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Provincia
+order by 'Days Interval'
+
+--BY TOWN:: DAY INTERVAL BETWEEN INVOICE AND SHIPPING
+select l.Town,
+avg(DATEDIFF(DAY,s.[Shipping Date], s.[Invoice Date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Town
+order by 'Days Interval'
+
+--DAY INTERVAL BETWEEN ORDERS AND SHIPPING
+select cast(s.[Order Date] as date) 'Order Date', 
+cast(s.[Shipping Date] as date) 'Shipping Date',
+DATEDIFF(DAY,s.[Shipping date], s.[Invoice Date]) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+
+--BY REGION:: DAY INTERVAL BETWEEN ORDERS AND SHIPPING
+select l.Region,
+avg(DATEDIFF(DAY,s.[Order Date], s.[Shipping date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Region
+order by 'Days Interval'
+
+--BY PROVICE:: DAY INTERVAL BETWEEN ORDERS AND SHIPPING
+select l.Provincia,
+avg(DATEDIFF(DAY,s.[Order Date], s.[Shipping date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Provincia
+order by 'Days Interval'
+
+--BY TOWN:: DAY INTERVAL BETWEEN ORDERS AND SHIPPING
+select l.Town,
+avg(DATEDIFF(DAY,s.[Order Date], s.[Shipping date])) as 'Days Interval'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.Town
+order by 'Days Interval'
+
+--SALES TREND BY ORDER DATE
+select cast([Order Date] as date) 'Order Date', round(sum(Sales),2) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Order Date]
+order by [Order Date]
+
+--COST BY ORDER DATE
+select cast([Order Date] as date) 'Order Date', round(sum(Cost),2) 'Total Cost'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Order Date]
+order by [Order Date]
+
+--PROFIT BY ORDER DATE
+select cast([Order Date] as date) 'Order Date', round(sum(Profit),2) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Order Date]
+order by [Order Date]
+
+--SALES TREND BY SHIPPING DATE
+select cast([Shipping date] as date) 'Shipping Date', round(sum(Sales),2) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Shipping date] 
+order by [Shipping date] 
+
+--COST BY SHIPPING DATE
+select cast([Shipping date] as date) 'Shipping Date', round(sum(Cost),2) 'Total Cost'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Shipping date] 
+order by [Shipping date] 
+
+--PROFIT BY SHIPPING DATE
+select cast([Shipping date] as date) 'Shipping Date', round(sum(Profit),2) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Shipping date] 
+order by [Shipping date] 
+
+--SALES TREND BY INVOICE DATE
+select cast([Invoice date] as date) 'Invoice Date', round(sum(Profit),2) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Invoice date] 
+order by [Invoice date] 
+
+--COST BY INVOICE DATE
+select cast([Invoice date] as date) 'Invoice Date', round(sum(Cost),2) 'Total Cost'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Invoice date] 
+order by [Invoice date] 
+
+--PROFIT BY INVOICE DATE
+select cast([Invoice date] as date) 'Invoice Date', round(sum(Profit),2) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Invoice date] 
+order by [Invoice date] 
+
+--TOP CUSTOMERS BY SALES ACROSS REGION
+select Region, c.[Customers], sum(Sales) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Region, c.[Customers]
+order by 'Total Sales' desc
+
+--TOP CUSTOMERS BY PROFIT ACROSS REGION
+select Region, c.[Customers], sum(Profit) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Region, c.[Customers]
+order by 'Total Profit' desc
+
+--TOP CUSTOMERS BY SALES ACROSS PROVINCE
+select Provincia as Province, c.[Customers], sum(Sales) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Provincia, c.[Customers]
+order by 'Total Sales' desc
+
+--TOP CUSTOMERS BY PROFIT ACROSS PROVINCE
+select Provincia as Province, c.[Customers], sum(Profit) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Town, c.[Customers]
+order by 'Total Profit' desc
+
+
+--TOP CUSTOMERS BY SALES ACROSS TOWN
+select Town, c.[Customers], sum(Sales) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Town, c.[Customers]
+order by 'Total Sales' desc
+
+--TOP CUSTOMERS BY PROFIT ACROSS TOWN
+select Town, c.[Customers], sum(Profit) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Town, c.[Customers]
+order by 'Total Profit' desc
+
+
+--TOP SALES AGENT BY SALES ACROSS REGION
+select Region, [Sales Agent Name], sum(Sales) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Region, [Sales Agent Name]
+order by 'Total Sales' desc
+
+--TOP SALES AGENT BY PROFIT ACROSS REGION
+select Region, [Sales Agent Name], sum(Profit) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Region, [Sales Agent Name]
+order by 'Total Profit' desc
+
+--TOP SALES AGENT BY SALES ACROSS PROVINCE
+select Provincia as Province, [Sales Agent Name], sum(Sales) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Provincia, [Sales Agent Name]
+order by 'Total Sales' desc
+
+--TOP SALES AGENT BY PROFIT ACROSS PROVINCE
+select Provincia as Province, [Sales Agent Name], sum(Profit) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Provincia, [Sales Agent Name]
+order by 'Total Profit' desc
+
+--TOP SALES AGENT BY SALES ACROSS TOWN
+select Town, [Sales Agent Name], sum(Sales) 'Total Sales'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Town, [Sales Agent Name]
+order by 'Total Sales' desc
+
+--TOP SALES AGENT BY PROFIT ACROSS TOWN
+select Town, [Sales Agent Name], sum(Profit) 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by Town, [Sales Agent Name]
+order by 'Total Profit' desc
+
+--PROFIT/COST/TOTAL QUANTITY/SALES BY STORE
+select [Store Key], round(sum([Sales]),2) 'Total Sales', round(sum(Profit),2) 'Total Profit',
+round(sum(Cost),2) 'Total Cost', round(sum(Quanttity),2) 'Total Quantity'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Store Key]
+
+--PROFIT/COST/TOTAL QUANTITY/SALES BY PRODUCTS
+select [Products], round(sum([Sales]),2) 'Total Sales', round(sum(Profit),2) 'Total Profit',
+round(sum(Cost),2) 'Total Cost', round(sum(Quanttity),2) 'Total Quantity'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Products]
+
+--PROFIT/COST/TOTAL QUANTITY/SALES BY PRODUCT CATEGORY
+select [Products Category], round(sum([Sales]),2) 'Total Sales', round(sum(Profit),2) 'Total Profit',
+round(sum(Cost),2) 'Total Cost', round(sum(Quanttity),2) 'Total Quantity'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by [Products Category]
+
+--TOTAL CUSTOMERS
+select sum(distinct s.[Customer Key]) as 'Total Customers' from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+
+--CUSTOMER COUNT BY REGION
+select l.[Region], 
+sum(distinct s.[Customer Key]) as 'Total Customers' from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.[Region]
+order by 'Total Customers' desc
+
+--CUSTOMER COUNT BY PROVINCE
+select l.[Provincia], 
+sum(distinct s.[Customer Key]) as 'Total Customers' from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.[Provincia]
+order by 'Total Customers' desc
+
+--CUSTOMER COUNT BY TOWN
+select l.[Town], 
+sum(distinct s.[Customer Key]) as 'Total Customers' from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by l.[Town]
+order by 'Total Customers' desc
+
+--HEADLINE
+select sum(s.Quanttity) as 'Total Quantity', 
+round(sum(s.Sales),2) as 'Total Sales',
+round(sum(Cost),2) as 'Total Cost', 
+round(sum(Profit),2) as 'Total Profit'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+
+--DISTINCT PRODUCT CATEGORY BY COUNT
+select p.[Products Category],
+count(p.[Products Category]) as 'count'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by p.[Products Category]
+order by 'count' desc
+
+--DISTINCT PRODUCT BY COUNT
+select p.[Products],
+count(p.[Products]) as 'count'
+from Sales$ as s
+join Customers$ as c
+on s.[Customer Key] = c.[Customer Key]
+join Locations$ as l
+on l.[Region Key] = s.[Region Key]
+join Products$ as p
+on p.[Product Key] = s.[Product Key]
+join ['Sales Agents$'] as sa
+on sa.[Sales Agent Key] = s.[Sales Agent Key]
+group by p.[Products]
+order by 'count' desc

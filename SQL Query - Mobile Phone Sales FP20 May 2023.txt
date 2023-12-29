@@ -1,0 +1,109 @@
+use FP20
+
+select * from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+
+--DISTINCT DISTRIBUTOR BY COUNT
+select Distributor, count(Distributor) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Distributor
+order by count desc
+
+--DISTRIBUTOR COUNT BY COUNTRY
+select Country, Distributor, count(Distributor) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Country, Distributor
+order by Country 
+
+--DISTINCT BRAND BY COUNT
+select Brand, count(Brand) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Brand
+order by count desc
+
+--BRAND BY COUNTRY
+select Country, Brand, count(Brand) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Country, Brand
+order by Country 
+
+--DISTINCT OPERATOR BY COUNT
+select Operator, count(Operator) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Operator
+order by count desc
+
+--OPERATOR BY COUNTRY
+select Country, Operator, count(Operator) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Country, Operator
+order by Country 
+
+--TREND OF SALES
+select cast(ps.Date as date) as Date, sum(Sales) as 'Total Sales'
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by ps.Date
+order by ps.Date
+
+--SALES BY BRAND
+select Brand, count(Brand) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Brand
+order by count desc
+
+--SALES BY DISTRIBUTOR
+select Distributor, count(Distributor) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Distributor
+order by count desc
+
+--SALES BY OPERATOR
+select Operator, count(Operator) as count
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Operator
+order by count desc
+
+--SALES BY COUNTRY
+select Country, sum(Sales) as 'Total Sales'
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by Country
+order by 'Total Sales' desc
+
+--AVERAGE SALES BY ORDERED WEEKDAY
+select [Day Name], [Week Day], round(AVG(Sales),2) as 'Daily Average'
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by [Day Name], [Week Day]
+order by [Week Day]
+
+--AVERAGE SALES BY WEEKDAY
+select [Day Name], round(AVG(Sales),2) as 'Daily Average'
+from ['Phone Sales$'] as ps
+JOIN Date_Phones$ as dp
+ON ps.Date = dp.Date
+group by [Day Name]
+order by 'Daily Average' desc

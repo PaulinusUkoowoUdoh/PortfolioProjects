@@ -1,0 +1,130 @@
+use FP20
+
+select * from ['Sport Products$']
+
+--DISTINCT RETAILER BY COUNT
+select [Retailer ID], count([Retailer ID]) as count
+from ['Sport Products$']
+group by [Retailer ID]
+order by count desc
+
+--DISTINCT SALES METHOD BY COUNT
+select [Sales Method], count([Sales Method]) as count
+from ['Sport Products$']
+group by [Sales Method]
+order by count desc
+
+--ANNUAL SALES TREND
+select cast([Invoice Date] as date) as Date, 
+sum([Total Sales]) as 'Total Sales'
+from ['Sport Products$']
+group by [Invoice Date]
+order by [Invoice Date]
+
+--SALES BY REGION
+select Region, round(sum([Total Sales]),2) 'Total Sales'
+from ['Sport Products$']
+group by Region
+order by Region desc
+
+--SALES BY STATE
+select State 'State', round(sum([Total Sales]),2) 'Total Sales'
+from ['Sport Products$']
+group by State
+order by State desc
+
+--SALES BY CITY
+select City, round(sum([Total Sales]),2) 'Total Sales'
+from ['Sport Products$']
+group by City
+order by City desc
+
+--TOP PERFORMING PRODUCTS BY SALES
+select Product, round(sum([Total Sales]),2) 'Total Sales'
+from ['Sport Products$']
+group by Product
+Order by 'Total Sales' desc
+
+--OPERATING PROFIT BY REGION
+select Region, round(sum([Operating Proft]),2) 'Operating Profit'
+from ['Sport Products$']
+group by Region
+Order by 'Operating Profit' desc
+
+--OPERATING PROFIT BY STATE
+select State, round(sum([Operating Proft]),2) 'Operating Profit'
+from ['Sport Products$']
+group by State
+Order by 'Operating Profit' desc
+
+--OPERATING PROFIT BY CITY
+select City, round(sum([Operating Proft]),2) 'Operating Profit'
+from ['Sport Products$']
+group by City
+Order by 'Operating Profit' desc
+
+--OPERATING PROFIT BY RETAILER
+select Retailer, round(sum([Operating Proft]),2) 'Operating Profit'
+from ['Sport Products$']
+group by Retailer
+Order by 'Operating Profit' desc
+
+--OPERATING MARGIN BY RETAILER
+select Retailer, round(sum([Operating Margin]),2) 'Operating Margin'
+from ['Sport Products$']
+group by Retailer
+Order by 'Operating Margin' desc
+
+--OPERATING MARGIN BY REGION
+select Region, round(sum([Operating Margin]),2) 'Operating Margin'
+from ['Sport Products$']
+group by Region
+Order by 'Operating Margin' desc
+
+--OPERATING MARGIN BY STATE
+select State, round(sum([Operating Margin]),2) 'Operating Margin'
+from ['Sport Products$']
+group by State
+Order by 'Operating Margin' desc
+
+--OPERATING MARGIN BY CITY
+select City, round(sum([Operating Margin]),2) 'Operating Margin'
+from ['Sport Products$']
+group by City
+Order by 'Operating Margin' desc
+
+--SALES METHOD BY RETAILER
+select Retailer, count([Sales Method]) as count
+from ['Sport Products$']
+group by Retailer
+order by count desc
+
+--SALES METHOD BY REGION
+select Region, count([Sales Method]) as count
+from ['Sport Products$']
+group by Region
+order by count desc
+
+--SALES METHOD BY STATE
+select State, count([Sales Method]) as count
+from ['Sport Products$']
+group by State
+order by count desc
+
+--SALES METHOD BY CITY
+select City, count([Sales Method]) as count
+from ['Sport Products$']
+group by City
+order by count desc
+
+--HEADLINE
+select round(sum([Total Sales]), 2) 'Total Sales',
+round(sum([Operating Proft]), 2) 'Total Operating Profit',
+round(sum([Operating Margin]), 2) 'Total Operating Margin',
+round(sum([Units Sold]), 2) 'Total Units Sold'
+from ['Sport Products$']
+
+
+
+
+

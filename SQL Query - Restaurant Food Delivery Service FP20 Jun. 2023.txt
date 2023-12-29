@@ -1,0 +1,327 @@
+use FP20
+
+select * from ['Call Center_Restaurant Orders$']
+
+--TIME FROM CLIENT ORDER TO ARRIVAL AT RESTAURANT
+select cast([Time customer placed order] as time) as 'Time of Order by Client',
+cast([Time order placed at restaurant] as time) as 'Time of Order at Restaurant',
+(cast([Time order placed at restaurant]  - [Time customer placed order] as time)) as 'Response Time'
+from ['Call Center_Restaurant Orders$']
+
+--TIME FROM CLIENT ORDER TO DRIVER ARRIVAL AT RESTAURANT
+select cast([Time customer placed order] as time) as 'Time of Order by Client',
+cast([Time driver arrived at restaurant] as time) as 'Time of Driver Arrival at Restaurant',
+cast([Time driver arrived at restaurant] - [Time order placed at restaurant]   as time) as 'Response Time'
+from ['Call Center_Restaurant Orders$']
+
+--TIME FROM CLIENT ORDER TO DELIVERY
+select cast([Time customer placed order] as time) as 'Time of Order by Client',
+cast([Delivery time] as time) as 'Time of Delivery',
+cast([Delivery Time] - [Time customer placed order]   as time) as 'Response Time'
+from ['Call Center_Restaurant Orders$']
+
+--TIME FROM ORDER AT RESTAURANT TO DRIVER ARRIVAL 
+select cast([Time order placed at restaurant] as time) as 'Time of Order at Restaurant',
+cast([Time driver arrived at restaurant] as time) as 'Time of Driver Arrival at Restaurant',
+cast([Time driver arrived at restaurant] - [Time order placed at restaurant]  as time) as 'Response Time'
+from ['Call Center_Restaurant Orders$']
+
+--TIME FROM ORDER AT RESTAURANT TO DELIVERY
+select cast([Time order placed at restaurant] as time) as 'Time of Order at Restaurant',
+cast([Delivery time] as time) as 'Time of Delivery',
+cast([Delivery time] - [Time order placed at restaurant]  as time) as 'Response Time'
+from ['Call Center_Restaurant Orders$']
+
+--TIME FROM DRIVER ARRIVAL AT RESTAURANT TO DELIVERY 
+select cast([Time driver arrived at restaurant] as time) as 'Time of Driver Arrival at Restaurant',
+cast([Delivery time] as time) as 'Time of Delivery',
+cast([Delivery time] - [Time driver arrived at restaurant] as time) as 'Response Time'
+from ['Call Center_Restaurant Orders$']
+
+--AVERAGE TIME OF ORDERS BY CUSTOMERS PER RESTAURANT
+WITH Response_Time AS
+(
+  select [Restaurant ID],
+avgtime = CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Time customer placed order])*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+SELECT [Restaurant ID], 
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00'))
+FROM Response_Time
+order by AvgDurHHMMSS 
+
+
+--AVERAGE TIME OF ORDERS PLACED AT RESTAURANT
+WITH Response_Time AS
+(
+  select [Restaurant ID],
+avgtime = CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Time order placed at restaurant] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+SELECT [Restaurant ID], 
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00'))
+FROM Response_Time
+order by AvgDurHHMMSS 
+
+--AVERAGE TIME DRIVER ARRIVED AT RESTAURANT
+WITH Response_Time AS
+(
+  select [Restaurant ID],
+avgtime = CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Time driver arrived at restaurant] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+SELECT [Restaurant ID], 
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00'))
+FROM Response_Time
+order by AvgDurHHMMSS 
+
+--AVERAGE DELIVERY TIME PER RESTAURANT
+WITH Response_Time AS
+(
+  select [Restaurant ID],
+avgtime = CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Delivery time] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+SELECT [Restaurant ID], 
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00'))
+FROM Response_Time
+order by AvgDurHHMMSS 
+
+--BY RESTAURANT:: AVERAGE TIME FROM CLIENT ORDERS TO ARRIVAL RESTAURANT 
+with step1 as (
+select [Restaurant ID],
+Avgtime=CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Time order placed at restaurant]  - [Time customer placed order] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+select [Restaurant ID],
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00')) 
+from step1
+order by AvgDurHHMMSS
+
+--BY RESTAURANT:: AVERAGE TIME FROM CLIENT ORDER TO DRIVER ARRIVAL AT RESTAURANT
+with step1 as (
+select [Restaurant ID],
+Avgtime=CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Time driver arrived at restaurant]  - [Time customer placed order] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+select [Restaurant ID],
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00')) 
+from step1
+order by AvgDurHHMMSS
+
+--BY RESTAURANT:: AVERAGE TIME FROM CLIENT ORDERS TO DELIVERY 
+with step1 as (
+select [Restaurant ID],
+Avgtime=CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Delivery time]  - [Time customer placed order] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+select [Restaurant ID],
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00')) 
+from step1
+order by AvgDurHHMMSS
+
+--BY RESTAURANT:: AVERAGE TIME FROM DRIVER ARRIVAL TO DELIVERY 
+with step1 as (
+select [Restaurant ID],
+Avgtime=CONVERT(DECIMAL(10,2), AVG(DATEDIFF(MINUTE, '00:00', [Delivery time]  - [Time driver arrived at restaurant] )*1.0))
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+)
+select [Restaurant ID],
+AvgDurHHMMSS = CONVERT(time(0), DATEADD(SECOND, Avgtime*60, '00:00')) 
+from step1
+order by AvgDurHHMMSS
+
+--DRIVER BY DELIVERY AREA WITH MOST QUICK RESPONSE
+select [Driver ID], [Driver Name], [Delivery Area], count(ASAP) as count
+from ['Call Center_Restaurant Orders$']
+where ASAP = 'Yes'
+group by [Driver ID], [Driver Name], [Delivery Area]
+order by count desc
+
+--DRIVER BY DELIVERY AREA WITH MOST DELAYED RESPONSE
+select [Driver ID], [Driver Name], [Delivery Area], count(ASAP) as count
+from ['Call Center_Restaurant Orders$']
+where ASAP = 'No'
+group by [Driver ID], [Driver Name], [Delivery Area]
+order by count desc
+
+--DELIVERY AREA WITH MOST QUICK RESPONSE
+select [Delivery Area], count(ASAP) as count
+from ['Call Center_Restaurant Orders$']
+where ASAP = 'Yes'
+group by [Delivery Area]
+order by count desc
+
+--DELIVERY AREA WITH MOST DELAYED RESPONSE
+select [Delivery Area], count(ASAP) as count
+from ['Call Center_Restaurant Orders$']
+where ASAP = 'No'
+group by [Delivery Area]
+order by count desc
+
+--RESTAURANT BY DELIVERY AREA WITH MOST QUICK RESPONSE
+select [Delivery Area], [Restaurant ID], count(ASAP) as count
+from ['Call Center_Restaurant Orders$']
+where ASAP = 'Yes'
+group by [Delivery Area], [Restaurant ID]
+order by count desc
+
+--RESTAURANT BY DELIVERY AREA WITH MOST DELAYED RESPONSE
+select [Delivery Area], [Restaurant ID], count(ASAP) as count
+from ['Call Center_Restaurant Orders$']
+where ASAP = 'No'
+group by [Delivery Area], [Restaurant ID]
+order by count desc
+
+
+--SUB-TOTALS BY RESTAURANT
+select [Restaurant ID], 
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Sub Total],',',''),'$',''))) as 'Sub Totals'
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+order by 'Sub Totals' desc
+
+--DELIVERY FEE BY RESTAURANT
+select [Restaurant ID], 
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Delivery fee],',',''),'$',''))) as 'Total Delivery Fee'
+from ['Call Center_Restaurant Orders$'
+group by [Restaurant ID]
+order by 'Total Delivery Fee' desc
+
+--SERVICE FEE BY RESTAURANT
+select [Restaurant ID], 
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Service fee],',',''),'$',''))) as 'Total Service Fee'
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+order by 'Total Service Fee' desc
+
+--DISCOUNT BY RESTAURANT
+select [Restaurant ID], 
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Discount],',',''),'$',''))) as 'Total Discount'
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+order by 'Total Discount' desc
+
+--TIP BY RESTAURANT
+select [Restaurant ID], 
+SUM(convert(decimal(10,2),REPLACE(REPLACE(Tip,',',''),'$',''))) as 'Total Tip'
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+order by 'Total Tip' desc
+
+--REFUNDED AMOUNT BY RESTAURANT
+select [Restaurant ID], 
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Refunded amount],',',''),'$',''))) as 'Total Refund'
+from ['Call Center_Restaurant Orders$']
+group by [Restaurant ID]
+order by 'Total Refund' desc
+
+--DELIVERY FEE BY DRIVER
+select [Driver ID], [Driver Name],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Delivery fee],',',''),'$',''))) as 'Total Delivery Fee'
+from ['Call Center_Restaurant Orders$']
+group by [Driver ID], [Driver Name]
+order by 'Total Delivery Fee' desc
+
+--SERVICE FEE BY DRIVER
+select [Driver ID], [Driver Name],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Service fee],',',''),'$',''))) as 'Total Service Fee'
+from ['Call Center_Restaurant Orders$']
+group by [Driver ID], [Driver Name]
+order by 'Total Service Fee' desc
+
+--DISCOUNT BY DRIVER
+select [Driver ID], [Driver Name],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Discount],',',''),'$',''))) as 'Total Discount'
+from ['Call Center_Restaurant Orders$']
+group by [Driver ID], [Driver Name]
+order by 'Total Discount' desc
+
+--TIP BY DRIVER
+select [Driver ID], [Driver Name],
+SUM(convert(decimal(10,2),REPLACE(REPLACE(Tip,',',''),'$',''))) as 'Total Tip'
+from ['Call Center_Restaurant Orders$']
+group by [Driver ID], [Driver Name]
+order by 'Total Tip' desc
+
+--REFUNDED AMOUNT BY DRIVER
+select [Driver ID], [Driver Name],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Refunded amount],',',''),'$',''))) as 'Total Refund'
+from ['Call Center_Restaurant Orders$']
+group by [Driver ID], [Driver Name]
+order by 'Total Refund' desc
+
+--DELIVERY FEE BY DELIVERY AREA
+select [Delivery Area],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Delivery fee],',',''),'$',''))) as 'Total Delivery Fee'
+from ['Call Center_Restaurant Orders$']
+group by [Delivery Area]
+order by 'Total Delivery Fee' desc
+
+--SERVICE FEE BY DELIVERY AREA
+select [Delivery Area],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Service fee],',',''),'$',''))) as 'Total Service Fee'
+from ['Call Center_Restaurant Orders$']
+group by [Delivery Area]
+order by 'Total Service Fee' desc
+
+--DISCOUNT BY DELIVERY AREA
+select [Delivery Area],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Discount],',',''),'$',''))) as 'Total Discount'
+from ['Call Center_Restaurant Orders$']
+group by [Delivery Area]
+order by 'Total Discount' desc
+
+--TIP BY DELIVERY AREA
+select [Delivery Area],
+SUM(convert(decimal(10,2),REPLACE(REPLACE(Tip,',',''),'$',''))) as 'Total Tip'
+from ['Call Center_Restaurant Orders$']
+group by [Delivery Area]
+order by 'Total Tip' desc
+
+--REFUNDED AMOUNT BY DELIVERY AREA
+select [Delivery Area],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Refunded amount],',',''),'$',''))) as 'Total Refund'
+from ['Call Center_Restaurant Orders$']
+group by [Delivery Area]
+order by 'Total Refund' desc
+
+--TIP BY CUSTOMER
+select [Customer ID],
+SUM(convert(decimal(10,2),REPLACE(REPLACE(Tip,',',''),'$',''))) as 'Total Tip'
+from ['Call Center_Restaurant Orders$']
+group by [Customer ID]
+order by 'Total Tip' desc
+
+--DISCOUNT BY CUSTOMER
+select [Customer ID],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Discount],',',''),'$',''))) as 'Total Discount'
+from ['Call Center_Restaurant Orders$']
+group by [Customer ID]
+order by 'Total Discount' desc
+
+--REFUNDED AMOUNT BY CUSTOMER
+select [Customer ID],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Refunded amount],',',''),'$',''))) as 'Total Refund'
+from ['Call Center_Restaurant Orders$']
+group by [Customer ID]
+order by 'Total Refund' desc
+
+--DELIVERY FEE BY CUSTOMER
+select [Customer ID],
+SUM(convert(decimal(10,2),REPLACE(REPLACE([Delivery fee],',',''),'$',''))) as 'Total Delivery Fee'
+from ['Call Center_Restaurant Orders$']
+group by [Customer ID]
+order by 'Total Delivery Fee' desc
+
+
+
+
